@@ -1,0 +1,52 @@
+<div layout="column" layout-fill>
+    <header>
+       <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Back">
+          <md-icon md-svg-icon="img/icon/ic_arrow_back_white_24px.svg" class="md-light md-48"></md-icon>
+        </md-button>
+        <h2>
+          <span class="title">LOOKBOOK</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-svg-icon="img/icon/ic_library_books_white_24px.svg" style="color: greenyellow;"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+          <md-icon md-svg-icon="img/icon/ic_trending_up_white_24px.svg"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    </header>
+    <main class='md-padding' flex style="overflow: scroll;">
+    	<md-card>
+	        <img ng-src="{{image}}" class="md-card-image" alt="Washed Out" 
+	        md-swipe-left="nextImage()" 
+	        md-swipe-right="nextImage()">
+	        <md-card-content>
+	        <p>
+	         #longhair #hairdo #haircolor #hapy
+	        </p>
+		</md-card>
+	</main>
+	<ion-footer-bar align-title="left" class="bar-assertive">
+	    <div layout="row" layout-align="center center" style="margin-left:auto; margin-right:auto">
+		    <md-button class="md-icon-button" aria-label="Home">
+		          <md-icon md-svg-icon="img/icon/ic_home_white_24px.svg" style="color: greenyellow;"></md-icon>
+		    </md-button>
+
+		    <md-button class="md-icon-button" aria-label="Kr+ Lookbook">
+		          <md-icon md-svg-icon="img/icon/ic_library_books_white_24px.svg" style="color: greenyellow;"></md-icon>
+		    </md-button>
+
+
+		    <md-button class="md-icon-button" aria-label="Lookbook">
+		          <md-icon md-svg-icon="img/icon/ic_face_white_24px.svg" style="color: greenyellow;"></md-icon>
+		    </md-button>
+
+		    <md-button class="md-icon-button" aria-label="Home">
+		          <md-icon md-svg-icon="img/icon/ic_redeem_white_24px.svg" style="color: greenyellow;"></md-icon>
+		    </md-button>
+		</div>
+	</ion-footer-bar >
+</div>

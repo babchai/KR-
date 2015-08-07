@@ -54,18 +54,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       templateUrl:"templates/home.html",
       controller:"HomeCtrl"
   })
-  .state('lookbook', {
-      url:"/lookbook",
-      templateUrl:"templates/lookbook.html",
-      controller:"LookbookCtrl"
+  .state('lookbook-sub', {
+      url:"/lookbook-sub",
+      templateUrl:"templates/lookbook-sub.html",
+      controller:"LookbookSubCtrl"
   })
   .state('promotions', {
       url:"/promotions",
       templateUrl:"templates/promotions.html",
       controller:"PromotionsCtrl"
   })
+  .state('lookbook', {
+      url:"/lookbook",
+      templateUrl:"templates/lookbook.html",
+      controller:"LookbookCtrl"
+  })
   .state('lookbook-detail', {
-      url:"/lookbook-detail",
+      url:"/lookbook-detail/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })

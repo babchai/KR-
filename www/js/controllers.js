@@ -33,31 +33,56 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookCtrl', function($scope){
    console.log("LookbookCtrl");
+
+   
+   $scope.find = function(){
+      $scope.search = true;
+   }
+   $scope.cancelFind = function(){
+      $scope.search = false;
+   }
+
 })
 .controller('PromotionsCtrl', function($scope){
     console.log("PromotionsCtrl");
 })
 
-.controller('LookbookDetailCtrl', function($scope){
+.controller('LookbookSubCtrl', function($scope){
+    var thumbArr = [];
+    for(var i=100; i<145;i++)
+    {
+      //thumbArr.push('BOB - '+i+'.jpg');
+      thumbArr.push(i);
+    }
+
+    $scope.thumbs = chunk(thumbArr , 2);
+
+
+
+    function chunk(arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    }
+})
+
+.controller('LookbookDetailCtrl', function($scope , $stateParams){
   console.log("LookbookDetailCtrl"); 
 
-   var images = [
-    "https://s-media-cache-ak0.pinimg.com/236x/6e/da/f6/6edaf62380248cde1954413de20ad931.jpg",
-    "http://thewowstyle.com/wp-content/uploads/2015/03/curly-hairstyles-2015-8.jpg",
-    "https://s-media-cache-ak0.pinimg.com/236x/a8/15/e5/a815e5d47e93ee18ccbd897ec291b4d8.jpg",
-    "http://imbbpullzone.laedukreationpvt.netdna-cdn.com/wp-content/uploads/2013/09/Selena-Gomez-hairstyle-6.jpg",
-    "http://i2.wp.com/therighthairstyles.com/wp-content/uploads/2015/01/1-feel-like-a-goddess-%E2%80%93-tall-curly-greek-style-wedding-updo.jpg?w=500",
-    "https://s-media-cache-ak0.pinimg.com/736x/58/63/09/5863097920dcce210b4e7f5c4c4af5ff.jpg",
-    "http://www.fashionandhairstyles.net/wp-content/uploads/2014/12/braid-hairstyles-1.jpg",
-    "http://content.latest-hairstyles.com/wp-content/uploads/2014/07/Curly-Hairstyle-for-Summer-with-Side-Part-500x333-14346316773.jpg"
-   ];
+  //console.log($stateParams.image);
 
-   $scope.image = images[1];
+ 
+
+   $scope.image = parseInt($stateParams.image);
 
    $scope.nextImage = function(){
-    var next = Math.floor((Math.random() * 8));
-     $scope.image = images[next];
+      $scope.image = $scope.image +1;
    }
+   //  var next = Math.floor((Math.random() * 8));
+   //   $scope.image = images[next];
+   // }
 })
 .controller('TileCtrl',  function($scope, $mdGridLayout){
   

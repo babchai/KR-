@@ -1,60 +1,63 @@
 <ion-view view-title="Lookbook" class="has-footer">
-<ion-header-bar  align-title="left" class="bar bar-header bar-positive">
+<div class="bar bar-header item-input-inset" ng-hide="!search">
+  <label class="item-input-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" placeholder="Search">
+  </label>
+  <button class="button button-clear" ng-click = "cancelFind()">
+    Cancel
+  </button>
+</div>
+<ion-header-bar  align-title="left" class="bar bar-header bar-positive" ng-hide="search">
   <div md-ink-ripple class="buttons header-left-button" >
-         <i  class="ion-plus" style="font-size:40px ; color:yellow"></i>
+         <i  class="ion-chevron-left" style="font-size:40px ; color:yellow"></i>
   </div>
   
-  <h1 class="title" style="text-align:center; font-size:40px" >KR+</h1>
+  <h1 class="title" style="text-align:center; font-size:20px" >KR+ Lookbook</h1>
   
-  <div md-ink-ripple class="buttons header-right-button" style="right: 15px;">
-     <i class="ion-location" style="font-size:40px ; color:yellow"></i>
+  <div md-ink-ripple class="buttons header-right-button" style="right: 15px;" ng-click = "find()">
+     <i class="ion-search" style="font-size:40px ; color:yellow"></i>
   </div>
 </ion-header-bar>
-<ion-content scroll="true" overflow-scroll="false" >
-<div layout="column" layout-fill>
-    <main  flex style="overflow: scroll;">
-    <div layout="row" layout-fill>
-    <div flex flex-order="1" ui-sref='lookbook-detail' style="height:200px;overflow:hidden; border:solid 0.1em yellow">
-       <img src="https://s-media-cache-ak0.pinimg.com/236x/6e/da/f6/6edaf62380248cde1954413de20ad931.jpg" style="max-width:100%">
+
+<ion-content scroll="true" overflow-scroll="false" class="lookbook" >
+
+  <div class="list">
+    <a class="item"  ui-sref='lookbook-sub'  md-ink-ripple >
+      Before & After
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+    Blow Out Bar
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      Curly Hairstyle
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      kr+ Celebrity Hairstyle
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      Men Hairstyle
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      Straight Hairstyle
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+     Updo Hairstyle
+    </a>
+     <div class="item item-divider">
+      Face Matrix
     </div>
-
-    <div flex flex-order="2" style="height:200px;overflow:hidden; border:solid 0.1em yellow">
-      <img src="http://thewowstyle.com/wp-content/uploads/2015/03/curly-hairstyles-2015-8.jpg" style="max-width:100%" >
-    </div>
-  </div>
-
-  <div layout="row" layout-fill>
-    <div flex flex-order="1" style="height:200px;overflow:hidden; border:solid 0.1rem yellow">
-       <img src="https://s-media-cache-ak0.pinimg.com/236x/a8/15/e5/a815e5d47e93ee18ccbd897ec291b4d8.jpg" style="max-width:100%">
-    </div>
-
-    <div flex flex-order="2" style="height:200px;overflow:hidden ; border:solid 0.1rem yellow">
-      <img src="http://imbbpullzone.laedukreationpvt.netdna-cdn.com/wp-content/uploads/2013/09/Selena-Gomez-hairstyle-6.jpg" style="max-width:100%">
-    </div>
-  </div>
+    <a class="item"  href="#" md-ink-ripple >
+     Type A (oval/restangle)
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      Type B (square/round) 
+    </a>
+    <a class="item"  href="#" md-ink-ripple >
+      Type C (diamond)
+    </a>
 
 
-  <div layout="row" layout-fill>
-    <div flex flex-order="1" style="height:200px;overflow:hidden; border:solid 0.1rem yellow">
-       <img src="http://i2.wp.com/therighthairstyles.com/wp-content/uploads/2015/01/1-feel-like-a-goddess-%E2%80%93-tall-curly-greek-style-wedding-updo.jpg?w=500" style="max-width:100%">
-    </div>
-
-    <div flex flex-order="2" style="height:200px;overflow:hidden; border:solid 0.1rem yellow">
-      <img src="https://s-media-cache-ak0.pinimg.com/736x/58/63/09/5863097920dcce210b4e7f5c4c4af5ff.jpg" style="max-width:100%">
-    </div>
-  </div>
-
-
-  <div layout="row" layout-fill>
-    <div flex flex-order="1" style="height:200px;overflow:hidden; border:solid 0.1rem yellow">
-       <img src="http://www.fashionandhairstyles.net/wp-content/uploads/2014/12/braid-hairstyles-1.jpg" style="max-width:100%">
-    </div>
-
-    <div flex flex-order="2" style="height:200px;overflow:hidden; border:solid 0.1rem yellow">
-      <img src="http://content.latest-hairstyles.com/wp-content/uploads/2014/07/Curly-Hairstyle-for-Summer-with-Side-Part-500x333-14346316773.jpg" style="max-width:100%">
-    </div>
-  </div>
-</main>
 </div>
 </ion-content>
 

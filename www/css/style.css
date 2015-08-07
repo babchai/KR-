@@ -185,9 +185,7 @@ html, body{
 
 .list .item{
 	background: none;
-    border: none;
-
-	
+    border: none;	
 }
 
 .item h2{
@@ -197,5 +195,46 @@ html, body{
     /* margin-top: 15%; */
     position: absolute;
     bottom: 50%;
+}
 
+
+.lookbook{
+    text-align: center;
+}
+
+.lookbook .list {
+    position: relative;
+    padding-top: 1px;
+    padding-bottom: 1px; 
+    padding-left: 0;
+    margin-bottom: 0px; 
+    border-bottom: solid 0.1em yellow;
+}
+
+.lookbook .item{
+    border-bottom: solid 1px yellow
+}
+
+.lookbook  .list {
+    border: none;  
+    color : white; 
+}
+
+.lookbook  .item h2{
+     font-size: 16px;
+    color: white;
+    border: none;
+    /* margin-top: 15%; */
+    position: absolute;
+    bottom: 50%;
+}
+
+.lookbook .item-divider{
+     background-color: yellow;
+     color: black;
+}
+
+.gallery img{
+    width: 100%;
+    height: 100%
 }

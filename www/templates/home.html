@@ -1,26 +1,26 @@
- <ion-view view-title="SIGN UP" class="has-footer">
+ <ion-view view-title="Home" class="has-footer">
 <!--  <div class="bar bar-header bar-positive">
   <h1 class="title">bar-light</h1>
 </div> -->
 <ion-header-bar  align-title="left" class="bar bar-header bar-positive">
-  <div class="buttons">
-  	     <i class="ion-plus" style="font-size:40px ; color:yellow"></i>
+  <div md-ink-ripple class="buttons header-left-button" >
+  	     <i  class="ion-plus" style="font-size:40px ; color:yellow"></i>
   </div>
   
   <h1 class="title" style="text-align:center; font-size:40px" >KR+</h1>
   
-  <div class="buttons">
+  <div md-ink-ripple class="buttons header-right-button" style="right: 15px;">
      <i class="ion-location" style="font-size:40px ; color:yellow"></i>
   </div>
 </ion-header-bar>
 
-<ion-content >
+<ion-content scroll="false" overflow-scroll="false" >
 
-<div class="row" style="height:33.3%; padding:0px; margin:0px;border-bottom: solid;
+<div class="row"  style="height:33.3%; padding:0px; margin:0px;border-bottom: solid;
     border-color: grey;
     border-width: 1px;
 ">
-	<div style="width:50%; 
+	<div md-ink-ripple style="width:50%; 
 	border-right: solid;
     border-color: yellow;
     border-width: 1px;
@@ -30,7 +30,7 @@
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
 		">
 		<center>
@@ -40,16 +40,20 @@
 	    </div>	
 	</div>	
 
-	<div style="width:50%; position: relative;">
+	<div md-ink-ripple style="width:50%; position: relative;">
 
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
 		">
+
 		<center>
-	     <i class="ion-ios-pricetags-outline" style="font-size:82px ; color:yellow"></i><br />
+	     <i class="ion-ios-pricetags-outline " style="font-size:82px ; color:yellow"></i><br />
+    	 <span  class="badge badge-assertive">2</span>
+    	 
+    	
 	     <label class="font-20px">Promotions</label>
 	 	 </center>
 	    </div>	
@@ -60,7 +64,7 @@
     border-color: grey;
     border-width: 1px;
 ">
-	<div style="width:50%; 
+	<div md-ink-ripple style="width:50%; 
 	border-right: solid;
     border-color: yellow;
     border-width: 1px;
@@ -70,7 +74,7 @@
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
 		">
 		<center>
@@ -80,23 +84,26 @@
 	    </div>	
 	</div>	
 
-	<div style="width:50%; position: relative;">
+
+	<div md-ink-ripple style="width:50%; position: relative;" href="#/lookbook">
+		<a href="#/lookbook">
 
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
-		">
+		" href="#/lookbook">
 		<center>
 	     <i class="ion-ios-person-outline" style="font-size:82px ; color:yellow"></i><br />
 	     <label class="font-20px">MY Lookbook</label>
 	 	 </center>
 	    </div>	
+	</a>
 	</div>	
 </div>
 <div class="row" style="height:33.3%; padding:0px; margin:0px ">
-	<div style="width:50%; 
+	<div md-ink-ripple style="width:50%; 
 	border-right: solid;
     border-color: yellow;
     border-width: 1px;
@@ -106,7 +113,7 @@
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
 		">
 		<center>
@@ -116,12 +123,12 @@
 	    </div>	
 	</div>	
 
-	<div style="width:50%; position: relative;">
+	<div md-ink-ripple style="width:50%; position: relative;">
 
 	    <div style=" color:#fff ; 
 	    display: inline-block;
 	    position:absolute;
-	    top:30%;
+	    top:20%;
 	    width:100%
 		">
 		<center>
@@ -137,7 +144,7 @@
 </ion-content>
 <ion-footer-bar  align-title="center" class="bar bar-footer bar-positive">
 	<h1 class="title">
-		<i class="ion-ios-home-outline" style="font-size:42px; padding:5%; color:yellow"></i>
+		<i class="ion-ios-home-outline  md-fab " style="font-size:42px; padding:5%; color:yellow"></i>
 		<i class="ion-ios-personadd-outline" style="font-size:42px; padding:5%; color:yellow"></i>
 		<i class="ion-ios-person-outline" style="font-size:42px; padding:5%;color:yellow"></i>
 		<i class="ion-ios-gear-outline" style="font-size:42px; padding:5%; color:yellow"></i>

@@ -1,26 +1,24 @@
-<div layout="column" layout-fill>
+<ion-view view-title="Lookbook" class="has-footer">
+<div class="bar bar-header item-input-inset" ng-hide="!search">
+  <label class="item-input-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" placeholder="Search">
+  </label>
+  <button class="button button-clear" ng-click = "cancelFind()">
+    Cancel
+  </button>
+</div>
+<ion-header-bar  align-title="left" class="bar bar-header bar-positive" ng-hide="search">
+  <div md-ink-ripple class="buttons header-left-button" >
+         <i  class="ion-chevron-left" style="font-size:40px ; color:yellow"></i>
+  </div>
+  
+  <h1 class="title" style="text-align:center; font-size:20px" >Video</h1>
+  
+  
+</ion-header-bar>
 
-    <header>
-       <md-toolbar>
-      <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Back">
-          <md-icon md-svg-icon="img/icon/ic_arrow_back_white_24px.svg" class="md-light md-48"></md-icon>
-        </md-button>
-        <h2>
-          <span class="title">Video</span>
-        </h2>
-        <span flex></span>
-        <md-button class="md-icon-button" aria-label="Favorite">
-          <md-icon md-svg-icon="img/icon/ic_library_books_white_24px.svg" style="color: greenyellow;"></md-icon>
-        </md-button>
-        <md-button class="md-icon-button" aria-label="More">
-          <md-icon md-svg-icon="img/icon/ic_trending_up_white_24px.svg"></md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-    </header>
-    <main class='md-padding' flex style="overflow: scroll;">
-   	<md-content>
+<ion-content scroll="true" overflow-scroll="false" class="lookbook" >
    		<div layout="column">
 	
 		 <md-card >
@@ -61,28 +59,19 @@
 		 </md-card>
 		 
 		</div>
-	</md-content>
-	</main>
-		<div style="clear:both"></div>
+	
+</ion-content>
 
-	<ion-footer-bar align-title="left" class="bar-assertive">
-    <div layout="row" layout-align="center center" style="margin-left:auto; margin-right:auto">
-	    <md-button class="md-icon-button" aria-label="Home">
-	          <md-icon md-svg-icon="img/icon/ic_home_white_24px.svg" style="color: greenyellow;"></md-icon>
-	    </md-button>
+<ion-footer-bar  align-title="center" class="bar bar-footer bar-positive">
+  <h1 class="title">
+    <i class="ion-ios-home-outline  md-fab " style="font-size:42px; padding:5%; color:white"></i>
+    <i class="ion-ios-personadd-outline" style="font-size:42px; padding:5%; color:white"></i>
+    <i class="ion-ios-person-outline" style="font-size:42px; padding:5%;color:white"></i>
+    <i class="ion-ios-gear-outline" style="font-size:42px; padding:5%; color:white"></i>
+  </h1>
+</ion-footer-bar>
+</ion-view>
 
-	    <md-button class="md-icon-button" aria-label="Kr+ Lookbook">
-	          <md-icon md-svg-icon="img/icon/ic_library_books_white_24px.svg" style="color: greenyellow;"></md-icon>
-	    </md-button>
 
 
-	    <md-button class="md-icon-button" aria-label="Lookbook">
-	          <md-icon md-svg-icon="img/icon/ic_face_white_24px.svg" style="color: greenyellow;"></md-icon>
-	    </md-button>
-
-	    <md-button class="md-icon-button" aria-label="Home">
-	          <md-icon md-svg-icon="img/icon/ic_redeem_white_24px.svg" style="color: greenyellow;"></md-icon>
-	    </md-button>
-	</div>
-</ion-footer-bar >
-</div>
+	

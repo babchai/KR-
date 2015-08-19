@@ -1,20 +1,25 @@
-<!--
-Create tabs with an icon and label, using the tabs-positive style.
-Each tab's child <ion-nav-view> directive will have its own
-navigation history that also transitions its views in and out.
--->
-<ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
+<ion-header-bar  align-title="left" class="bar bar-header bar-positive">
+  <div md-ink-ripple class="buttons header-left-button" >
+         <i  class="ion-plus" style="font-size:30px ; color:#363636"></i>
+  </div>
   
+  <h1 class="title" style="text-align:center; font-size:40px" >KR+</h1>
+  
+<div md-ink-ripple class="buttons header-right-button" style="right: 15px;">
+     <i class="ion-location" style="font-size:30px ; color:#363636"></i>
+  </div>
+</ion-header-bar>
 
-<!-- Account Tab -->
-  <ion-tab title="Trending" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/trending">
     <ion-nav-view name="tab-trending"></ion-nav-view>
-  </ion-tab>
-
-   <ion-tab title="Trending" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/trending">
-    <ion-nav-view name="tab-trending"></ion-nav-view>
-  </ion-tab>
 
 
-</ion-tabs>
+
+<ion-footer-bar  align-title="center" class="bar bar-footer bar-positive">
+  <h1 class="title" style="padding-top:1%">
+    <i class="ion-ios-home-outline  md-fab " style="font-size:45px; padding:8%; color:#363636"></i>
+    <i class="ion-ios-personadd-outline" style="font-size:45px; padding:8%; color:#363636"></i>
+    <i class="ion-ios-person-outline" style="font-size:45px; padding:8%;color:#363636"></i>
+    <i class="ion-ios-gear-outline" style="font-size:45px; padding:8%; color:#363636"></i>
+  </h1>
+</ion-footer-bar>

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngMaterial'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngMaterial' ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -42,7 +42,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('login', {
     url:'/login',
     templateUrl : 'templates/login.html',
-    controller: 'LoginCtrl'
+    controller: 'LoginCtrl',
+     cache : false
   })
    .state('forgetPassword', {
     url:'/forgetPasssword',
@@ -50,31 +51,44 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     controller: 'ForgetPasswordCtrl'
   })
   .state('home', {
+      cache : false,
       url:"/home",
       templateUrl:"templates/home.html",
       controller:"HomeCtrl"
   })
   .state('lookbook-sub', {
+    cache : false,
       url:"/lookbook-sub",
       templateUrl:"templates/lookbook-sub.html",
       controller:"LookbookSubCtrl"
   })
   .state('promotions', {
+    cache : false,
       url:"/promotions",
       templateUrl:"templates/promotions.html",
       controller:"PromotionsCtrl"
   })
   .state('lookbook', {
+    cache : false,
       url:"/lookbook",
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
   .state('lookbook-detail', {
+    cache : false,
       url:"/lookbook-detail/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })
+  .state('mylookbook-add', {
+    cache : false,
+      url:"/mylookbook-add",
+      templateUrl:"templates/mylookbook-add.html",
+      controller:"MyLookbookAddCtrl"
+  })
+
   .state('video', {
+    cache : false,
       url:"/video",
       templateUrl:"templates/video.html",
       controller:"VideoCtrl"

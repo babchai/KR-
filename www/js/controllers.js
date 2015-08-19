@@ -17,6 +17,12 @@ angular.module('starter.controllers', [])
   };
 })
 
+.controller('mainCtrl' , function($scope, $rootScope){
+    console.log('main controller');
+     $rootScope.header = null;
+    $rootScope.footer = null;
+})
+
 .controller('LoginCtrl', function($scope){
     console.log("login");
 })
@@ -27,12 +33,17 @@ angular.module('starter.controllers', [])
 .controller('ForgetPasswordCtrl',  function(){
   console.log("ForgetPasswordCtrl");  
 })
-.controller('HomeCtrl',  function($scope){
-  
+.controller('HomeCtrl',  function($scope , $rootScope){
+    $rootScope.header = 'header1';
+    $rootScope.footer = 'footer1'; 
+    $rootScope.title = "Kr+";
 })
 
-.controller('LookbookCtrl', function($scope){
+.controller('LookbookCtrl', function($scope, $rootScope){
    console.log("LookbookCtrl");
+    $rootScope.header = 'header2';
+    $rootScope.footer = 'footer1'; 
+    $rootScope.title = "LOOKBOOK"
 
    
    $scope.find = function(){
@@ -43,11 +54,20 @@ angular.module('starter.controllers', [])
    }
 
 })
-.controller('PromotionsCtrl', function($scope){
+.controller('PromotionsCtrl', function($scope , $rootScope){
     console.log("PromotionsCtrl");
+    $rootScope.header = 'header4';
+    $rootScope.footer = 'footer1'; 
+    $rootScope.title = "PROMOTIONS"
+
 })
 
-.controller('LookbookSubCtrl', function($scope){
+.controller('LookbookSubCtrl', function($scope, $rootScope){
+
+    $rootScope.header = 'header2';
+    $rootScope.footer = 'footer1'; 
+    $rootScope.title = "LOOKBOOK"
+
     var thumbArr = [];
     for(var i=100; i<145;i++)
     {
@@ -68,12 +88,11 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams){
-  console.log("LookbookDetailCtrl"); 
-
-  //console.log($stateParams.image);
-
- 
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope){
+  console.log("LookbookDetailCtrl");  
+    $rootScope.header = 'header3';
+    $rootScope.footer = 'footer1'; 
+    $rootScope.title = "LOOKBOOK"
 
    $scope.image = parseInt($stateParams.image);
 
@@ -84,6 +103,24 @@ angular.module('starter.controllers', [])
    //   $scope.image = images[next];
    // }
 })
+
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , Camera){
+    console.log('MyLookbookAddCtrl');
+    $rootScope.header = 'header3';
+    $rootScope.footer = 'footer1'; 
+
+    
+   $scope.getPhoto = function() {
+    Camera.getPicture().then(function(imageURI) {
+      console.log(imageURI);
+
+    }, function(err) {
+      console.err(err);
+    })
+  };
+
+})
+
 .controller('TileCtrl',  function($scope, $mdGridLayout){
   
 })

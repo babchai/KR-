@@ -1,15 +1,7 @@
 <ion-view view-title="Lookbook" class="has-footer">
-<ion-header-bar  align-title="left" class="bar bar-header bar-positive">
-  <div md-ink-ripple class="buttons header-left-button" >
-         <i  class="ion-chevron-left" style="font-size:40px ; color:yellow"></i>
-  </div>
-  
-  <h1 class="title" style="text-align:center; font-size:20px" >KR+ Lookbook</h1>
-  
- 
-</ion-header-bar>
+
 <ion-content scroll="true" overflow-scroll="false" class="gallery">
-<div >
+<div class="gallery" style="background-color:#ffe54e" >
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
         <img ng-src="http://localhost/kr-lookbook/BOB/thumb/BOB - {{item}}.jpg" ui-sref="lookbook-detail({image:item})">
@@ -21,13 +13,6 @@
 </div>
 </ion-content>
 
-<ion-footer-bar  align-title="center" class="bar bar-footer bar-positive">
-  <h1 class="title">
-    <i class="ion-ios-home-outline  md-fab " style="font-size:42px; padding:5%; color:white"></i>
-    <i class="ion-ios-personadd-outline" style="font-size:42px; padding:5%; color:white"></i>
-    <i class="ion-ios-person-outline" style="font-size:42px; padding:5%;color:white"></i>
-    <i class="ion-ios-gear-outline" style="font-size:42px; padding:5%; color:white"></i>
-  </h1>
-</ion-footer-bar>
+
 </ion-view>
 

@@ -67,7 +67,7 @@ angular.module('starter.controllers', [])
    $rootScope.title = "TRENDING";
 
    var thumbArr = [];
-    for(var i=100; i<105;i++)
+    for(var i=119; i<131;i++)
     {
       //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);

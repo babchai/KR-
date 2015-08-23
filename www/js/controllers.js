@@ -34,14 +34,13 @@ angular.module('starter.controllers', [])
   console.log("ForgetPasswordCtrl");  
 })
 .controller('HomeCtrl',  function($scope , $rootScope){
-    $rootScope.header = 'header1';
+    //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $rootScope.title = "Kr+";
 })
 
 .controller('LookbookCtrl', function($scope, $rootScope){
    console.log("LookbookCtrl");
-    $rootScope.header = 'header2';
     $rootScope.footer = 'footer1'; 
     $rootScope.title = "LOOKBOOK"
 
@@ -56,7 +55,7 @@ angular.module('starter.controllers', [])
 })
 .controller('PromotionsCtrl', function($scope , $rootScope){
     console.log("PromotionsCtrl");
-    $rootScope.header = 'header4';
+    //$rootScope.header = 'header4';
     $rootScope.footer = 'footer1'; 
     $rootScope.title = "PROMOTIONS"
 
@@ -64,7 +63,6 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookSubCtrl', function($scope, $rootScope){
 
-    $rootScope.header = 'header2';
     $rootScope.footer = 'footer1'; 
     $rootScope.title = "LOOKBOOK"
 
@@ -90,8 +88,6 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope){
   console.log("LookbookDetailCtrl");  
-    $rootScope.header = 'header3';
-    $rootScope.footer = 'footer1'; 
     $rootScope.title = "LOOKBOOK"
 
    $scope.image = parseInt($stateParams.image);
@@ -105,16 +101,57 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , Camera){
-    console.log('MyLookbookAddCtrl');
-    $rootScope.header = 'header3';
-    $rootScope.footer = 'footer1'; 
-
     
-   $scope.getPhoto = function() {
-    Camera.getPicture().then(function(imageURI) {
-      console.log(imageURI);
+    $scope.images=[];
 
+    $scope.pic={
+       before:[
+          'img/icon/upload-icon.png',
+          'img/icon/upload-icon.png',
+          'img/icon/upload-icon.png'
+       ]
+       ,
+       after: [
+          'img/icon/upload-icon.png',
+          'img/icon/upload-icon.png',
+          'img/icon/upload-icon.png'
+      ]
+
+    },
+    //  $scope.images.push("s");
+    
+    //$scope.pic.before[0] = '1'
+
+   $scope.getPhotoBefore = function(index) {
+     var option = {quality:50 , 
+      //destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 750,
+      correctOrientation:true};
+    Camera.getPicture(option).then(function(imageURI) {
+      //console.log(imageURI);
+      $scope.images[index] = imageURI;
+      $scope.pic.after[index] = imageURI;
     }, function(err) {
+      alert(err)
+      $scope.images.push(err);
+      console.err(err);
+    })
+  };
+
+  $scope.getPhotoAfter = function(index) {
+    var option = {quality:50 , 
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 750,
+      correctOrientation:true};
+    Camera.getPicture(option).then(function(imageURI) {
+      //console.log(imageURI);
+      $scope.images[index] = imageURI;
+      $scope.pic.after[index] = imageURI;
+    }, function(err) {
+      $scope.images.push(err);
       console.err(err);
     })
   };
@@ -132,7 +169,9 @@ angular.module('starter.controllers', [])
   
   
 })
-.controller('VideoCtrl', function($scope){
+.controller('VideoCtrl', function($scope , $rootScope){
+      $rootScope.title = "VIDEO"
+
   console.log('VideoCtrl');
 })
 .controller('AccountCtrl', function($scope) {

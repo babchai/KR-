@@ -1,3 +1,5 @@
+<div header4>
+</div>
 <ion-view view-title="SIGN UP">
 <ion-content>
 <md-content layout-padding >
@@ -5,41 +7,49 @@
 <div layout="row">
 	   <div flex >
 		  <form>
-		  	<md-input-container flex>
-		  		<label>Name</label>
-		        <input  required name="name" ng-model="signup.name">
-		    </md-input-container>
+		  	<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" placeholder="name" style="width:100%">  
+			     </center>
+			  </div>
 
-			<md-input-container flex>
-		  		<label>Email</label>
-		        <input  required name="email" ng-model="signup.email">
-		    </md-input-container>
+			<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" placeholder="email" style="width:100%">  
+			     </center>
+			  </div>
 
-		    <md-input-container flex>
-		  		<label>Phone Number</label>
-		        <input  required name="phone" ng-model="signup.phone">
-		    </md-input-container>
+		  <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" placeholder="contact no" style="width:100%">  
+			     </center>
+			  </div>
 
-		    <md-input-container flex>
-		  		<label>Username</label>
-		        <input  required name="username" ng-model="signup.username">
-		    </md-input-container>
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" placeholder="password" style="width:100%">  
+			     </center>
+			  </div>
 
-		    <md-input-container flex>
-		  		<label>Password</label>
-		        <input  required name="username" ng-model="signup.password">
-		    </md-input-container>
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" placeholder="confirm password" style="width:100%">  
+			     </center>
+			  </div>
 
-		    <div>
-		    	<center>
-		    	<small>
+			 <center>
+		    <div style="width:70%">
 		    		By clicking below you agree to the terms & conditions of KR+
-		    	</small>
-		    	<center>
 		    </div>
+		    </center>
 
-		      <md-button class="md-raised md-primary">Create Account</md-button>
-
+		    <div style="margin-top:5%">
+		     <center>
+			    <button class="button cus-button"  ui-sref="home">
+			      CREATE ACCOUNT
+			    </button>
+			</center>
+			</div>
 		  </form>
 		</div>
 	</div>	 

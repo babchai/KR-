@@ -27,11 +27,13 @@ angular.module('starter.controllers', [])
     console.log("login");
 })
 .controller('SignupCtrl', function($scope){
+  $scope.title="SIGN UP";
   console.log("SignupCtrl"); 
 })
 
-.controller('ForgetPasswordCtrl',  function(){
+.controller('ForgetPasswordCtrl',  function($scope){
   console.log("ForgetPasswordCtrl");  
+  $scope.title = "FORGOT PASSWORD"
 })
 .controller('HomeCtrl',  function($scope , $rootScope){
     //$rootScope.header = 'header1';
@@ -61,13 +63,35 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('TrendingCtrl' , function($scope , $rootScope){
+   $rootScope.title = "TRENDING";
+
+   var thumbArr = [];
+    for(var i=100; i<105;i++)
+    {
+      //thumbArr.push('BOB - '+i+'.jpg');
+      thumbArr.push(i);
+    }
+
+    $scope.thumbs = chunk(thumbArr , 2);
+
+
+    function chunk(arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    }
+})
+
 .controller('LookbookSubCtrl', function($scope, $rootScope){
 
     $rootScope.footer = 'footer1'; 
     $rootScope.title = "LOOKBOOK"
 
     var thumbArr = [];
-    for(var i=100; i<145;i++)
+    for(var i=100; i<105;i++)
     {
       //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);
@@ -163,11 +187,6 @@ angular.module('starter.controllers', [])
 })
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
-})
-.controller('TrendingCtrl', function($scope){
-  console.log('trending');
-  
-  
 })
 .controller('VideoCtrl', function($scope , $rootScope){
       $rootScope.title = "VIDEO"

@@ -56,8 +56,14 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       templateUrl:"templates/home.html",
       controller:"HomeCtrl"
   })
+  .state('trending', {
+    cache : true,
+    url : "/trending",
+    templateUrl:"templates/trending.html",
+    controller:"TrendingCtrl"
+  })
   .state('lookbook-sub', {
-    cache : false,
+    cache : true,
       url:"/lookbook-sub",
       templateUrl:"templates/lookbook-sub.html",
       controller:"LookbookSubCtrl"
@@ -69,13 +75,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"PromotionsCtrl"
   })
   .state('lookbook', {
-    cache : false,
+    cache : true,
       url:"/lookbook",
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
   .state('lookbook-detail', {
-    cache : false,
+    cache : true,
       url:"/lookbook-detail/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"

@@ -4,12 +4,15 @@
 <ion-content scroll="false" overflow-scroll="false"  >
     <main class='md-fill' flex style="overflow: scroll;">
     	<md-card style="margin:0px">
-	        <img ng-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/large/BOB+-+{{image}}.jpg" class="md-card-image" alt="Washed Out" 
+	        <img image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/large/BOB+-+{{image}}.jpg" class="md-card-image" alt="Washed Out" 
 	        md-swipe-left="nextImage()" 
-	        md-swipe-right="nextImage()">
+	        md-swipe-right="nextImage()"
+            image-lazy-loader="lines"
+            >
 	        <div class="image-desc">
 	        	<div class="content">
             <div class="row">
+                {{image}}
             <div class="col col-67" style="color:#ffe54e ; border-right: solid 1px; font-size:15px">
 			         #longhair #hairdo #haircolor #hightlight #sunshine
             </div>

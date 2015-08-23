@@ -67,7 +67,7 @@ angular.module('starter.controllers', [])
    $rootScope.title = "TRENDING";
 
    var thumbArr = [];
-    for(var i=100; i<105;i++)
+    for(var i=100; i<110;i++)
     {
       //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);
@@ -117,6 +117,7 @@ angular.module('starter.controllers', [])
    $scope.image = parseInt($stateParams.image);
 
    $scope.nextImage = function(){
+    console.log("swipe...");
       $scope.image = $scope.image +1;
    }
    //  var next = Math.floor((Math.random() * 8));

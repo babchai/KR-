@@ -38,13 +38,13 @@ angular.module('starter.controllers', [])
 .controller('HomeCtrl',  function($scope , $rootScope){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
-    $rootScope.title = "Kr+";
+    $scope.title = "Kr+";
 })
 
 .controller('LookbookCtrl', function($scope, $rootScope){
    console.log("LookbookCtrl");
     $rootScope.footer = 'footer1'; 
-    $rootScope.title = "LOOKBOOK"
+    $scope.title = "Kr+ LOOKBOOK"
 
    
    $scope.find = function(){
@@ -59,12 +59,35 @@ angular.module('starter.controllers', [])
     console.log("PromotionsCtrl");
     //$rootScope.header = 'header4';
     $rootScope.footer = 'footer1'; 
-    $rootScope.title = "PROMOTIONS"
+    $scope.title = "PROMOTIONS"
 
 })
 
 .controller('TrendingCtrl' , function($scope , $rootScope){
-   $rootScope.title = "TRENDING";
+   $scope.title = "TRENDING";
+
+   var thumbArr = [];
+
+    for(var i=119; i<131;i++)
+    {
+      //thumbArr.push('BOB - '+i+'.jpg');
+      thumbArr.push(i);
+    }
+
+    $scope.thumbs = chunk(thumbArr , 2);
+
+
+    function chunk(arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    }
+})
+
+.controller('LoveitCtrl' , function($scope , $rootScope){
+   $scope.title = "LOVE IT!";
 
    var thumbArr = [];
 
@@ -89,7 +112,7 @@ angular.module('starter.controllers', [])
 .controller('LookbookSubCtrl', function($scope, $rootScope){
 
     $rootScope.footer = 'footer1'; 
-    $rootScope.title = "LOOKBOOK"
+    $scope.title = "Before & After"
 
     var thumbArr = [];
     for(var i=100; i<105;i++)
@@ -113,7 +136,7 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope){
   console.log("LookbookDetailCtrl");  
-    $rootScope.title = "LOOKBOOK"
+    $scope.title = "LOOKBOOK"
 
    $scope.image = parseInt($stateParams.image);
 
@@ -124,6 +147,11 @@ angular.module('starter.controllers', [])
    //  var next = Math.floor((Math.random() * 8));
    //   $scope.image = images[next];
    // }
+})
+
+.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams){
+   $scope.title = 'My LOOKBOOK';
+
 })
 
 .controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , Camera){
@@ -191,7 +219,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 .controller('VideoCtrl', function($scope , $rootScope){
-      $rootScope.title = "VIDEO"
+      $scope.title = "VIDEO"
 
   console.log('VideoCtrl');
 })

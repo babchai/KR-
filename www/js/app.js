@@ -62,6 +62,12 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     templateUrl:"templates/trending.html",
     controller:"TrendingCtrl"
   })
+  .state('loveit', {
+    cache : true,
+    url : "/loveit",
+    templateUrl:"templates/loveit.html",
+    controller:"LoveitCtrl"
+  })
   .state('lookbook-sub', {
     cache : true,
       url:"/lookbook-sub",
@@ -85,6 +91,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       url:"/lookbook-detail/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
+  })
+
+  .state('mylookbook', {
+    cache : false,
+      url:"/mylookbook",
+      templateUrl:"templates/mylookbook.html",
+      controller:"MyLookbookCtrl"
   })
   .state('mylookbook-add', {
     cache : false,
@@ -144,6 +157,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
         }
       }
     })
+
   .state('tab.account', {
     url: '/account',
     views: {

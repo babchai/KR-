@@ -1,4 +1,4 @@
-<div header2>
+<div header5>
 </div>
 <ion-view view-title="Trending" class="has-footer">
 
@@ -7,7 +7,7 @@
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
 
-        <img image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
+        <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
         
     </div>
   

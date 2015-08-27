@@ -70,7 +70,6 @@ angular.module('starter.controllers', [])
 
     for(var i=119; i<131;i++)
     {
-      //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);
     }
 
@@ -109,15 +108,13 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope){
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading){
 
     $rootScope.footer = 'footer1'; 
     $scope.title = "Before & After"
-
     var thumbArr = [];
     for(var i=100; i<105;i++)
     {
-      //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);
     }
 
@@ -172,15 +169,12 @@ angular.module('starter.controllers', [])
       ]
 
     },
-    //  $scope.images.push("s");
-    
-    //$scope.pic.before[0] = '1'
 
    $scope.getPhotoBefore = function(index) {
      var option = {quality:50 , 
       //destinationType: Camera.DestinationType.FILE_URI,
-      encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 750,
+      encodingType: 0,
+      targetWidth: 350,
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);

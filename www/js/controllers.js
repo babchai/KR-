@@ -151,7 +151,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, Camera){
     
     $scope.images=[];
 
@@ -168,31 +168,62 @@ angular.module('starter.controllers', [])
           'img/icon/upload-icon.png'
       ]
 
-    },
+    }
 
-   $scope.getPhotoBefore = function(index) {
-     var option = {quality:50 , 
+  // document.addEventListener("deviceready", function () {
+
+  $scope.triggerAction = function(index){
+
+       // Show the action sheet
+     var hideSheet = $ionicActionSheet.show({
+       buttons: [
+         { text: '<b>Take From Camera</b>' },
+         { text: 'Pick From Gallery' }
+       ],
+       cancelText: 'Cancel',
+       cancel: function() {
+            // add cancel code..
+          },
+       buttonClicked: function(index) {
+         return true;
+       }
+     });
+
+     // For example's sake, hide the sheet after two seconds
+     // $timeout(function() {
+     //   hideSheet();
+     // }, 6000);
+  }
+
+
+  $scope.getPhotoBefore = function(index) {
+     var option = {quality:80 , 
       //destinationType: Camera.DestinationType.FILE_URI,
       encodingType: 0,
-      targetWidth: 350,
+      targetWidth: 1080,
+      targetHeight: 1080,
+       allowEdit : true,
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
       $scope.images[index] = imageURI;
-      $scope.pic.after[index] = imageURI;
+      $scope.pic.before[index] = imageURI;
     }, function(err) {
       alert(err)
       $scope.images.push(err);
       console.err(err);
     })
+
+    $cordovaCamera.cleanup();
   };
 
   $scope.getPhotoAfter = function(index) {
-    var option = {quality:50 , 
-      destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 750,
+    var option = {quality:80 , 
+      encodingType: 0,
+       targetWidth: 1080,
+      targetHeight: 1080,
+       allowEdit : true,
+
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
@@ -203,6 +234,43 @@ angular.module('starter.controllers', [])
       console.err(err);
     })
   };
+
+// }, false);
+
+
+  //  $scope.getPhotoBefore = function(index) {
+  //    var option = {quality:50 , 
+  //     //destinationType: Camera.DestinationType.FILE_URI,
+  //     encodingType: 0,
+  //     targetWidth: 350,
+  //     correctOrientation:true};
+  //   Camera.getPicture(option).then(function(imageURI) {
+  //     //console.log(imageURI);
+  //     $scope.images[index] = imageURI;
+  //     $scope.pic.after[index] = imageURI;
+  //   }, function(err) {
+  //     alert(err)
+  //     $scope.images.push(err);
+  //     console.err(err);
+  //   })
+  // };
+
+  // $scope.getPhotoAfter = function(index) {
+  //   var option = {quality:50 , 
+  //     destinationType: Camera.DestinationType.FILE_URI,
+  //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+  //     encodingType: Camera.EncodingType.JPEG,
+  //     targetWidth: 750,
+  //     correctOrientation:true};
+  //   Camera.getPicture(option).then(function(imageURI) {
+  //     //console.log(imageURI);
+  //     $scope.images[index] = imageURI;
+  //     $scope.pic.after[index] = imageURI;
+  //   }, function(err) {
+  //     $scope.images.push(err);
+  //     console.err(err);
+  //   })
+  // };
 
 })
 

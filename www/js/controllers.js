@@ -218,10 +218,12 @@ angular.module('starter.controllers', [])
       //console.log(imageURI);
       $scope.images.push(imageURI);
       $scope.pic.before.push(imageURI);
+
+      console.log($scope.pic.before);
     }, function(err) {
-      alert(err)
+     // alert(err)
       $scope.images.push(err);
-      console.err(err);
+      console.log(err);
     })
 
     $cordovaCamera.cleanup();
@@ -236,12 +238,12 @@ angular.module('starter.controllers', [])
 
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
-      //console.log(imageURI);
+      console.log(imageURI);
       $scope.images.push(imageURI);
       $scope.pic.after.push(imageURI);
     }, function(err) {
       $scope.images.push(err);
-      console.err(err);
+      console.log(err);
     })
   };
 

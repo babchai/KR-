@@ -170,22 +170,32 @@ angular.module('starter.controllers', [])
 
     }
 
-  // document.addEventListener("deviceready", function () {
+ document.addEventListener("deviceready", function () {
 
   $scope.triggerAction = function(index){
-
+    console.log(index);
        // Show the action sheet
      var hideSheet = $ionicActionSheet.show({
        buttons: [
-         { text: '<b>Take From Camera</b>' },
-         { text: 'Pick From Gallery' }
+         { text: '<b>Camera</b>' },
+         { text: 'Gallery' }
        ],
        cancelText: 'Cancel',
        cancel: function() {
             // add cancel code..
           },
-       buttonClicked: function(index) {
-         return true;
+       buttonClicked: function(button) {
+        
+          console.log(index, button);
+          if(button == 0)
+          {
+            if(index == 0)
+              $scope.getPhotoBefore(index);
+            else
+              $scope.getPhotoAfter(index);
+          }
+
+        // return true;
        }
      });
 
@@ -206,8 +216,8 @@ angular.module('starter.controllers', [])
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
-      $scope.images[index] = imageURI;
-      $scope.pic.before[index] = imageURI;
+      $scope.images.push(imageURI);
+      $scope.pic.before.push(imageURI);
     }, function(err) {
       alert(err)
       $scope.images.push(err);
@@ -227,15 +237,15 @@ angular.module('starter.controllers', [])
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
-      $scope.images[index] = imageURI;
-      $scope.pic.after[index] = imageURI;
+      $scope.images.push(imageURI);
+      $scope.pic.after.push(imageURI);
     }, function(err) {
       $scope.images.push(err);
       console.err(err);
     })
   };
 
-// }, false);
+ }, false);
 
 
   //  $scope.getPhotoBefore = function(index) {

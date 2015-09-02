@@ -1,11 +1,12 @@
 angular.module('starter.directives', [])
 .directive('header1', function() {
     return {
+
         restrict: 'AEC',
         template : '<ion-header-bar name="header1" align-title="left" class="bar bar-header bar-positive" >'+
-                  '<div md-ink-ripple="" class="buttons header-left-button">'+
+                  '       <md-button class="md-icon-button md-primary" aria-label="Settings">'+
                   '       <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
-                  '</div>'+
+                  '</md-button>'+
                    '<h1 class="title" style="text-align:center; font-size:30px; margin-top:10px"><img src="img/icon.png" style="width:50px"/> </h1>'+
                     '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
                      '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+

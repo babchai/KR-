@@ -170,7 +170,7 @@ angular.module('starter.controllers', [])
 
     }
 
- document.addEventListener("deviceready", function () {
+  // document.addEventListener("deviceready", function () {
 
   $scope.triggerAction = function(index){
     console.log(index);
@@ -189,13 +189,10 @@ angular.module('starter.controllers', [])
           console.log(index, button);
           if(button == 0)
           {
-            if(index == 0)
-              $scope.getPhotoBefore(index);
-            else
-              $scope.getPhotoAfter(index);
+            $scope.getPhotoBefore(index);
           }
 
-        // return true;
+         return true;
        }
      });
 
@@ -216,12 +213,12 @@ angular.module('starter.controllers', [])
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
-      $scope.images.push(imageURI);
-      $scope.pic.before.push(imageURI);
+      $scope.images[index] = imageURI;
+      $scope.pic.before[index] = imageURI;
     }, function(err) {
       alert(err)
       $scope.images.push(err);
-      console.err(err);
+      console.log(err);
     })
 
     $cordovaCamera.cleanup();
@@ -237,15 +234,15 @@ angular.module('starter.controllers', [])
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       //console.log(imageURI);
-      $scope.images.push(imageURI);
-      $scope.pic.after.push(imageURI);
+      $scope.images[index] = imageURI;
+      $scope.pic.after[index] = imageURI;
     }, function(err) {
       $scope.images.push(err);
-      console.err(err);
+      console.log(err);
     })
   };
 
- }, false);
+// }, false);
 
 
   //  $scope.getPhotoBefore = function(index) {

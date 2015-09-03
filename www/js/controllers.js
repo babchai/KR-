@@ -151,8 +151,8 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, Camera){
-    
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet,  Camera){
+    $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
     $scope.pic={
@@ -170,43 +170,21 @@ angular.module('starter.controllers', [])
 
     }
 
- document.addEventListener("deviceready", function () {
-
-  $scope.triggerAction = function(index){
-    console.log(index);
-       // Show the action sheet
-     var hideSheet = $ionicActionSheet.show({
-       buttons: [
-         { text: '<b>Camera</b>' },
-         { text: 'Gallery' }
-       ],
-       cancelText: 'Cancel',
-       cancel: function() {
-            // add cancel code..
-          },
-       buttonClicked: function(button) {
-        
-          console.log(index, button);
-          if(button == 0)
-          {
-            if(index == 0)
-              $scope.getPhotoBefore(index);
-            else
-              $scope.getPhotoAfter(index);
-          }
-
-        // return true;
-       }
-     });
-
-     // For example's sake, hide the sheet after two seconds
-     // $timeout(function() {
-     //   hideSheet();
-     // }, 6000);
-  }
+  $scope.showListBottomSheet = function($event) {
+    $scope.alert = '';
+    $mdBottomSheet.show({
+      templateUrl: 'templates/bottom-sheet-list-template.html',
+      controller: 'ListBottomSheetCtrl',
+      targetEvent: $event
+    }).then(function(clickedItem) {
+      console.log(clickedItem.name + ' clicked!');
+      $scope.alert = clickedItem.name + ' clicked!';
+    });
+  };
 
 
   $scope.getPhotoBefore = function(index) {
+    console.log(index);
      var option = {quality:80 , 
       //destinationType: Camera.DestinationType.FILE_URI,
       encodingType: 0,
@@ -215,18 +193,17 @@ angular.module('starter.controllers', [])
        allowEdit : true,
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
-      //console.log(imageURI);
-      $scope.images.push(imageURI);
-      $scope.pic.before.push(imageURI);
+      console.log(imageURI);
 
-      console.log($scope.pic.before);
+      $scope.images[index] = imageURI;
+      $scope.pic.before[index] = imageURI;
     }, function(err) {
      // alert(err)
-      $scope.images.push(err);
+      //$scope.images.push(err);
       console.log(err);
     })
 
-    $cordovaCamera.cleanup();
+    //$cordovaCamera.cleanup();
   };
 
   $scope.getPhotoAfter = function(index) {
@@ -238,16 +215,17 @@ angular.module('starter.controllers', [])
 
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
-      console.log(imageURI);
-      $scope.images.push(imageURI);
-      $scope.pic.after.push(imageURI);
+
+      //console.log(imageURI);
+      $scope.images[index] = imageURI;
+      $scope.pic.after[index] = imageURI;
     }, function(err) {
       $scope.images.push(err);
       console.log(err);
     })
   };
 
- }, false);
+
 
 
   //  $scope.getPhotoBefore = function(index) {
@@ -284,6 +262,47 @@ angular.module('starter.controllers', [])
   //   })
   // };
 
+})
+
+.controller('ListBottomSheetCtrl',  function($scope, $mdBottomSheet , Camera){
+   $scope.items = [
+    { name: 'Camera', icon: 'ion-camera' },
+    { name: 'Gallery', icon: 'upload' },
+   
+  ];
+
+  $scope.getPhotoBefore = function(index) {
+    console.log(index);
+     var option = {quality:80 , 
+      //destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: 0,
+      targetWidth: 1080,
+      targetHeight: 1080,
+       allowEdit : true,
+      correctOrientation:true};
+    Camera.getPicture(option).then(function(imageURI) {
+      console.log(imageURI);
+
+      //$scope.images[index] = imageURI;
+      //$scope.pic.before[index] = imageURI;
+    }, function(err) {
+     // alert(err)
+      //$scope.images.push(err);
+      console.log(err);
+    })
+
+    //$cordovaCamera.cleanup();
+  };
+
+  $scope.listItemClick = function($index) {
+    console.log($index);
+    if($index == 0)
+    {
+      $scope.getPhotoBefore($index);
+    }
+    var clickedItem = $scope.items[$index];
+    $mdBottomSheet.hide(clickedItem);
+  };
 })
 
 .controller('TileCtrl',  function($scope, $mdGridLayout){

@@ -4,14 +4,28 @@ angular.module('starter.directives', [])
 
         restrict: 'AEC',
         template : '<ion-header-bar name="header1" align-title="left" class="bar bar-header bar-positive" >'+
-                  '<md-button class="md-icon-button md-primary" aria-label="Settings">'+
+                  '<md-button class="md-icon-button md-primary" aria-label="Settings" ui-sref="mylookbook-add">'+
                   '       <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                   '</md-button>'+
                    '<h1 class="title" style="text-align:center; font-size:30px; margin-top:10px"><img src="img/icon.png" style="width:50px"/> </h1>'+
-                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
-                     '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
-                    '</div>'+
-                    '</ion-header-bar>'
+                   '<md-button class="md-icon-button header-right-button" aria-label="Settings" ng-click="showMap()">'+
+                    '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
+                    '</md-button>'+
+                    '</ion-header-bar>',
+        controller : function($scope, $element, $mdDialog){
+           $scope.showMap = function(){
+              $mdDialog.show({
+                  templateUrl: 'templates/dialog.tpm.html',
+                  parent: angular.element(document.body),
+                  clickOutsideToClose:true
+              })
+              .then(function(answer) {
+                  $scope.status = 'You said the information was "' + answer + '".';
+              }, function() {
+                  $scope.status = 'You cancelled the dialog.';
+              });
+           }
+        }            
     }
 })
 
@@ -42,7 +56,7 @@ angular.module('starter.directives', [])
             }
         },
         template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" >'+
-                  '<div md-ink-ripple="" class="buttons header-left-button" ng-click="goBack()">'+
+                  '<div md-ink-ripple class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
@@ -64,7 +78,7 @@ angular.module('starter.directives', [])
             }
         },
         template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive">'+
-                  '<div md-ink-ripple="" class="buttons header-left-button" ng-click="goBack()">'+
+                  '<div md-ink-ripple class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+

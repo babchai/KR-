@@ -38,13 +38,13 @@ angular.module('starter.controllers', [])
 .controller('HomeCtrl',  function($scope , $rootScope){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
-    $scope.title = "Kr+";
+    $scope.title = "kr+";
 })
 
 .controller('LookbookCtrl', function($scope, $rootScope){
    console.log("LookbookCtrl");
     $rootScope.footer = 'footer1'; 
-    $scope.title = "Kr+ LOOKBOOK"
+    $scope.title = "kr+ LOOKBOOK"
 
    
    $scope.find = function(){
@@ -151,7 +151,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet,  Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $location,  Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
@@ -225,42 +225,9 @@ angular.module('starter.controllers', [])
     })
   };
 
-
-
-
-  //  $scope.getPhotoBefore = function(index) {
-  //    var option = {quality:50 , 
-  //     //destinationType: Camera.DestinationType.FILE_URI,
-  //     encodingType: 0,
-  //     targetWidth: 350,
-  //     correctOrientation:true};
-  //   Camera.getPicture(option).then(function(imageURI) {
-  //     //console.log(imageURI);
-  //     $scope.images[index] = imageURI;
-  //     $scope.pic.after[index] = imageURI;
-  //   }, function(err) {
-  //     alert(err)
-  //     $scope.images.push(err);
-  //     console.err(err);
-  //   })
-  // };
-
-  // $scope.getPhotoAfter = function(index) {
-  //   var option = {quality:50 , 
-  //     destinationType: Camera.DestinationType.FILE_URI,
-  //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-  //     encodingType: Camera.EncodingType.JPEG,
-  //     targetWidth: 750,
-  //     correctOrientation:true};
-  //   Camera.getPicture(option).then(function(imageURI) {
-  //     //console.log(imageURI);
-  //     $scope.images[index] = imageURI;
-  //     $scope.pic.after[index] = imageURI;
-  //   }, function(err) {
-  //     $scope.images.push(err);
-  //     console.err(err);
-  //   })
-  // };
+  $scope.selectStylist = function(){
+     $location.path('/stylist');
+  }
 
 })
 
@@ -303,6 +270,41 @@ angular.module('starter.controllers', [])
     var clickedItem = $scope.items[$index];
     $mdBottomSheet.hide(clickedItem);
   };
+})
+
+.controller('StylistCtrl' , function($scope , $mdDialog , $rootScope ){
+   console.log('Stylist');
+   $scope.title = "STYLIST";
+
+   $scope.stylistDetail = function(id){
+      console.log(id);
+      $mdDialog.show({
+        controller : TheChosenOne,
+        templateUrl: 'templates/detail.tmp.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose:true
+      })
+      .then(function(answer) {
+        //console.log(answer);
+        $rootScope.stylist = answer; 
+        window.history.back();
+        //$scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        console.log('dialog closed.');
+        //$scope.status = 'You cancelled the dialog.';
+      });
+   }
+
+   function TheChosenOne($scope , $mdDialog)
+   {
+     console.log("the");
+     $scope.chosen = function(answer)
+     {
+        console.log("clicked");
+        $mdDialog.hide(answer);
+     }
+   } 
+
 })
 
 .controller('TileCtrl',  function($scope, $mdGridLayout){

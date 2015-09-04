@@ -2,11 +2,12 @@
 </div>
 <ion-view view-title="Lookbook" class="has-footer">
 
-<ion-content scroll="true" overflow-scroll="false" class="gallery">
-<div class="gallery" style="background-color:#ffe54e" >
+<ion-content scroll="true" overflow-scroll="false" class="gallery" lazy-scroll >
+<div class="gallery" style="background-color:#ffe54e"   >
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
-        <img ng-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})">
+        <!-- <img ng-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"> -->
+          <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
     </div>
   
   </div>

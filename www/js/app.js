@@ -113,6 +113,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"VideoCtrl"
   })
  
+  .state('stylist' , {
+    cache: true,
+    url : "/stylist",
+    templateUrl : "templates/stylist.html",
+    controller:"StylistCtrl"
+  })
+ 
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',

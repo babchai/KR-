@@ -2,22 +2,31 @@
 </div>
 <ion-view view-title="Love It!" class="has-footer">
 
-<ion-content scroll="true" overflow-scroll="false" class="gallery" lazy-scroll>
+<ion-content scroll="true" overflow-scroll="true" class="gallery" >
+<ion-scroll style="height: 100%;" lazy-scroll>
+<ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
 <div class="gallery" style="background-color:#ffe54e" >
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
 
-        <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
-        
+        <img fallbackSrc='' image-lazy-src="http://krplus.com/lookbook/bob/BOB{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines"  >
+      
     </div>
   
   </div>
 
  
 </div>
+<ion-infinite-scroll
+    on-infinite="loadMore()"
+    distance="0%">
+</ion-infinite-scroll>
+
+</ion-scroll>
 </ion-content>
-
-
 </ion-view>
 <div footer></div>
 

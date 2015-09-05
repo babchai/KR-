@@ -90,7 +90,7 @@ angular.module('starter.controllers', [])
 
    var thumbArr = [];
 
-    for(var i=119; i<131;i++)
+    for(var i=1000; i<1020;i++)
     {
       //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);
@@ -183,47 +183,47 @@ angular.module('starter.controllers', [])
   };
 
 
-  $scope.getPhotoBefore = function(index) {
-    console.log(index);
-     var option = {quality:80 , 
-      //destinationType: Camera.DestinationType.FILE_URI,
-      encodingType: 0,
-      targetWidth: 1080,
-      targetHeight: 1080,
-       allowEdit : true,
-      correctOrientation:true};
-    Camera.getPicture(option).then(function(imageURI) {
-      console.log(imageURI);
+  // $scope.getPhotoBefore = function(index) {
+  //   console.log(index);
+  //    var option = {quality:80 , 
+  //     //destinationType: Camera.DestinationType.FILE_URI,
+  //     encodingType: 0,
+  //     targetWidth: 1080,
+  //     targetHeight: 1080,
+  //      allowEdit : true,
+  //     correctOrientation:true};
+  //   Camera.getPicture(option).then(function(imageURI) {
+  //     console.log(imageURI);
 
-      $scope.images[index] = imageURI;
-      $scope.pic.before[index] = imageURI;
-    }, function(err) {
-     // alert(err)
-      //$scope.images.push(err);
-      console.log(err);
-    })
+  //     $scope.images[index] = imageURI;
+  //     $scope.pic.before[index] = imageURI;
+  //   }, function(err) {
+  //    // alert(err)
+  //     //$scope.images.push(err);
+  //     console.log(err);
+  //   })
 
-    //$cordovaCamera.cleanup();
-  };
+  //   //$cordovaCamera.cleanup();
+  // };
 
-  $scope.getPhotoAfter = function(index) {
-    var option = {quality:80 , 
-      encodingType: 0,
-       targetWidth: 1080,
-      targetHeight: 1080,
-       allowEdit : true,
+  // $scope.getPhotoAfter = function(index) {
+  //   var option = {quality:80 , 
+  //     encodingType: 0,
+  //      targetWidth: 1080,
+  //     targetHeight: 1080,
+  //      allowEdit : true,
 
-      correctOrientation:true};
-    Camera.getPicture(option).then(function(imageURI) {
+  //     correctOrientation:true};
+  //   Camera.getPicture(option).then(function(imageURI) {
 
-      //console.log(imageURI);
-      $scope.images[index] = imageURI;
-      $scope.pic.after[index] = imageURI;
-    }, function(err) {
-      $scope.images.push(err);
-      console.log(err);
-    })
-  };
+  //     //console.log(imageURI);
+  //     $scope.images[index] = imageURI;
+  //     $scope.pic.after[index] = imageURI;
+  //   }, function(err) {
+  //     $scope.images.push(err);
+  //     console.log(err);
+  //   })
+  // };
 
   $scope.selectStylist = function(){
      $location.path('/stylist');

@@ -23,12 +23,122 @@ angular.module('starter.controllers', [])
     $rootScope.footer = null;
 })
 
-.controller('LoginCtrl', function($scope){
+.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage){
     console.log("login");
+    $scope.user = {};
+     var userRef = new Firebase("https://9lives.firebaseio.com");
+
+    var userData = $localstorage.getObject('userData');
+
+    if(typeof userData.token !='undefined')
+    {
+      $ionicLoading.show();
+      console.log(userData);
+      userRef.authWithCustomToken(userData.token , function(error, newUserdata){
+        console.log(error, newUserdata);
+        $ionicLoading.hide();
+        if(!error)
+        {
+          $localstorage.setObject("userData" , newUserdata);
+          $location.path('/home');
+        }
+      });
+    }
+
+
+  $scope.login  = function(authorizationForm){
+    console.log(authorizationForm);
+    if(!authorizationForm.$valid)
+    {
+       $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Login Failed')
+          .content("Please fill in the Email and Password.")
+          .ok('Got it!')
+        );
+      return
+    }
+
+    $ionicLoading.show();
+
+    userRef.authWithPassword({
+      email    : $scope.user.email,
+      password : $scope.user.password
+    }, function(error, authData) { 
+
+      if( error )
+      {
+        $ionicLoading.hide();
+
+        $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Login Failed')
+          .content("Couldn't sign in. The email or password is not correct.")
+          .ok('Got it!')
+        );
+      }
+      else
+      {
+        $ionicLoading.hide();
+        $localstorage.setObject("userData" , authData);
+        $location.path('/home');
+        console.log(authData);
+
+      }
+
+    }, {
+      //remember: "sessionOnly"
+    });
+  }
+
+  if($rootScope.registerSuccess)
+  {
+      $mdToast.show(
+        $mdToast.simple()
+          .content(' Welcome! Login to enjoy.')
+          .position("top " )
+          .hideDelay(2000)
+        );
+
+      $rootScope.registerSuccess = false;
+  }
+
 })
-.controller('SignupCtrl', function($scope){
+.controller('SignupCtrl', function($scope , $rootScope){
   $scope.title="SIGN UP";
+  $scope.user = {};
   console.log("SignupCtrl"); 
+  ///var ref = new Firebase("https://9lives.firebaseio.com");
+
+  $scope.signup = function()
+  {
+      console.log($scope.user);
+
+      var userRef = new Firebase("https://9lives.firebaseio.com");
+      userRef.createUser({
+        email    : $scope.user.email,
+        password : $scope.user.password
+      }, function(error, userData) {
+        if (error) {
+          console.log("Error creating user:", error);
+        } else {
+          userRef.push({
+              name : $scope.user.name,
+              email : $scope.user.email,
+              contact : $scope.user.contact
+          })
+          $rootScope.registerSuccess = true;
+          window.history.back();
+          
+          console.log("Successfully created user account with uid:", userData.uid);
+        }
+      });
+  }
+
 })
 
 .controller('ForgetPasswordCtrl',  function($scope){
@@ -68,7 +178,7 @@ angular.module('starter.controllers', [])
 
    var thumbArr = [];
 
-    for(var i=119; i<131;i++)
+    for(var i=1000; i<1205;i++)
     {
       thumbArr.push(i);
     }
@@ -90,7 +200,7 @@ angular.module('starter.controllers', [])
 
    var thumbArr = [];
 
-    for(var i=1000; i<1020;i++)
+    for(var i=1000; i<1050;i++)
     {
       //thumbArr.push('BOB - '+i+'.jpg');
       thumbArr.push(i);

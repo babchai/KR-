@@ -7,8 +7,10 @@
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
 
-        <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
-        
+     <div style="min-height:251px ; background:url('http://krplus.com/lookbook/bob/BOB{{item}}.jpg') ;background-size:cover ; background-position:center">
+    </div>
+     <!--    <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
+         -->
     </div>
   
   </div>

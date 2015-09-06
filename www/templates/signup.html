@@ -9,31 +9,31 @@
 		  <form>
 		  	<div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" placeholder="name" style="width:100%">  
+			  	<input type="text"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%">  
 			     </center>
 			  </div>
 
 			<div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" placeholder="email" style="width:100%">  
+			  	<input type="text"  class="login-textfield" ng-model="user.email"  placeholder="email" style="width:100%">  
 			     </center>
 			  </div>
 
 		  <div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" placeholder="contact no" style="width:100%">  
+			  	<input type="text"  class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%">  
 			     </center>
 			  </div>
 
 		    <div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" placeholder="password" style="width:100%">  
+			  	<input type="text"  class="login-textfield" ng-model="user.password" placeholder="password" style="width:100%">  
 			     </center>
 			  </div>
 
 		    <div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" placeholder="confirm password" style="width:100%">  
+			  	<input type="text"  class="login-textfield" ng-model="user.confirmpassword" placeholder="confirm password" style="width:100%">  
 			     </center>
 			  </div>
 
@@ -45,9 +45,9 @@
 
 		    <div style="margin-top:5%">
 		     <center>
-			    <button class="button cus-button"  ui-sref="home">
+			    <a class="button cus-button" ng-click="signup()">
 			      CREATE ACCOUNT
-			    </button>
+			    </a>
 			</center>
 			</div>
 		  </form>

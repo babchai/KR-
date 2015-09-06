@@ -5,7 +5,13 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' ])
+angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase' ])
+.constant('$ionicLoadingConfig', {
+  'duration':'12000' , 
+  'hideOnStateChange' : true,
+  'template' : '<ion-spinner icon="lines"></ion-spinner>'
+
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

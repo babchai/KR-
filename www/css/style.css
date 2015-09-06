@@ -273,7 +273,7 @@ html, body{
 .gallery .row{
     padding-left :0px;
     padding-right:0px;
-    padding-bottom: 0px;
+    /*padding-bottom: 2px;*/
     padding-top:2px;
 }
 

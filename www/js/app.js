@@ -29,6 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   });
 })
 
+
 .config(function($stateProvider, $urlRouterProvider , $mdThemingProvider) {
 
   $mdThemingProvider.theme('default')
@@ -167,10 +168,17 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     })
     .state('tab.trending', {
       url: "/trending",
+      resolve : {
+        authorize : ['authorization' , function(authorization){
+          console.log("authorization");
+          }
+        ]
+      },
       views: {
         'tab-trending': {
           templateUrl: "templates/tab-trending.html",
-          controller: 'TrendingCtrl'
+          controller: 'TrendingCtrl',
+
         }
       }
     })

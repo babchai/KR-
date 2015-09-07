@@ -1,7 +1,8 @@
 <md-bottom-sheet class="md-list">
   <md-list>
     <md-list-item ng-repeat="item in items">
-      <md-button class="md-list-item-content" ng-click="listItemClick($index)">
+    {{photoIndex}}
+      <md-button class="md-list-item-content" ng-click="listItemClick($index , photoIndex)">
         <span class="md-inline-list-icon-label">{{ item.name }}</span>
       </md-button>
     </md-list-item>

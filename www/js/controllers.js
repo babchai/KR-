@@ -328,60 +328,21 @@ angular.module('starter.controllers', [])
 
     }
 
-  $scope.showListBottomSheet = function($event) {
+  $scope.showListBottomSheet = function(index) {
+    //$scope.photoIndex = index;
     $scope.alert = '';
     $mdBottomSheet.show({
       templateUrl: 'templates/bottom-sheet-list-template.html',
       controller: 'ListBottomSheetCtrl',
-      targetEvent: $event
-    }).then(function(clickedItem) {
-      console.log(clickedItem.name + ' clicked!');
-      $scope.alert = clickedItem.name + ' clicked!';
+      local : {photoIndex:index}
+    }).then(function(item) {
+      console.log(item);
+      alert(item);
+      $scope.pic.before[index] = item;
     });
   };
 
 
-  // $scope.getPhotoBefore = function(index) {
-  //   console.log(index);
-  //    var option = {quality:80 , 
-  //     //destinationType: Camera.DestinationType.FILE_URI,
-  //     encodingType: 0,
-  //     targetWidth: 1080,
-  //     targetHeight: 1080,
-  //      allowEdit : true,
-  //     correctOrientation:true};
-  //   Camera.getPicture(option).then(function(imageURI) {
-  //     console.log(imageURI);
-
-  //     $scope.images[index] = imageURI;
-  //     $scope.pic.before[index] = imageURI;
-  //   }, function(err) {
-  //    // alert(err)
-  //     //$scope.images.push(err);
-  //     console.log(err);
-  //   })
-
-  //   //$cordovaCamera.cleanup();
-  // };
-
-  // $scope.getPhotoAfter = function(index) {
-  //   var option = {quality:80 , 
-  //     encodingType: 0,
-  //      targetWidth: 1080,
-  //     targetHeight: 1080,
-  //      allowEdit : true,
-
-  //     correctOrientation:true};
-  //   Camera.getPicture(option).then(function(imageURI) {
-
-  //     //console.log(imageURI);
-  //     $scope.images[index] = imageURI;
-  //     $scope.pic.after[index] = imageURI;
-  //   }, function(err) {
-  //     $scope.images.push(err);
-  //     console.log(err);
-  //   })
-  // };
 
   $scope.selectStylist = function(){
      $location.path('/stylist');
@@ -390,6 +351,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ListBottomSheetCtrl',  function($scope, $mdBottomSheet , Camera){
+
    $scope.items = [
     { name: 'Camera', icon: 'ion-camera' },
     { name: 'Gallery', icon: 'upload' },
@@ -407,6 +369,7 @@ angular.module('starter.controllers', [])
       correctOrientation:true};
     Camera.getPicture(option).then(function(imageURI) {
       console.log(imageURI);
+      return imageURI
 
       //$scope.images[index] = imageURI;
       //$scope.pic.before[index] = imageURI;
@@ -420,13 +383,13 @@ angular.module('starter.controllers', [])
   };
 
   $scope.listItemClick = function($index) {
-    console.log($index);
+    var item = '';
     if($index == 0)
     {
-      $scope.getPhotoBefore($index);
+       item =  $scope.getPhotoBefore($index);
     }
-    var clickedItem = $scope.items[$index];
-    $mdBottomSheet.hide(clickedItem);
+    
+    $mdBottomSheet.hide(item);
   };
 })
 

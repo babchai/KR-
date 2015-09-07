@@ -16,14 +16,17 @@
            <div class="col"  ng-click="showListBottomSheet(0)" >
            {{alert}}
            <center>
-               <img ng-src="{{pic.before[0]}}" style="max-width:80%; border-radius: 10px" />
+               <img ng-src="{{pic.before[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.before[0]" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[0]"  />
+
                     <br />
                    Pic 1
                 </center>
             </div>
            <div class="col"  ng-click="showListBottomSheet(1)" arial-label="coming soon">
                <center>
-               <img ng-src="{{pic.before[1]}}" style="max-width:80%; border-radius: 10px" />
+               <img ng-src="{{pic.before[1]}}" style="max-width:80%; border-radius: 10px"  ng-show="pic.before[1]"/>
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[1]"  />
                     <br />
                    Pic 2
                 </center>
@@ -31,6 +34,7 @@
            <div class="col"  ng-click="showListBottomSheet(2)" arial-label="coming soon">
                <center>
                <img ng-src="{{pic.before[2]}}" style="max-width:80%; border-radius: 10px" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[2]"  />
                     <br />
                    Pic 3
                 </center>
@@ -42,23 +46,28 @@
           <h4>After Hair Cut</h4>
     </div>
       <div class="row">
-            <div class="col"  ng-click="showListBottomSheet()">
+            <div class="col"  ng-click="showListBottomSheet(3)">
                <center>
-               <img ng-src="{{pic.after[0]}}" style="max-width:80%; border-radius: 10px" />
+
+               <img ng-src="{{pic.after[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.after[0]"  />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[0]"  />
                     <br />
                    Pic 1
                 </center>
+
             </div>
-             <div class="col"  ng-click="showListBottomSheet()">
+             <div class="col"  ng-click="showListBottomSheet(4)">
                <center>
-               <img ng-src="{{pic.after[1]}}" style="max-width:80% ;  border-radius: 10px;" />
-                    <br />
+               <img ng-src="{{pic.after[1]}}" style="max-width:80% ;  border-radius: 10px;" ng-show="pic.after[1]" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[1]"  />
+                <br />
                    Pic 2
                 </center>
             </div>
-             <div class="col"  ng-click="showListBottomSheet()">
+             <div class="col"  ng-click="showListBottomSheet(5)">
                <center>
-               <img ng-src="{{pic.after[2]}}" style="max-width:80%; border-radius: 10px" />
+               <img ng-src="{{pic.after[2]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.after[1]" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[1]"  />
                     <br />
                    Pic 3
                 </center>

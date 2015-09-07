@@ -144,7 +144,7 @@ angular.module('starter.directives', [])
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
-                   ' <button class="button cus-button">Save</button>'+
+                   ' <button class="button cus-button" ng-click="saveImage()">Save</button>'+
                    '</div>'+
                    '</ion-header-bar>'
     }

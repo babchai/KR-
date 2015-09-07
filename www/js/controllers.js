@@ -309,7 +309,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $mdDialog , $location,  Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $mdDialog , $location, $cordovaFile,  Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
@@ -321,13 +321,6 @@ angular.module('starter.controllers', [])
           after: []
        }
     }
-
-    // if(typeof $rootScope.pic.after == 'undefined')
-    // {
-    //    $rootScope.pic={
-    //       after: []
-    //    }
-    // }
 
   $scope.showListBottomSheet = function(index) {
     //$scope.photoIndex = index;
@@ -374,10 +367,56 @@ angular.module('starter.controllers', [])
     //$cordovaCamera.cleanup();
   };
 
-
   $scope.selectStylist = function(){
      $location.path('/stylist');
   }
+
+  $scope.saveImage = function() {
+     var fileURI = $rootScope.pic.before[0];
+      createFileEntry(fileURI);
+  }
+
+  function createFileEntry(fileURI) {
+      window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+  }
+
+  //5
+  function copyFile(fileEntry) {
+    var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+    var newName = makeid() + name;
+
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+        fileEntry.copyTo(
+            fileSystem2,
+            newName,
+            onCopySuccess,
+            fail
+        );
+    },
+    fail);
+  }
+
+  // 6
+  function onCopySuccess(entry) {
+      $scope.$apply(function () {
+          $scope.images.push(entry.nativeURL);
+      });
+  }
+
+  function fail(error) {
+      console.log("fail: " + error.code);
+  }
+
+  function makeid() {
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      for (var i=0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return text;
+  }
+
 
 })
 

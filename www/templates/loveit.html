@@ -10,11 +10,19 @@
   </ion-refresher>
 <div class="gallery" style="background-color:#ffe54e" >
   <div class="row" ng-repeat = "rows in thumbs">
-   <div class="col" ng-repeat = "item in rows">
-       <div style="min-height:251px ; background:url('http://krplus.com/lookbook/bob/BOB{{item}}.jpg') ;background-size:cover ; background-position:center">
+   <div class="col" ng-repeat = "item in rows" >
+     <div style="background-color:white">
+       <div style="min-height:251px ; 
+       background-color:white;
+       background:url('http://krplus.com/lookbook/bob/BOB{{item}}.jpg') ;
+       background-size:cover ; 
+       background-repeat: no-repeat;
+       "
+       ui-sref="lookbook-detail({image:item})"
+       >
 
        </div>
-
+      </div>
         <!-- <img fallbackSrc='' image-lazy-src="http://krplus.com/lookbook/bob/BOB{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines"  > -->
       
     </div>

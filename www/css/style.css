@@ -300,3 +300,6 @@ html, body{
     background-color: #555555;
     color: #FFE54E;
 }
+.error{
+    color: red
+}

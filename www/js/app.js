@@ -39,7 +39,11 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-
+  .state('setting', {
+      url:'/setting',
+      templateUrl:"templates/setting.html",
+      controller: "SettingCtrl"
+  })
   .state('signup', {
       url:'/signup',
       templateUrl : "templates/signup.html",

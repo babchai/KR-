@@ -18,24 +18,28 @@ angular.module('starter.controllers', [])
 })
 
 .controller('mainCtrl' , function($scope, $rootScope){
-    console.log('main controller');
      $rootScope.header = null;
     $rootScope.footer = null;
 })
 
 .controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage){
-    console.log("login");
+    var userData = "";
     $scope.user = {};
-     var userRef = new Firebase("https://9lives.firebaseio.com");
 
-    var userData = $localstorage.getObject('userData');
+
+     var userRef = new Firebase("https://9lives.firebaseio.com");
+  
+     userData = userRef.getAuth();
+     if(userData)
+        $location.path('/home');
+
+
+     userData = $localstorage.getObject('userData');
 
     if(typeof userData.token !='undefined')
     {
       $ionicLoading.show();
-      console.log(userData);
       userRef.authWithCustomToken(userData.token , function(error, newUserdata){
-        console.log(error, newUserdata);
         $ionicLoading.hide();
         if(!error)
         {
@@ -47,7 +51,6 @@ angular.module('starter.controllers', [])
 
 
   $scope.login  = function(authorizationForm){
-    console.log(authorizationForm);
     if(!authorizationForm.$valid)
     {
        $mdDialog.show(
@@ -86,7 +89,6 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $localstorage.setObject("userData" , authData);
         $location.path('/home');
-        console.log(authData);
 
       }
 
@@ -111,12 +113,10 @@ angular.module('starter.controllers', [])
 .controller('SignupCtrl', function($scope , $rootScope){
   $scope.title="SIGN UP";
   $scope.user = {};
-  console.log("SignupCtrl"); 
   ///var ref = new Firebase("https://9lives.firebaseio.com");
 
   $scope.signup = function()
   {
-      console.log($scope.user);
 
       var userRef = new Firebase("https://9lives.firebaseio.com");
       userRef.createUser({
@@ -126,24 +126,68 @@ angular.module('starter.controllers', [])
         if (error) {
           console.log("Error creating user:", error);
         } else {
-          userRef.push({
-              name : $scope.user.name,
-              email : $scope.user.email,
-              contact : $scope.user.contact
-          })
+
+          var profile = userRef.child("profile/"+userData.uid);
+          
+          var profileObj = {};
+
+          profileObj = {
+            'name' : $scope.user.name,
+            'email' : $scope.user.email,
+            'contact' : $scope.user.contact
+          }
+
+          profile.set(profileObj);
+
           $rootScope.registerSuccess = true;
           window.history.back();
           
-          console.log("Successfully created user account with uid:", userData.uid);
         }
       });
   }
 
 })
 
-.controller('ForgetPasswordCtrl',  function($scope){
-  console.log("ForgetPasswordCtrl");  
+.controller('ForgetPasswordCtrl',  function($scope , $ionicLoading, $mdDialog){
+ $scope.resetemail = '';
   $scope.title = "FORGOT PASSWORD"
+  $scope.reset = function(form)
+  {
+
+
+    if(!form.$valid)
+      return
+     $ionicLoading.show();
+    var ref = new Firebase("https://9lives.firebaseio.com");
+    ref.resetPassword({
+      email: this.resetemail
+    }, function(error) {
+      if (error) {
+         $ionicLoading.hide();
+        switch (error.code) {
+          case "INVALID_USER":
+            console.log("The specified user account does not exist.");
+            break;
+          default:
+            console.log("Error resetting password:", error);
+        }
+      } else {
+        $ionicLoading.hide();
+        $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Password Reset Successfully')
+          .content("Password reset email sent successfully!")
+          .ok('Got it!')
+        );
+        //console.log("Password reset email sent successfully!");
+      }
+    });
+
+
+  }
+
 })
 .controller('HomeCtrl',  function($scope , $rootScope){
     //$rootScope.header = 'header1';
@@ -152,10 +196,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LookbookCtrl', function($scope, $rootScope){
-   console.log("LookbookCtrl");
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+ LOOKBOOK"
 
+    $scope.lookbook = {};
    
    $scope.find = function(){
       $scope.search = true;
@@ -164,9 +208,15 @@ angular.module('starter.controllers', [])
       $scope.search = false;
    }
 
+    $scope.expand = function(){
+      if($scope.lookbook.expand == true)
+        $scope.lookbook.expand = false
+      else
+        $scope.lookbook.expand = true;
+    }
+
 })
 .controller('PromotionsCtrl', function($scope , $rootScope){
-    console.log("PromotionsCtrl");
     //$rootScope.header = 'header4';
     $rootScope.footer = 'footer1'; 
     $scope.title = "PROMOTIONS"
@@ -242,13 +292,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope){
-  console.log("LookbookDetailCtrl");  
     $scope.title = "LOOKBOOK"
 
    $scope.image = parseInt($stateParams.image);
 
    $scope.nextImage = function(){
-    console.log("swipe...");
       $scope.image = $scope.image +1;
    }
    //  var next = Math.floor((Math.random() * 8));
@@ -407,7 +455,6 @@ angular.module('starter.controllers', [])
 
    function TheChosenOne($scope , $mdDialog)
    {
-     console.log("the");
      $scope.chosen = function(answer)
      {
         console.log("clicked");
@@ -426,8 +473,28 @@ angular.module('starter.controllers', [])
 .controller('VideoCtrl', function($scope , $rootScope){
       $scope.title = "VIDEO"
 
-  console.log('VideoCtrl');
 })
+
+.controller('SettingCtrl' , function($scope , $localstorage,$location){
+     $scope.title = "ACCOUNT SETTINGS"
+     $scope.user = {}
+    
+         var authData =   $localstorage.getObject("userData");
+
+     var profile = new Firebase("https://9lives.firebaseio.com/profile");
+    
+
+
+     $scope.logout = function(){
+       var userRef = new Firebase("https://9lives.firebaseio.com");
+
+        userRef.unauth();
+        $localstorage.setObject("userData" , {});
+         $location.path('/login');
+     }
+})
+
+
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true

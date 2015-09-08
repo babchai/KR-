@@ -189,10 +189,19 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
+
+     $ionicPlatform.onHardwareBackButton(function() {
+        //event.preventDefault();
+        //event.stopPropagation();
+        
+        alert('exit?');
+
+        
+     });
 })
 
 .controller('LookbookCtrl', function($scope, $rootScope){
@@ -304,32 +313,17 @@ angular.module('starter.controllers', [])
    // }
 })
 
-.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams){
+.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){
+
    $scope.title = 'My LOOKBOOK';
+
+   $scope.mylookbook = $localstorage.getArray('lookook');
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $mdDialog , $location, $cordovaFile,   Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile,   Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
-
-    //console.log(cordova.file.Pictures);
-
-     // $cordovaFile.checkDir(cordova.file.dataDirectory, "Pictures")
-     // .then(function (success) {
-     //    // success
-     //    console.log(success);
-     //  }, function (error) {
-     //    console.log(error);
-     //    // error
-     //  });
-
-    // $cordovaFile.readAsText(cordova.file.externalDataDirectory, $scope.inputs.readFile)
-    //   .then(function (success) {
-    //     // success
-    //   }, function (error) {
-    //     // error
-    //   });
 
     if(typeof $rootScope.pic == 'undefined')
     {
@@ -338,6 +332,22 @@ angular.module('starter.controllers', [])
           after: []
        }
     }
+
+  // $scope.popup = function(path){
+  //   $mdDialog.show({
+  //       controller : popoutCtrl,
+  //       templateUrl: 'templates/photo.tmp.html',
+  //       locals:{
+  //         photo : $scope.items
+  //       },
+  //       parent: angular.element(document.body),
+  //       clickOutsideToClose:true
+  //     })
+  // }  
+  // function popoutCtrl($scope)
+  // {
+  //   $scope.items = "iemasd";
+  // }
 
   $scope.showListBottomSheet = function(index) {
     //$scope.photoIndex = index;
@@ -390,21 +400,35 @@ angular.module('starter.controllers', [])
   }
 
   $scope.saveImage = function() {
-    
-    var fileURI = $rootScope.pic.before[0];
+    $q.all([
     angular.forEach($rootScope.pic.before, function(photo , key){
-        createFileEntry(photo);
-    });
-
+      createFileEntry(photo);
+    }),
     angular.forEach($rootScope.pic.after, function(photo2 , key){
-        createFileEntry(photo2);
+      createFileEntry(photo2);
     })
-    
+    ]).then(function(val){
+      console.log(val);
+      $rootScope.pic={
+          before: [],
+          after: []
+       }
+       $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('My New Look')
+          .content("New look saved.")
+          .ok('Ok!')
+        );
+      
+      console.log('Saved.');
+    })
   }
 
-  function createFileEntry(fileURI) {
+  function createFileEntry(imageUrl) {
     //console.log($rootScope.pic.before[0]);
-     var imageUrl = $rootScope.pic.before[0];
+     //var imageUrl = $rootScope.pic.before[0];
      //console.log(imageUrl);
      var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
       var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
@@ -416,9 +440,14 @@ angular.module('starter.controllers', [])
       $cordovaFile.copyFile(namePath, name, cordova.file.externalDataDirectory, newName)
         .then(function(info) {
           console.log("success",info);
-            $rootScope.pic.after[0] = info.nativeURL;
-          //FileService.storeImage(newName);
-          //resolve();
+          var library =  $localstorage.getArray('lookook');
+          library.push({
+             'stylist' : $rootScope.stylist,
+             'date'    :new Date(),
+             'photo'   : cordova.file.externalDataDirectory+newName
+          });
+          $localstorage.setArray('lookook', library);
+
         }, function(e) {
           console.log("Failed" , e);
           //reject();

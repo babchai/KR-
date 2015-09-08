@@ -372,8 +372,16 @@ angular.module('starter.controllers', [])
   }
 
   $scope.saveImage = function() {
-     var fileURI = $rootScope.pic.before[0];
-      createFileEntry(fileURI);
+    
+    var fileURI = $rootScope.pic.before[0];
+    angular.forEach($rootScope.pic.before, function(photo , key){
+        createFileEntry(photo);
+    });
+
+    angular.forEach($rootScope.pic.after, function(photo2 , key){
+        createFileEntry(photo2);
+    })
+    
   }
 
   function createFileEntry(fileURI) {

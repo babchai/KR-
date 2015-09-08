@@ -34,7 +34,7 @@ angular.module('starter.directives', [])
         restrict: 'AEC',
         
         template : '<ion-header-bar name="header2" align-title="left"  class="bar bar-header bar-positive">'+
-                   '<div md-ink-ripple="" class="buttons header-left-button" >'+
+                   '<div class="buttons header-left-button" >'+
                    '     <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
@@ -50,28 +50,28 @@ angular.module('starter.directives', [])
         restrict: 'AEC',
         link : function(scope, elem, attrs){
             scope.goBack = function(){
-                window.history.back();
+                $ionicHistory.goBack();
 
             }
         },
         template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" >'+
-                  '<div md-ink-ripple class="buttons header-left-button" ng-click="goBack()">'+
+                  '<div class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
                   '  <i class="ion-android-favorite-outline" style="font-size:30px ; color:#363636 ; padding:5%"></i>'+
-                  '  <i class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%"></i>'+
+                  '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '</ion-header-bar>'
     }
 })
 
-.directive('header4', function(){
+.directive('header4', function($ionicHistory){
     return{
         restrict:'AEC',
         link : function(scope, elem, attrs){
             scope.goBack = function(){
-                window.history.back();
+                $ionicHistory.goBack();
 
             }
         },
@@ -86,18 +86,18 @@ angular.module('starter.directives', [])
     }
 })
 
-.directive('header5', function() {
+.directive('header5', function($ionicHistory) {
     return {
         restrict: 'AEC',
          link : function(scope, elem, attrs){
             scope.goBack = function(){
                 console.log('goBack');
-                window.history.back();
+                $ionicHistory.goBack();
 
             }
         },
         template : '<ion-header-bar name="header5" align-title="left"  class="bar bar-header bar-positive">'+
-                   '<div md-ink-ripple="" class="buttons header-left-button" ng-click="goBack()" >'+
+                   '<div  class="buttons header-left-button" ng-click="goBack()" >'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
@@ -107,17 +107,17 @@ angular.module('starter.directives', [])
     }
 })
 
-.directive('header6', function() {
+.directive('header6', function($ionicHistory) {
     return {
         restrict: 'AEC',
          link : function(scope, elem, attrs){
             scope.goBack = function(){
-                window.history.back();
+                $ionicHistory.goBack();
 
             }
         },
         template : '<ion-header-bar name="header2" align-title="left"  class="bar bar-header bar-positive">'+
-                   '<div md-ink-ripple="" class="buttons header-left-button" ng-click="goBack()" >'+
+                   '<div  class="buttons header-left-button" ng-click="goBack()" >'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
@@ -129,17 +129,17 @@ angular.module('starter.directives', [])
     }
 })
 
-.directive('header7', function() {
+.directive('header7', function($ionicHistory) {
     return {
         restrict: 'AEC',
          link : function(scope, elem, attrs){
             scope.goBack = function(){
-                window.history.back();
+                $ionicHistory.goBack();
 
             }
         },
         template : '<ion-header-bar name="header2" align-title="left"  class="bar bar-header bar-positive">'+
-                   '<div md-ink-ripple="" class="buttons header-left-button" ng-click="goBack()" >'+
+                   '<div  class="buttons header-left-button" ng-click="goBack()" >'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+

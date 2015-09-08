@@ -198,9 +198,9 @@ angular.module('starter.controllers', [])
         //event.preventDefault();
         //event.stopPropagation();
         
-        alert('exit?');
+        //alert('exit?');
 
-        
+
      });
 })
 
@@ -300,7 +300,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing){
     $scope.title = "LOOKBOOK"
 
    $scope.image = parseInt($stateParams.image);
@@ -308,9 +308,34 @@ angular.module('starter.controllers', [])
    $scope.nextImage = function(){
       $scope.image = $scope.image +1;
    }
-   //  var next = Math.floor((Math.random() * 8));
-   //   $scope.image = images[next];
-   // }
+   var message ="message";
+   var subject = "subject";
+   var link = "";
+   var  file = "http://krplus.com/lookbook/bob/BOB"+$scope.image+".jpg";
+   $scope.share = function(){
+      //console.log('share');
+    // $cordovaSocialSharing
+    // .shareViaFacebook(message, "", link)
+    // .then(function(result) {
+    //   // Success!
+    //   console.log(result);
+    // }, function(err) {
+    //   console.log(err);
+    //   // An error occurred. Show a message to the user
+    // });
+    
+    $cordovaSocialSharing
+    .share(message, subject, file, link) // Share via native share sheet
+    .then(function(result) {
+      // Success!
+      console.log("successfully");
+    }, function(err) {
+      console.log('err');
+      // An error occured. Show a message to the user
+    });
+
+   }
+   
 })
 
 .controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){

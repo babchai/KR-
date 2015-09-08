@@ -309,10 +309,27 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $mdDialog , $location, $cordovaFile,  Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout, $mdBottomSheet , $mdDialog , $location, $cordovaFile,   Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
+    //console.log(cordova.file.Pictures);
+
+     // $cordovaFile.checkDir(cordova.file.dataDirectory, "Pictures")
+     // .then(function (success) {
+     //    // success
+     //    console.log(success);
+     //  }, function (error) {
+     //    console.log(error);
+     //    // error
+     //  });
+
+    // $cordovaFile.readAsText(cordova.file.externalDataDirectory, $scope.inputs.readFile)
+    //   .then(function (success) {
+    //     // success
+    //   }, function (error) {
+    //     // error
+    //   });
 
     if(typeof $rootScope.pic == 'undefined')
     {
@@ -340,16 +357,17 @@ angular.module('starter.controllers', [])
   $scope.getPhotoBefore = function(index) {
      var option = {quality:50 , 
       //destinationType: Camera.DestinationType.FILE_URI,
+
       encodingType: 0,
       targetWidth: 1080,
       targetHeight: 1080,
-       allowEdit : true,
+      allowEdit : true,
       correctOrientation:true};
+
+
     Camera.getPicture(option).then(function(imageURI) {
         if(index < 3)
-          {
             $rootScope.pic.before[index] = imageURI;
-          }
         else
           $rootScope.pic.after[index-3] = imageURI;
     }, function(err) {
@@ -385,27 +403,33 @@ angular.module('starter.controllers', [])
   }
 
   function createFileEntry(fileURI) {
-      window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+    //console.log($rootScope.pic.before[0]);
+     var imageUrl = $rootScope.pic.before[0];
+     //console.log(imageUrl);
+     var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
+      var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
+      var newName = makeid() + name;
+
+      //console.log(namePath, name);
+      //console.log(cordova.file.dataDirectory, newName);
+
+      $cordovaFile.copyFile(namePath, name, cordova.file.externalDataDirectory, newName)
+        .then(function(info) {
+          console.log("success",info);
+            $rootScope.pic.after[0] = info.nativeURL;
+          //FileService.storeImage(newName);
+          //resolve();
+        }, function(e) {
+          console.log("Failed" , e);
+          //reject();
+        });
   }
 
-  //5
-  function copyFile(fileEntry) {
-    var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-    var newName = makeid() + name;
-
-    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
-        fileEntry.copyTo(
-            fileSystem2,
-            newName,
-            onCopySuccess,
-            fail
-        );
-    },
-    fail);
-  }
 
   // 6
   function onCopySuccess(entry) {
+    console.log(entry);
+
       $scope.$apply(function () {
           $scope.images.push(entry.nativeURL);
       });

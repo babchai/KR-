@@ -420,7 +420,8 @@ angular.module('starter.controllers', [])
           //FileService.storeImage(newName);
           //resolve();
         }, function(e) {
-          console.log("Failed" , e);
+          console.log("Failed" , 
+            e);
           //reject();
         });
   }

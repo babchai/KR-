@@ -2,7 +2,7 @@
 </div>
 <ion-view view-title="Lookbook" class="has-footer">
 
-<ion-content scroll="true" overflow-scroll="false" class="gallery" lazy-scroll >
+<ion-content scroll="true" overflow-scroll="true" class="gallery" lazy-scroll >
 <div class="gallery" style="background-color:#ffe54e"   >
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows">
@@ -12,7 +12,7 @@
         <div style="background-color:white">
            <div style="min-height:251px ; 
            background-color:white;
-           background:url('https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg') ;
+           background:url('http://krplus.com/lookbook/{{category}}/{{item}}') ;
            background-size:cover ; 
            background-repeat: no-repeat;
            "

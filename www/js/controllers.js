@@ -256,16 +256,43 @@ angular.module('starter.controllers', [])
 
 .controller('LoveitCtrl' , function($scope , $rootScope){
    $scope.title = "LOVE IT!";
+    var thumbArr = [];
+    
+    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/accessories");
 
-   var thumbArr = [];
+    var scrollRef = new Firebase.util.Scroll(lookbookRef, 'photos');
 
-    for(var i=1000; i<1050;i++)
-    {
-      //thumbArr.push('BOB - '+i+'.jpg');
-      thumbArr.push(i);
-    }
+        scrollRef.scroll.next(20);
 
-    $scope.thumbs = chunk(thumbArr , 2);
+
+    scrollRef.on("value", function(snapshot) {
+        console.log(snapshot.val());
+
+        //thumbArr.push(snapshot);
+        angular.forEach(snapshot.val() , function(photos, index){
+          //console.log(photos);
+          angular.forEach(photos , function(photo){
+            console.log(photo);
+            thumbArr.push(photo.filename);
+          })
+        })
+
+         $scope.thumbs = chunk(thumbArr , 2);
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+
+   // var thumbArr = [];
+
+   //  for(var i=1000; i<1050;i++)
+   //  {
+   //    //thumbArr.push('BOB - '+i+'.jpg');
+   //    thumbArr.push(i);
+   //  }
+
+   //  $scope.thumbs = chunk(thumbArr , 2);
 
 
     function chunk(arr, size) {
@@ -275,21 +302,49 @@ angular.module('starter.controllers', [])
       }
       return newArr;
     }
+
+
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading){
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams, $q){
 
+    console.log($stateParams.cat);
+    $scope.category = $stateParams.cat;
     $rootScope.footer = 'footer1'; 
     $scope.title = "Before & After"
     var thumbArr = [];
-    for(var i=100; i<105;i++)
-    {
-      thumbArr.push(i);
-    }
+    // for(var i=100; i<105;i++)
+    // {
+    //   thumbArr.push(i);
+    // }
 
-    $scope.thumbs = chunk(thumbArr , 2);
+    // $scope.thumbs = chunk(thumbArr , 2);
 
+    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.cat);
 
+    var scrollRef = new Firebase.util.Scroll(lookbookRef, 'photos');
+
+    scrollRef.scroll.next(10);
+
+    scrollRef.on("value", function(snapshot) {
+        console.log(snapshot.val());
+
+        //thumbArr.push(snapshot);
+      $q.all(
+        angular.forEach(snapshot.val() , function(photos, index){
+          //console.log(photos);
+          angular.forEach(photos , function(photo){
+            console.log(photo);
+            thumbArr.push(photo.filename);
+          })
+        })
+      ).then(function(){
+        console.log('done');
+        $scope.thumbs = chunk(thumbArr , 2);
+
+      })
+
+    })
 
     function chunk(arr, size) {
       var newArr = [];
@@ -569,7 +624,7 @@ angular.module('starter.controllers', [])
      $scope.title = "ACCOUNT SETTINGS"
      $scope.user = {}
     
-         var authData =   $localstorage.getObject("userData");
+      var authData =   $localstorage.getObject("userData");
 
      var profile = new Firebase("https://9lives.firebaseio.com/profile");
     

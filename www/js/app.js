@@ -83,9 +83,12 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   })
   .state('lookbook-sub', {
     cache : false,
-      url:"/lookbook-sub",
+      url:"/lookbook-sub/:category",
       templateUrl:"templates/lookbook-sub.html",
-      controller:"LookbookSubCtrl"
+      controller:"LookbookSubCtrl",
+      params:{
+        'cat':null
+      }
   })
   .state('promotions', {
     cache : false,

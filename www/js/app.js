@@ -70,19 +70,19 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"HomeCtrl"
   })
   .state('trending', {
-    cache : true,
+    cache : false,
     url : "/trending",
     templateUrl:"templates/trending.html",
     controller:"TrendingCtrl"
   })
   .state('loveit', {
-    cache : true,
+    cache : false,
     url : "/loveit",
     templateUrl:"templates/loveit.html",
     controller:"LoveitCtrl"
   })
   .state('lookbook-sub', {
-    cache : true,
+    cache : false,
       url:"/lookbook-sub",
       templateUrl:"templates/lookbook-sub.html",
       controller:"LookbookSubCtrl"
@@ -94,13 +94,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"PromotionsCtrl"
   })
   .state('lookbook', {
-    cache : true,
+    cache : false,
       url:"/lookbook",
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
   .state('lookbook-detail', {
-    cache : true,
+    cache : false,
       url:"/lookbook-detail/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
@@ -127,7 +127,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   })
  
   .state('stylist' , {
-    cache: true,
+    cache: false,
     url : "/stylist",
     templateUrl : "templates/stylist.html",
     controller:"StylistCtrl"

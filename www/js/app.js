@@ -104,7 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   })
   .state('lookbook-detail', {
     cache : false,
-      url:"/lookbook-detail/:image",
+      url:"/lookbook-detail/:category/:image",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })

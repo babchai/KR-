@@ -306,12 +306,12 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams, $q){
-
-    console.log($stateParams.cat);
-    $scope.category = $stateParams.cat;
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray, $q){
+    $ionicLoading.show();
+    console.log($stateParams.category);
+    $scope.category = $stateParams.category;
     $rootScope.footer = 'footer1'; 
-    $scope.title = "Before & After"
+    $scope.title = "kr+ Lookbook"
     var thumbArr = [];
     // for(var i=100; i<105;i++)
     // {
@@ -320,36 +320,52 @@ angular.module('starter.controllers', [])
 
     // $scope.thumbs = chunk(thumbArr , 2);
 
-    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.cat+"/photos");
+    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
 
-    var scrollRef = new Firebase.util.Scroll(lookbookRef, '10');
+
+    var scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
+
+    
+    scrollRef.on("value", function(snapshot) {
+      $ionicLoading.hide();
+      $scope.thumbArr = snapshot.val();
+    });
+
+
+    //$scope.thumbArr = $firebaseArray(scrollRef);
+
+    $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
+       //console.log($scope.thumbArr );
+
+       //$scope.thumbs = chunk($scope.thumbArr , 2);
+       if(newVal != oldVal)
+       {
+        //console.log(newVal , oldVal);
+         console.log($scope.thumbArr);
+         $scope.thumbs = chunk($scope.thumbArr , 2);
+       }
+
+     })  
+
     scrollRef.scroll.next(10);
 
+    $scope.loadMore = function()
+    {
+      console.log('loadMore');
+      scrollRef.scroll.next(10);
+      $scope.$broadcast('scroll.infiniteScrollComplete');
 
-    var p = scrollRef.on("value", function(snapshot) {
-        console.log(snapshot.val());
 
-        thumbArr.push(snapshot.filename);
+    }
 
-
-      // $q.all(
-      //   angular.forEach(snapshot.val() , function(photos, index){
-      //     //console.log(photos);
-      //     angular.forEach(photos , function(photo){
-      //       console.log(photo);
-      //       thumbArr.push(photo.filename);
-      //     })
-      //   })
-      // ).then(function(){
-      //   console.log('done');
-      //   $scope.thumbs = chunk(thumbArr , 2);
-
-      // })
-
-    })
+    $scope.moreDataCanBeLoaded = function()
+    {
+      console.log(scrollRef.scroll.hasNext());
+      return scrollRef.scroll.hasNext();
+    }
     
 
-    $scope.thumbs = chunk(thumbArr , 2);
+    //$scope.thumbs = chunk(thumbArr , 2);
 
     function chunk(arr, size) {
       var newArr = [];
@@ -362,8 +378,10 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing){
     $scope.title = "LOOKBOOK"
-
-   $scope.image = parseInt($stateParams.image);
+  
+  console.log($stateParams);
+   $scope.image = $stateParams.image;
+   $scope.category = $stateParams.category;
 
    $scope.nextImage = function(){
       $scope.image = $scope.image +1;
@@ -640,7 +658,7 @@ angular.module('starter.controllers', [])
 
         userRef.unauth();
         $localstorage.setObject("userData" , {});
-         $location.path('/login');
+        $location.path('/login');
      }
 })
 

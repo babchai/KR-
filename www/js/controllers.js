@@ -320,31 +320,36 @@ angular.module('starter.controllers', [])
 
     // $scope.thumbs = chunk(thumbArr , 2);
 
-    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.cat);
+    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.cat+"/photos");
 
-    var scrollRef = new Firebase.util.Scroll(lookbookRef, 'photos');
-
+    var scrollRef = new Firebase.util.Scroll(lookbookRef, '10');
     scrollRef.scroll.next(10);
 
-    scrollRef.on("value", function(snapshot) {
+
+    var p = scrollRef.on("value", function(snapshot) {
         console.log(snapshot.val());
 
-        //thumbArr.push(snapshot);
-      $q.all(
-        angular.forEach(snapshot.val() , function(photos, index){
-          //console.log(photos);
-          angular.forEach(photos , function(photo){
-            console.log(photo);
-            thumbArr.push(photo.filename);
-          })
-        })
-      ).then(function(){
-        console.log('done');
-        $scope.thumbs = chunk(thumbArr , 2);
+        thumbArr.push(snapshot.filename);
 
-      })
+
+      // $q.all(
+      //   angular.forEach(snapshot.val() , function(photos, index){
+      //     //console.log(photos);
+      //     angular.forEach(photos , function(photo){
+      //       console.log(photo);
+      //       thumbArr.push(photo.filename);
+      //     })
+      //   })
+      // ).then(function(){
+      //   console.log('done');
+      //   $scope.thumbs = chunk(thumbArr , 2);
+
+      // })
 
     })
+    
+
+    $scope.thumbs = chunk(thumbArr , 2);
 
     function chunk(arr, size) {
       var newArr = [];

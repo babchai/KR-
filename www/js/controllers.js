@@ -306,7 +306,9 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray, $q){
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $ionicScrollDelegate, $q){
+     $ionicScrollDelegate.scrollTop(false);
+
     $ionicLoading.show();
     console.log($stateParams.category);
     $scope.category = $stateParams.category;

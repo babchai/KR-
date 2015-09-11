@@ -306,48 +306,33 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray, $q){
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray, $q , $timeout){
     $ionicLoading.show();
     console.log($stateParams.category);
     $scope.category = $stateParams.category;
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+ Lookbook"
     var thumbArr = [];
-    // for(var i=100; i<105;i++)
-    // {
-    //   thumbArr.push(i);
-    // }
-
-    // $scope.thumbs = chunk(thumbArr , 2);
-
-    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
-
-
-    var scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
-
+   
+    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+    var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
     
+        
     scrollRef.on("value", function(snapshot) {
+      console.log(snapshot);
       $ionicLoading.hide();
       $scope.thumbArr = snapshot.val();
     });
-
-
-    //$scope.thumbArr = $firebaseArray(scrollRef);
-
+ 
     $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
-       //console.log($scope.thumbArr );
-
-       //$scope.thumbs = chunk($scope.thumbArr , 2);
-       if(newVal != oldVal)
-       {
+       
         //console.log(newVal , oldVal);
          console.log($scope.thumbArr);
-         $scope.thumbs = chunk($scope.thumbArr , 2);
-       }
-
+         if($scope.thumbArr)
+          $scope.thumbs = chunk($scope.thumbArr , 2);
      })  
-
     scrollRef.scroll.next(10);
+ 
 
     $scope.loadMore = function()
     {
@@ -360,11 +345,10 @@ angular.module('starter.controllers', [])
 
     $scope.moreDataCanBeLoaded = function()
     {
-      console.log(scrollRef.scroll.hasNext());
+      //console.log(scrollRef.scroll.hasNext());
       return scrollRef.scroll.hasNext();
     }
     
-
     //$scope.thumbs = chunk(thumbArr , 2);
 
     function chunk(arr, size) {
@@ -382,34 +366,48 @@ angular.module('starter.controllers', [])
   console.log($stateParams);
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
+   var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
 
+   //lookbookRef.orderByChild('filename').startAt($stateParams.image).once('value', function(data){
+    lookbookRef.once('value', function(data){
+      $scope.images = data.val();
+      console.log(data);
+      console.log(data.val());
+   });
+   
    $scope.nextImage = function(){
-      $scope.image = $scope.image +1;
+      $scope.image = $scope.image[3].filename;
+      console.log($scope.images);
+
    }
    var message ="message";
    var subject = "subject";
    var link = "";
-   var  file = "http://krplus.com/lookbook/bob/BOB"+$scope.image+".jpg";
+   var  file = "http://krplus.com/lookbook/"+$stateParams.category+"/"+$scope.image;
+
    $scope.share = function(){
-      //console.log('share');
-    // $cordovaSocialSharing
-    // .shareViaFacebook(message, "", link)
-    // .then(function(result) {
-    //   // Success!
-    //   console.log(result);
-    // }, function(err) {
-    //   console.log(err);
-    //   // An error occurred. Show a message to the user
-    // });
-    
     $cordovaSocialSharing
     .share(message, subject, file, link) // Share via native share sheet
     .then(function(result) {
-      // Success!
-      console.log("successfully");
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Social Share')
+          .content("Share successfully.")
+          .ok('Ok!')
+        );
+      
     }, function(err) {
       console.log('err');
-      // An error occured. Show a message to the user
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Social Share')
+          .content("Share failed. Please try again.")
+          .ok('Ok!')
+        );
     });
 
    }

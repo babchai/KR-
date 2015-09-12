@@ -4,17 +4,21 @@
 <ion-content scroll="false" overflow-scroll="false"  >
     <main class='md-fill' flex style="overflow: scroll;">
     	<md-card style="margin:0px">
-
-            <img image-lazy-src="http://krplus.com/lookbook/{{category}}/{{image}}" class="md-card-image"  
+            <!-- <img image-lazy-src="http://krplus.com/lookbook/{{category}}/{{image}}" class="md-card-image"  
 	        md-swipe-left="nextImage()" 
 	        md-swipe-right="nextImage()"
             image-lazy-loader="lines"
-            >
+            > -->
+            <img ng-src = "http://krplus.com/lookbook/{{category}}/{{image}}" class = "md-card-image"
+             on-swipe-left="nextImage()" 
+             on-swipe-right="prevImage()">
+
+
 	        <div class="image-desc">
 	        	<div class="content">
             <div class="row">
             <div class="col col-67" style="color:#ffe54e ; border-right: solid 1px; font-size:15px">
-			         #longhair #hairdo #haircolor #hightlight #sunshine
+			         {{tags}}
             </div>
             <div class="col" style="color:#ffe54e">
             <center>

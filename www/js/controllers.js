@@ -23,10 +23,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state){
-    var userData = "";
+    var userData = {};
     $scope.user = {};
-
-
+     //$state.go('home');
+     
      var userRef = new Firebase("https://9lives.firebaseio.com");
   
      userData = userRef.getAuth();
@@ -36,9 +36,11 @@ angular.module('starter.controllers', [])
         $state.go('home');
         //$location.path('/home');
 
-
+     
      userData = $localstorage.getObject('userData');
 
+   if(userData !== null)
+   {
     if(typeof userData.token !='undefined')
     {
       $ionicLoading.show();
@@ -51,6 +53,8 @@ angular.module('starter.controllers', [])
         }
       });
     }
+  }
+
 
 
   $scope.login  = function(authorizationForm){
@@ -207,8 +211,9 @@ angular.module('starter.controllers', [])
      });
 })
 
-.controller('LookbookCtrl', function($scope, $rootScope){
+.controller('LookbookCtrl', function($scope, $rootScope , $mdDialog){
     $rootScope.footer = 'footer1'; 
+
     $scope.title = "kr+ LOOKBOOK"
 
     $scope.lookbook = {};
@@ -220,12 +225,42 @@ angular.module('starter.controllers', [])
       $scope.search = false;
    }
 
+
+   $scope.faceMatric = function(items){
+    $scope.items = items;
+      $mdDialog.show({
+        controller: DialogController,
+        templateUrl: 'templates/face.tmp.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose:true,
+        locals: {
+           items: $scope.items
+         },
+      })
+      .then(function(answer) {
+        //console.log(answer);
+        //$scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        console.log('dialog closed.');
+        //$scope.status = 'You cancelled the dialog.';
+      });
+   }
+
     $scope.expand = function(){
       if($scope.lookbook.expand == true)
         $scope.lookbook.expand = false
       else
         $scope.lookbook.expand = true;
     }
+  
+    function DialogController ($scope, $mdDialog, items)
+    {
+      console.log('adad');
+      $scope.items = items;
+       console.log($scope.items);
+    }
+    //Cleanup the modal when we're done with it!
+
 
 })
 .controller('PromotionsCtrl', function($scope , $rootScope){
@@ -245,27 +280,31 @@ angular.module('starter.controllers', [])
    
     var  trendingRef = new Firebase("https://9lives.firebaseio.com/likes");
 
-    trendingRef.orderByChild("count").limitToFirst(50).on("child_added", function(snapshot) {
-          $ionicLoading.hide();
+    trendingRef.orderByChild("count").limitToFirst(50).on("value", function(snapshot) {
+        $ionicLoading.hide();
 
         console.log(snapshot.val());
-        $scope.thumbArr.push({
-          'key':snapshot.key(),
-          'val':snapshot.val()
+        snapshot.forEach(function(childSnaphot){
+          //console.log(childSnaphot.key() , childSnaphot.val());
+          $scope.thumbArr.push({
+            'key':childSnaphot.key(),
+            'val':childSnaphot.val()
+          });
         });
+        $scope.thumbs = chunk($scope.thumbArr.reverse() , 2);
 
-
+        
     });
 
     $scope.$watchCollection('thumbs' , function(){
       console.log($scope.thumbs);
     })
 
-      $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
-         console.log($scope.thumbArr);
-         if($scope.thumbArr)
-            $scope.thumbs = chunk($scope.thumbArr , 2);
-     })  
+    // $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
+    //      console.log($scope.thumbArr);
+    //      if($scope.thumbArr)
+    //         $scope.thumbs = chunk($scope.thumbArr , 2);
+    // })  
 
     function chunk(arr, size) {
       var newArr = [];
@@ -278,7 +317,6 @@ angular.module('starter.controllers', [])
     $scope.getPath = function(path)
     {
       var arr = path.split(':');
-      console.log(arr[0]+"/"+arr[1]+".jpg");
       return arr[0]+"/"+arr[1];
     }
 })
@@ -327,11 +365,53 @@ angular.module('starter.controllers', [])
 .controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $ionicScrollDelegate, $q){
     
     $ionicScrollDelegate.scrollTop(false);
+
+    switch($stateParams.category){
+    case 'before_and_after' :
+        $scope.title = "Before & After"
+      break;
+    case 'blow_out_bar':
+      $scope.title = "Blow Out Bar"
+    break;
+    case 'curly_hair_style':
+      $scope.title = " Curly Hair Style"
+    break;
+    case 'celebrity_hair_style':
+      $scope.title = "Celebrity Hair Style"
+    break;
+    case 'men_hair_style':
+      $scope.title = "Men Hair Style"
+    break;
+    case 'straight_hair_style':
+      $scope.title = "Straight Hair Style"
+    break;
+    case 'updo_hair_style':
+      $scope.title = "Updo Hair Style"
+    break;
+    case 'type-a':
+      $scope.title = "Type A (oval/restangle)"
+    break;
+    case 'type-b':
+      $scope.title = "Type B (square/round)"
+    break;
+    case 'type-c':
+      $scope.title = "Type C (diamond)"
+    break;
+    case 'type-d':
+      $scope.title = "Type D (triangle)" 
+    break;
+    case 'type-e':
+      $scope.title = "Type E (inverted triangle)"
+    break;
+
+    }
+
+
     $ionicLoading.show();
     console.log($stateParams.category);
     $scope.category = $stateParams.category;
     $rootScope.footer = 'footer1'; 
-    $scope.title = "kr+ Lookbook"
+    //$scope.title = "kr+ Lookbook"
     var thumbArr = [];
    
     var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
@@ -341,7 +421,20 @@ angular.module('starter.controllers', [])
     scrollRef.on("value", function(snapshot) {
       console.log(snapshot.key());
       $ionicLoading.hide();
-      $scope.thumbArr = snapshot.val();
+
+       snapshot.forEach(function(childSnaphot){
+          //console.log(childSnaphot.key() , childSnaphot.val());
+          thumbArr.push({
+            'key':childSnaphot.key(),
+            'val':childSnaphot.val()
+          });
+        });
+        $scope.thumbs = chunk(thumbArr , 2);
+
+      // $scope.thumbArr = {
+      //   'key' : snapshot.key(),
+      //   'val' : snapshot.val()
+      // }
     });
  
     $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
@@ -385,34 +478,71 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray){
     $scope.title = "LOOKBOOK"
-  
+  //console.log($stateParams)
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
-   var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+
+ 
    var imagename = $stateParams.image.split('.');
-   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+":"+imagename[0]);
+   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes");
 
 
-    voteRef.child('/by').orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
-       if(data.val()!==null)
-          $scope.volted = true;
-       else
-         $scope.volted = false;
-    });
+    if($localstorage.getObject('userData') )
+    {
+      voteRef.child($stateParams.category+":"+imagename[0]+"/by").orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
+         if(data.val()!==null)
+            $scope.volted = true;
+         else
+           $scope.volted = false;
+      });
+    }
 
-    voteRef.child('/count').on('value' , function(snapshot){
-      if(snapshot.val() === null)
-          $scope.count = "0 Love";
-      else
-        $scope.count = snapshot.val() + " Loves";
-    })
+   if($stateParams.id)
+   {
+
+    // var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+      voteRef.child('/count').on('value' , function(snapshot){
+        if(snapshot.val() === null)
+            $scope.count = "0 Love";
+        else
+          $scope.count = snapshot.val() + " Loves";
+      })
    
-   $scope.nextImage = function(){
-      $scope.image = $scope.images[3].filename;
-      console.log($scope.images);
-   }
+      //var  scrollRef = new Firebase.util.Scroll(lookbookRef,"filename");
+
+      //scrollRef.scroll.next(1);
+      $scope.nextID  = $stateParams.id;
+      var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+
+      $scope.images = $firebaseArray(lookbookRef);
+      
+
+       $scope.nextImage = function(){
+          console.log($scope.images);
+          var current = _.findIndex($scope.images , {'filename':$scope.image});
+          console.log($scope.images[current + 1].filename);
+          $scope.image = $scope.images[current + 1].filename;
+
+          imagename = $scope.image.split('.');
+          
+         voteRef.child($stateParams.category+":"+imagename[0]+"/by").orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
+         if(data.val()!==null)
+            $scope.volted = true;
+         else
+           $scope.volted = false;
+      });
+       }
+
+       $scope.prevImage = function(){
+         console.log($scope.images);
+          var current = _.findIndex($scope.images , {'filename':$scope.image});
+          console.log($scope.images[current - 1].filename);
+          $scope.image = $scope.images[current - 1].filename;
+       }
+
+    }
 
 
    var message ="message";

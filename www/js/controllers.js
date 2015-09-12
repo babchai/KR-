@@ -306,7 +306,10 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray, $q , $timeout){
+
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $ionicScrollDelegate, $q){
+    
+    $ionicScrollDelegate.scrollTop(false);
     $ionicLoading.show();
     console.log($stateParams.category);
     $scope.category = $stateParams.category;
@@ -319,7 +322,7 @@ angular.module('starter.controllers', [])
     
         
     scrollRef.on("value", function(snapshot) {
-      console.log(snapshot);
+      console.log(snapshot.key());
       $ionicLoading.hide();
       $scope.thumbArr = snapshot.val();
     });
@@ -329,15 +332,17 @@ angular.module('starter.controllers', [])
         //console.log(newVal , oldVal);
          console.log($scope.thumbArr);
          if($scope.thumbArr)
-          $scope.thumbs = chunk($scope.thumbArr , 2);
+            $scope.thumbs = chunk($scope.thumbArr , 2);
      })  
-    scrollRef.scroll.next(10);
+    scrollRef.scroll.next(20);
  
 
     $scope.loadMore = function()
     {
+          $ionicLoading.show();
+
       console.log('loadMore');
-      scrollRef.scroll.next(10);
+      scrollRef.scroll.next(20);
       $scope.$broadcast('scroll.infiniteScrollComplete');
 
 
@@ -345,7 +350,8 @@ angular.module('starter.controllers', [])
 
     $scope.moreDataCanBeLoaded = function()
     {
-      //console.log(scrollRef.scroll.hasNext());
+
+      var hasMore = scrollRef.scroll.hasNext();
       return scrollRef.scroll.hasNext();
     }
     
@@ -354,8 +360,10 @@ angular.module('starter.controllers', [])
     function chunk(arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
         newArr.push(arr.slice(i, i+size));
       }
+      //console.log(newArr);
       return newArr;
     }
 })
@@ -367,11 +375,12 @@ angular.module('starter.controllers', [])
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+    var imagename = $stateParams.image.split('.');
+    var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+"/"+imagename[0]+"/count");
 
    //lookbookRef.orderByChild('filename').startAt($stateParams.image).once('value', function(data){
     lookbookRef.once('value', function(data){
       $scope.images = data.val();
-      console.log(data);
       console.log(data.val());
    });
    
@@ -384,6 +393,13 @@ angular.module('starter.controllers', [])
    var subject = "subject";
    var link = "";
    var  file = "http://krplus.com/lookbook/"+$stateParams.category+"/"+$scope.image;
+
+   $scope.love = function(){
+    
+     voteRef.transaction(function(current_value){
+        return (current_value || 0) + 1; 
+     });
+   }
 
    $scope.share = function(){
     $cordovaSocialSharing

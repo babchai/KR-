@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase' ])
+angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore' ])
 .constant('$ionicLoadingConfig', {
   'duration':'12000' , 
   'hideOnStateChange' : true,
@@ -102,9 +102,12 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
+
+
+
   .state('lookbook-detail', {
     cache : false,
-      url:"/lookbook-detail/:category/:image",
+      url:"/lookbook-detail/:category/:image?id",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })

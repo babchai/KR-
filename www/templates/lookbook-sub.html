@@ -1,21 +1,20 @@
 <div header4>
 </div>
-<ion-view view-title="Lookbook" class="has-footer">
+<ion-view view-title="Lookbook" class="has-footer" has-bouncing="true">
 
 <ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
  <div class="gallery" style="background-color:#ffe54e"   >
-  <div class="row" ng-repeat = "rows in thumbs">
-   <div class="col" ng-repeat = "item in rows">
-   <a href="#/lookbook-detail/{{category}}/{{item.filename}}">
+  <div class="row" ng-repeat = "rows in thumbs ">
+   <div class="col" ng-repeat = "item in rows track by $index">
+   <a href="#/lookbook-detail/{{category}}/{{item.val.filename}}?id={{item.key}}">
+    {{item}}
         <div style="background-color:white">
            <div style="min-height:251px ; 
            background-color:white;
-           background:url('http://krplus.com/lookbook/{{category}}/{{item.filename}}') ;
+           background:url('http://krplus.com/lookbook/{{category}}/{{item.val.filename}}') ;
            background-size:cover ; 
            background-repeat: no-repeat;
-           "
-           
-           >
+           ">
            </div>
       </div>
       </a>

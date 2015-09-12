@@ -235,18 +235,37 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('TrendingCtrl' , function($scope , $rootScope){
+.controller('TrendingCtrl' , function($scope , $rootScope , $ionicLoading  ){
    $scope.title = "TRENDING";
 
-   var thumbArr = [];
+    $ionicLoading.show();
+    $rootScope.footer = 'footer1'; 
+    $scope.title = "kr+ Lookbook"
+    $scope.thumbArr = [];
+   
+    var  trendingRef = new Firebase("https://9lives.firebaseio.com/likes");
 
-    for(var i=1000; i<1205;i++)
-    {
-      thumbArr.push(i);
-    }
+    trendingRef.orderByChild("count").limitToFirst(50).on("child_added", function(snapshot) {
+          $ionicLoading.hide();
 
-    $scope.thumbs = chunk(thumbArr , 2);
+        console.log(snapshot.val());
+        $scope.thumbArr.push({
+          'key':snapshot.key(),
+          'val':snapshot.val()
+        });
 
+
+    });
+
+    $scope.$watchCollection('thumbs' , function(){
+      console.log($scope.thumbs);
+    })
+
+      $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
+         console.log($scope.thumbArr);
+         if($scope.thumbArr)
+            $scope.thumbs = chunk($scope.thumbArr , 2);
+     })  
 
     function chunk(arr, size) {
       var newArr = [];
@@ -254,6 +273,13 @@ angular.module('starter.controllers', [])
         newArr.push(arr.slice(i, i+size));
       }
       return newArr;
+    }
+
+    $scope.getPath = function(path)
+    {
+      var arr = path.split(':');
+      console.log(arr[0]+"/"+arr[1]+".jpg");
+      return arr[0]+"/"+arr[1];
     }
 })
 
@@ -285,18 +311,6 @@ angular.module('starter.controllers', [])
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-
-
-   // var thumbArr = [];
-
-   //  for(var i=1000; i<1050;i++)
-   //  {
-   //    //thumbArr.push('BOB - '+i+'.jpg');
-   //    thumbArr.push(i);
-   //  }
-
-   //  $scope.thumbs = chunk(thumbArr , 2);
-
 
     function chunk(arr, size) {
       var newArr = [];
@@ -374,50 +388,49 @@ angular.module('starter.controllers', [])
 .controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage){
     $scope.title = "LOOKBOOK"
   
-  console.log($stateParams);
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
    var imagename = $stateParams.image.split('.');
-   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+"/"+imagename[0]);
-    //var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category);
+   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+":"+imagename[0]);
 
 
-   //lookbookRef.orderByChild('filename').startAt($stateParams.image).once('value', function(data){
-    lookbookRef.once('value', function(data){
-      $scope.images = data.val();
-      console.log(data.val());
-   });
+    voteRef.child('/by').orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
+       if(data.val()!==null)
+          $scope.volted = true;
+       else
+         $scope.volted = false;
+    });
+
+    voteRef.child('/count').on('value' , function(snapshot){
+      if(snapshot.val() === null)
+          $scope.count = "0 Love";
+      else
+        $scope.count = snapshot.val() + " Loves";
+    })
    
    $scope.nextImage = function(){
-      $scope.image = $scope.image[3].filename;
+      $scope.image = $scope.images[3].filename;
       console.log($scope.images);
-
    }
+
+
    var message ="message";
    var subject = "subject";
    var link = "";
    var  file = "http://krplus.com/lookbook/"+$stateParams.category+"/"+$scope.image;
 
    $scope.love = function(){
-    
-   // voteRef.transaction(function(current_value){
-   //      return (current_value || 0) + 1; 
-   // });
-     //var imagename = $stateParams.image.split('.');
+      $scope.volted = true;
 
-  voteRef.child("/count").transaction(function(current_value){
-        return (current_value || 0) + 1; 
-  });
-  
-  var uid = $localstorage.getObject('userData').uid;
+      voteRef.child("/count").transaction(function(current_value){
 
-   voteRef.child("/by").push({'uid':uid}) 
-
-    
-
-
-
+            return (current_value || 0) + 1; 
+      });
+      
+      var uid = $localstorage.getObject('userData').uid;
+      voteRef.child("/by").push({'uid':uid});
+      //$scope.$apply();
    }
 
    $scope.share = function(){

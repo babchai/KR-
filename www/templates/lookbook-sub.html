@@ -6,7 +6,6 @@
  <div class="gallery" style="background-color:#ffe54e"   >
   <div class="row" ng-repeat = "rows in thumbs ">
    <div class="col" ng-repeat = "item in rows track by $index">
-    {{rows}}
    <a href="#/lookbook-detail/{{category}}/{{item.filename}}">
         <div style="background-color:white">
            <div style="min-height:251px ; 
@@ -14,9 +13,7 @@
            background:url('http://krplus.com/lookbook/{{category}}/{{item.filename}}') ;
            background-size:cover ; 
            background-repeat: no-repeat;
-           "
-           
-           >
+           ">
            </div>
       </div>
       </a>

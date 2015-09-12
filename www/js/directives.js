@@ -59,7 +59,8 @@ angular.module('starter.directives', [])
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
-                  '  <i class="ion-android-favorite-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()"></i>'+
+                  '  <i class="ion-android-favorite-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!volted"></i>'+
+                  '  <i class="ion-android-favorite" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="volted" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '</ion-header-bar>'

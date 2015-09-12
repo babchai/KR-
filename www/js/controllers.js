@@ -478,16 +478,21 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject){
     $scope.title = "LOOKBOOK"
   //console.log($stateParams)
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
+   $scope.votes = [];
 
  
    var imagename = $stateParams.image.split('.');
    var  voteRef = new Firebase("https://9lives.firebaseio.com/likes");
 
+     //console.log(snapshot.val());
+    $scope.votes = $firebaseObject(voteRef);
+
+   
 
     if($localstorage.getObject('userData') )
     {
@@ -499,51 +504,69 @@ angular.module('starter.controllers', [])
       });
     }
 
-   if($stateParams.id)
-   {
 
-    // var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
-      voteRef.child('/count').on('value' , function(snapshot){
+
+   // if($stateParams.id)
+   // {
+   // }
+
+      voteRef.child($stateParams.category+":"+imagename[0]+'/count').on('value' , function(snapshot){
         if(snapshot.val() === null)
-            $scope.count = "0 Love";
+            $scope.count = "0";
         else
-          $scope.count = snapshot.val() + " Loves";
+          $scope.count = snapshot.val() + "";
       })
    
-      //var  scrollRef = new Firebase.util.Scroll(lookbookRef,"filename");
 
-      //scrollRef.scroll.next(1);
       $scope.nextID  = $stateParams.id;
       var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
 
       $scope.images = $firebaseArray(lookbookRef);
       
 
-       $scope.nextImage = function(){
-          console.log($scope.images);
-          var current = _.findIndex($scope.images , {'filename':$scope.image});
-          console.log($scope.images[current + 1].filename);
-          $scope.image = $scope.images[current + 1].filename;
+      $scope.nextImage = function(direction){
 
-          imagename = $scope.image.split('.');
-          
-         voteRef.child($stateParams.category+":"+imagename[0]+"/by").orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
-         if(data.val()!==null)
-            $scope.volted = true;
-         else
-           $scope.volted = false;
-      });
-       }
+        var current = _.findIndex($scope.images , {'filename':$scope.image});
+        if(direction == 'fwd')
+          $scope.image = $scope.images[current + 1].filename; 
+        else
+          $scope.image = $scope.images[current - 1].filename; 
 
-       $scope.prevImage = function(){
-         console.log($scope.images);
-          var current = _.findIndex($scope.images , {'filename':$scope.image});
-          console.log($scope.images[current - 1].filename);
-          $scope.image = $scope.images[current - 1].filename;
-       }
+        var i = $scope.image.split('.');
 
-    }
+        if($scope.votes[$scope.category+':'+i[0]] !== undefined){
+            console.log( $scope.votes[$scope.category+':'+i[0]] );
+             if($scope.votes[$scope.category+':'+i[0]].count > 0)
+             {
+                $scope.count = $scope.votes[$scope.category+':'+i[0]].count;
+                //console.log($scope.count);
+             }
+             else
+             {
+                $scope.count = 0;
+                //console.log($scope.count);
+             }
 
+            var uid = $localstorage.getObject('userData').uid;
+            var find = _.find($scope.votes[$scope.category+':'+i[0]].by , {"uid":uid});
+            console.log(find);
+            if( find ===null || find === undefined )
+            {
+               $scope.volted = false;
+            }
+            else
+            {
+              $scope.volted = true;
+            }
+
+        }
+        else
+        {
+          $scope.volted = false;
+          $scope.count = 0;
+        }
+      
+      }
 
    var message ="message";
    var subject = "subject";
@@ -552,14 +575,16 @@ angular.module('starter.controllers', [])
 
    $scope.love = function(){
       $scope.volted = true;
-
-      voteRef.child("/count").transaction(function(current_value){
-
-            return (current_value || 0) + 1; 
+      var imagename = $scope.image.split('.');
+      console.log($stateParams.category+":"+imagename[0]+"/count");
+      voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
+            count = (current_value || 0) + 1
+            $scope.count = count;
+            return count; 
       });
       
       var uid = $localstorage.getObject('userData').uid;
-      voteRef.child("/by").push({'uid':uid});
+      voteRef.child($stateParams.category+":"+imagename[0]+"/by").push({'uid':uid});
       //$scope.$apply();
    }
 

@@ -10,8 +10,8 @@
             image-lazy-loader="lines"
             > -->
             <img ng-src = "http://krplus.com/lookbook/{{category}}/{{image}}" class = "md-card-image"
-             on-swipe-left="nextImage()" 
-             on-swipe-right="prevImage()">
+             on-swipe-left="nextImage('fwd')" 
+             on-swipe-right="nextImage('bwd')">
 
 
 	        <div class="image-desc">
@@ -23,7 +23,7 @@
             <div class="col" style="color:#ffe54e">
             <center>
                     <i class="icon ion-android-favorite-outline" style="font-size:20px"></i><br>
-                    {{count}}
+                    {{count}} Loves
             </center>
             </div>
             </div>

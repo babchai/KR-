@@ -22,7 +22,7 @@ angular.module('starter.controllers', [])
     $rootScope.footer = null;
 })
 
-.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage){
+.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state){
     var userData = "";
     $scope.user = {};
 
@@ -30,8 +30,11 @@ angular.module('starter.controllers', [])
      var userRef = new Firebase("https://9lives.firebaseio.com");
   
      userData = userRef.getAuth();
+     $localstorage.setObject('userData', userData);
+
      if(userData)
-        $location.path('/home');
+        $state.go('home');
+        //$location.path('/home');
 
 
      userData = $localstorage.getObject('userData');
@@ -368,15 +371,17 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage){
     $scope.title = "LOOKBOOK"
   
   console.log($stateParams);
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
-    var imagename = $stateParams.image.split('.');
-    var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+"/"+imagename[0]+"/count");
+   var imagename = $stateParams.image.split('.');
+   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+"/"+imagename[0]);
+    //var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category);
+
 
    //lookbookRef.orderByChild('filename').startAt($stateParams.image).once('value', function(data){
     lookbookRef.once('value', function(data){
@@ -396,9 +401,23 @@ angular.module('starter.controllers', [])
 
    $scope.love = function(){
     
-     voteRef.transaction(function(current_value){
+   // voteRef.transaction(function(current_value){
+   //      return (current_value || 0) + 1; 
+   // });
+     //var imagename = $stateParams.image.split('.');
+
+  voteRef.child("/count").transaction(function(current_value){
         return (current_value || 0) + 1; 
-     });
+  });
+  
+  var uid = $localstorage.getObject('userData').uid;
+
+   voteRef.child("/by").push({'uid':uid}) 
+
+    
+
+
+
    }
 
    $scope.share = function(){

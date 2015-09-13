@@ -19,6 +19,16 @@
   <preference name="Fullscreen" value="false" />
   <preference name="Orientation" value="portrait" />
 
+
+    <preference name="iosPersistentFileLocation" value="Library" />
+
+    <preference name="iosPersistentFileLocation" value="Compatibility" />
+
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+    </feature>
+
+
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
@@ -26,6 +36,7 @@
   <feature name="Camera">
       <param name="ios-package" value="CDVCamera" />
   </feature>
+
 
   <platform name="ios">
     <splash src="resources/ios/splash/Default-568h@2x~iphone.png" width="640" height="1136"/>

@@ -322,12 +322,7 @@ angular.module('starter.controllers', [])
       console.log($scope.thumbs);
     })
 
-    // $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
-    //      console.log($scope.thumbArr);
-    //      if($scope.thumbArr)
-    //         $scope.thumbs = chunk($scope.thumbArr , 2);
-    // })  
-
+    
     function chunk(arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -343,35 +338,47 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LoveitCtrl' , function($scope , $rootScope){
+.controller('LoveitCtrl' , function($scope , $rootScope , $ionicLoading, $localstorage , $stateParams){
    $scope.title = "LOVE IT!";
-    var thumbArr = [];
+    $ionicLoading.show();
+    $rootScope.footer = 'footer1'; 
+    $scope.thumbArr = [];
+   
+    var  loveRef = new Firebase("https://9lives.firebaseio.com/likes");
+
+
+   //$scope.votes = $firebaseObject(voteRef);
+console.log($localstorage.getObject('userData').uid);
+
+    loveRef.orderByChild("uid")
+    .on("value", function(snapshot) {
+        $ionicLoading.hide();
+        //console.log(snapshot.val());
+        snapshot.forEach(function(childSnaphot){
+          if(_.find(childSnaphot.val().by , {'uid':$localstorage.getObject('userData').uid})){
+              //console.log(childSnaphot.key());
+              var data = childSnaphot.key().split(':');
+              console.log(data); 
+              $scope.thumbArr.push({
+                'category':data[0],
+                'filename':data[1]
+              })
+          };
+
+       
+        });
+        console.log($scope.thumbArr);
+
+        $scope.thumbs = chunk($scope.thumbArr , 2);  
+      });
+   
+
+
+    // $scope.$watchCollection('thumbs' , function(){
+    //   console.log($scope.thumbs);
+    // })
+
     
-    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/accessories");
-
-    var scrollRef = new Firebase.util.Scroll(lookbookRef, 'photos');
-
-        scrollRef.scroll.next(20);
-
-
-    scrollRef.on("value", function(snapshot) {
-        console.log(snapshot.val());
-
-        //thumbArr.push(snapshot);
-        angular.forEach(snapshot.val() , function(photos, index){
-          //console.log(photos);
-          angular.forEach(photos , function(photo){
-            console.log(photo);
-            thumbArr.push(photo.filename);
-          })
-        })
-
-         $scope.thumbs = chunk(thumbArr , 2);
-
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
     function chunk(arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -380,6 +387,11 @@ angular.module('starter.controllers', [])
       return newArr;
     }
 
+    $scope.getPath = function(path)
+    {
+      var arr = path.split(':');
+      return arr[0]+"/"+arr[1];
+    }
 
 })
 
@@ -500,7 +512,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject , $ionicPlatform){
     $scope.title = "LOOKBOOK"
   //console.log($stateParams)
    $scope.image = $stateParams.image;
@@ -511,8 +523,7 @@ angular.module('starter.controllers', [])
    var imagename = $stateParams.image.split('.');
    var  voteRef = new Firebase("https://9lives.firebaseio.com/likes");
 
-     //console.log(snapshot.val());
-    $scope.votes = $firebaseObject(voteRef);
+   $scope.votes = $firebaseObject(voteRef);
 
    
 
@@ -610,7 +621,8 @@ angular.module('starter.controllers', [])
       //$scope.$apply();
    }
 
-   $scope.share = function(){
+  $scope.share = function(){
+  $ionicPlatform.ready(function() {
     $cordovaSocialSharing
     .share(message, subject, file, link) // Share via native share sheet
     .then(function(result) {
@@ -635,6 +647,9 @@ angular.module('starter.controllers', [])
         );
     });
 
+  });
+
+
    }
    
 })
@@ -644,10 +659,11 @@ angular.module('starter.controllers', [])
    $scope.title = 'My LOOKBOOK';
 
    $scope.mylookbook = $localstorage.getArray('lookook');
+   console.log("lookbook :"  , $scope.mylookbook);
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile,   Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile, $ionicPlatform,    Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
@@ -659,21 +675,6 @@ angular.module('starter.controllers', [])
        }
     }
 
-  // $scope.popup = function(path){
-  //   $mdDialog.show({
-  //       controller : popoutCtrl,
-  //       templateUrl: 'templates/photo.tmp.html',
-  //       locals:{
-  //         photo : $scope.items
-  //       },
-  //       parent: angular.element(document.body),
-  //       clickOutsideToClose:true
-  //     })
-  // }  
-  // function popoutCtrl($scope)
-  // {
-  //   $scope.items = "iemasd";
-  // }
 
   $scope.showListBottomSheet = function(index) {
     //$scope.photoIndex = index;
@@ -753,32 +754,30 @@ angular.module('starter.controllers', [])
   }
 
   function createFileEntry(imageUrl) {
-    //console.log($rootScope.pic.before[0]);
-     //var imageUrl = $rootScope.pic.before[0];
-     //console.log(imageUrl);
+  
      var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
       var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
       var newName = makeid() + name;
 
-      //console.log(namePath, name);
-      //console.log(cordova.file.dataDirectory, newName);
+     
+      $ionicPlatform.ready(function() {
+        $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
+          .then(function(info) {
+            console.log("success",info);
+            var library =  $localstorage.getArray('lookook');
+            library.push({
+               'stylist' : $rootScope.stylist,
+               'date'    :new Date(),
+               'photo'   : cordova.file.dataDirectory+newName
+            });
+            $localstorage.setArray('lookook', library);
+            console.log(library);
 
-      $cordovaFile.copyFile(namePath, name, cordova.file.externalDataDirectory, newName)
-        .then(function(info) {
-          console.log("success",info);
-          var library =  $localstorage.getArray('lookook');
-          library.push({
-             'stylist' : $rootScope.stylist,
-             'date'    :new Date(),
-             'photo'   : cordova.file.externalDataDirectory+newName
+          }, function(e) {
+            console.log("Failed" , e);
+            //reject();
           });
-          $localstorage.setArray('lookook', library);
-
-        }, function(e) {
-          console.log("Failed" , 
-            e);
-          //reject();
-        });
+      });
   }
 
 
@@ -866,9 +865,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SettingCtrl' , function($scope , $localstorage,$location){
+.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading){
+  $ionicLoading.show();
      $scope.title = "ACCOUNT SETTINGS"
      $scope.user = {}
+
     
       var authData =   $localstorage.getObject("userData");
 
@@ -876,10 +877,12 @@ angular.module('starter.controllers', [])
     
     console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
      profile.on('value' , function(snapshot){
-       //console.log(snapshot.val());
        if(snapshot.val() !== null)
        {
+         $ionicLoading.hide();
           console.log(snapshot.val());
+          $scope.user = snapshot.val();
+          $scope.user.avatar = "img/avatar.png";
        }
      })
 

@@ -37,7 +37,7 @@ angular.module('starter.controllers', [])
         //$location.path('/home');
 
      
-     userData = $localstorage.getObject('userData');
+    userData = $localstorage.getObject('userData');
 
    if(userData !== null)
    {
@@ -117,23 +117,46 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('SignupCtrl', function($scope , $rootScope){
+.controller('SignupCtrl', function($scope , $rootScope , $ionicHistory , $ionicLoading, $state , $mdDialog){
   $scope.title="SIGN UP";
   $scope.user = {};
   ///var ref = new Firebase("https://9lives.firebaseio.com");
 
   $scope.signup = function()
   {
-
+    $ionicLoading.show();
       var userRef = new Firebase("https://9lives.firebaseio.com");
       userRef.createUser({
         email    : $scope.user.email,
         password : $scope.user.password
       }, function(error, userData) {
         if (error) {
+          $ionicLoading.hide();
+
+          var message = "Sorry. Signup failed."
+          if(error.code == "EMAIL_TAKEN")
+          {
+            message = "Sorry. Email already taken. Please use another email. ";
+          }
+          else if(error.code == "INVALID_EMAIL")
+          {
+            message = "Sorry. The specified email is invalid.";
+          }
+
+
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .title('Signup Failed')
+              .content(message)
+              .ok('Got it!')
+          );
+
           console.log("Error creating user:", error);
         } else {
 
+           $ionicLoading.hide();
           var profile = userRef.child("profile/"+userData.uid);
           
           var profileObj = {};
@@ -147,8 +170,7 @@ angular.module('starter.controllers', [])
           profile.set(profileObj);
 
           $rootScope.registerSuccess = true;
-          window.history.back();
-          
+          $state.go('login');
         }
       });
   }
@@ -850,8 +872,17 @@ angular.module('starter.controllers', [])
     
       var authData =   $localstorage.getObject("userData");
 
-     var profile = new Firebase("https://9lives.firebaseio.com/profile");
+     var profile = new Firebase("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
     
+    console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
+     profile.on('value' , function(snapshot){
+       //console.log(snapshot.val());
+       if(snapshot.val() !== null)
+       {
+          console.log(snapshot.val());
+       }
+     })
+
 
 
      $scope.logout = function(){

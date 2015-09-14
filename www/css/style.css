@@ -68,7 +68,8 @@ html, body{
 }*/
 
 .login-wraper{
-	padding:16px;
+	/*padding:16px;*/
+    padding: 8px;
 	
 }
 .login-textfield{
@@ -303,4 +304,14 @@ html, body{
 }
 .error{
     color: red
+}
+
+.btn-active{
+     border-color: #555555;
+    background-color: #555555 !important;
+    color: #FFE54E;
+}
+.button:hover {
+    color: #FFE54E;
+    text-decoration: none;
 }

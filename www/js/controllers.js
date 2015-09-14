@@ -122,6 +122,11 @@ angular.module('starter.controllers', [])
   $scope.user = {};
   ///var ref = new Firebase("https://9lives.firebaseio.com");
 
+  $scope.setGender = function(gender)
+  {
+    $scope.user.gender = gender;
+  }
+  
   $scope.signup = function()
   {
     $ionicLoading.show();
@@ -164,7 +169,8 @@ angular.module('starter.controllers', [])
           profileObj = {
             'name' : $scope.user.name,
             'email' : $scope.user.email,
-            'contact' : $scope.user.contact
+            'contact' : $scope.user.contact,
+            'gender' : $scope.user.gender
           }
 
           profile.set(profileObj);
@@ -875,18 +881,23 @@ console.log($localstorage.getObject('userData').uid);
 
      var profile = new Firebase("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
     
-    console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
+    //console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
      profile.on('value' , function(snapshot){
        if(snapshot.val() !== null)
        {
          $ionicLoading.hide();
-          console.log(snapshot.val());
           $scope.user = snapshot.val();
           $scope.user.avatar = "img/avatar.png";
        }
      })
 
+     $scope.setGender = function(gender){
+        $scope.user.gender = gender;
+        profile.update({
+          'gender':$scope.user.gender
+        })
 
+     }
 
      $scope.logout = function(){
        var userRef = new Firebase("https://9lives.firebaseio.com");

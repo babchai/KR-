@@ -112,6 +112,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"LookbookDetailCtrl"
   })
 
+   .state('lookbook-detail2', {
+    cache : false,
+      url:"/lookbook-detail",
+      templateUrl:"templates/lookbook-detail.html",
+      controller:"LookbookDetailCtrl"
+  })
+
   .state('mylookbook', {
     cache : false,
       url:"/mylookbook",

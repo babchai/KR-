@@ -306,12 +306,16 @@ html, body{
     color: red
 }
 
-.btn-active{
+.button-bar .btn-active{
      border-color: #555555;
     background-color: #555555 !important;
     color: #FFE54E;
 }
 .button:hover {
-    color: #FFE54E;
+    //color: #FFE54E;
     text-decoration: none;
+}
+
+.custom-popup .popup-head{
+    display: none;
 }

@@ -37,23 +37,23 @@ angular.module('starter.controllers', [])
         //$location.path('/home');
 
      
-    userData = $localstorage.getObject('userData');
+  //   userData = $localstorage.getObject('userData');
 
-   if(userData !== null)
-   {
-    if(typeof userData.token !='undefined')
-    {
-      $ionicLoading.show();
-      userRef.authWithCustomToken(userData.token , function(error, newUserdata){
-        $ionicLoading.hide();
-        if(!error)
-        {
-          $localstorage.setObject("userData" , newUserdata);
-          $location.path('/home');
-        }
-      });
-    }
-  }
+  //  if(userData !== null)
+  //  {
+  //   if(typeof userData.token !='undefined')
+  //   {
+  //     $ionicLoading.show();
+  //     userRef.authWithCustomToken(userData.token , function(error, newUserdata){
+  //       $ionicLoading.hide();
+  //       if(!error)
+  //       {
+  //         $localstorage.setObject("userData" , newUserdata);
+  //         $location.path('/home');
+  //       }
+  //     });
+  //   }
+  // }
 
 
 
@@ -291,10 +291,21 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('PromotionsCtrl', function($scope , $rootScope){
+.controller('PromotionsCtrl', function($scope , $rootScope, $ionicLoading , $firebaseArray){
     //$rootScope.header = 'header4';
+    $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
-    $scope.title = "PROMOTIONS"
+    $scope.title = "PROMOTIONS";
+
+    var promoRef = new Firebase("https://9lives.firebaseio.com/promotions");
+    $scope.promotions = $firebaseArray(promoRef);
+
+    $scope.promotions.$loaded(function(data){
+      $ionicLoading.hide();
+    })
+   //  $scope.$watch('promoRef', function(newVal , oldVal) {
+   //     console.log(newVal , oldVal);
+   // });
 
 })
 
@@ -344,7 +355,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LoveitCtrl' , function($scope , $rootScope , $ionicLoading, $localstorage , $stateParams){
+.controller('LoveitCtrl' , function($scope , $rootScope , $ionicLoading, $localstorage , $stateParams, $ionicScrollDelegate){
    $scope.title = "LOVE IT!";
     $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
@@ -354,8 +365,11 @@ angular.module('starter.controllers', [])
 
 
    //$scope.votes = $firebaseObject(voteRef);
-console.log($localstorage.getObject('userData').uid);
-
+   $scope.scroll = function(){
+      //$ionicScrollDelegate.scrollBottom();
+      //$ionicScrollDelegate.scrollTo(0,10, 100);
+      console.log($ionicScrollDelegate.getScrollView());
+   }
     loveRef.orderByChild("uid")
     .on("value", function(snapshot) {
         $ionicLoading.hide();
@@ -871,7 +885,7 @@ console.log($localstorage.getObject('userData').uid);
 
 })
 
-.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading){
+.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
   $ionicLoading.show();
      $scope.title = "ACCOUNT SETTINGS"
      $scope.user = {}
@@ -906,7 +920,71 @@ console.log($localstorage.getObject('userData').uid);
         $localstorage.setObject("userData" , {});
         $location.path('/login');
      }
-})
+
+    $scope.changePassword = function() {
+      $scope.password = {}
+
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"> '+
+                  '</div>'+
+                   ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%">'+
+                  ' </div>'+
+                  ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%">'+
+                  ' </div>',
+        scope: $scope,
+        cssClass: 'custom-popup',
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'cus-button',
+            onTap: function(e) {
+              if ($scope.newPassword != $scope.confirmPassword) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                  return true;
+              }
+            }
+          }
+        ]
+      });
+
+      myPopup.then(function(res) {
+        if(res)
+        {
+          $ionicLoading.show();
+           var userRef = new Firebase("https://9lives.firebaseio.com");
+           userRef.changePassword({
+              'email' : $scope.user.email,
+              'oldPassword': $scope.password.oldPassword,
+              'newPassword' : $scope.password.newPassword
+           }, function(error){
+             $ionicLoading.hide();
+            if (error) {
+                switch (error.code) {
+                  case "INVALID_PASSWORD":
+                    alert("Error changing password. The specified user account password is incorrect.");
+                    break;
+                  default:
+                     alert("Error changing password");
+                }
+              }
+              else
+              {
+                alert("Password changed successfully.")
+              }
+           })
+         }
+        console.log('Tapped!', res);
+      });
+
+     };
+  })
 
 
 .controller('AccountCtrl', function($scope) {

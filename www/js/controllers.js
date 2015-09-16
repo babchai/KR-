@@ -986,12 +986,22 @@ angular.module('starter.controllers', [])
      };
   })
 
-.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory) {
+.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory , $firebaseObject) {
     $scope.search = {};
     $ionicLoading.show();
 
     var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
+    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
+
+    //var lookbook = $firebaseArray(lookbookRef);
+
     $scope.tags = $firebaseArray(tagsRef);
+  
+    // lookbook.$loaded(function(data){
+    //     console.log(data);
+    //     var flat = _.flatten(_.map(data, _.values));
+    //     console.log(flat);
+    // });
 
     $scope.tags.$loaded(function(data){
       $ionicLoading.hide();

@@ -123,9 +123,8 @@ angular.module('starter.directives', [])
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
-                   '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ></i>'+
+                   '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ui-sref="search" ></i>'+
                    '</div>'+
-                    '<md-tooltip>Coming Soon</md-tooltip>'+
                    '</ion-header-bar>'
     }
 })

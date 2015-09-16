@@ -986,6 +986,33 @@ angular.module('starter.controllers', [])
      };
   })
 
+.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory) {
+    $scope.search = {};
+    $ionicLoading.show();
+
+    var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
+    $scope.tags = $firebaseArray(tagsRef);
+
+    $scope.tags.$loaded(function(data){
+      $ionicLoading.hide();
+    })
+
+    $scope.$watchCollection('search.tag', function(newVal , oldVal){
+       if($scope.search.tag !='')
+       {
+          $scope.search.result =   _.filter($scope.tags ,function(res) {
+            return res.$id.indexOf($scope.search.tag)>=0;
+          })
+        }
+    })
+
+    $scope.cancel = function()
+    {
+      console.log('goBack');
+      $ionicHistory.goBack();
+    }
+
+})
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

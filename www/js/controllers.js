@@ -986,7 +986,7 @@ angular.module('starter.controllers', [])
      };
   })
 
-.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory , $firebaseObject) {
+.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory , $firebaseObject , $state) {
     $scope.search = {};
     $ionicLoading.show();
 
@@ -996,13 +996,8 @@ angular.module('starter.controllers', [])
     //var lookbook = $firebaseArray(lookbookRef);
 
     $scope.tags = $firebaseArray(tagsRef);
-  
-    // lookbook.$loaded(function(data){
-    //     console.log(data);
-    //     var flat = _.flatten(_.map(data, _.values));
-    //     console.log(flat);
-    // });
 
+  
     $scope.tags.$loaded(function(data){
       $ionicLoading.hide();
     })
@@ -1016,10 +1011,45 @@ angular.module('starter.controllers', [])
         }
     })
 
+    $scope.stringify = function(j)
+    {
+      return JSON.stringify(j);
+    }
+
     $scope.cancel = function()
     {
       console.log('goBack');
       $ionicHistory.goBack();
+    }
+
+    $scope.redirect =function(obj)
+    {
+      console.log(obj);
+      $state.go('search_result' , { 'tag': obj.$id, 'link':obj.Links});
+    }
+
+})
+.controller('SearchResultCtrl' , function($scope , $stateParams){
+
+       var thumbArr = [];
+       var links = $stateParams.link;
+       $scope.title = "#"+$stateParams.tag; 
+
+      angular.forEach(links ,  function(data){
+        thumbArr.push(data);
+      })
+
+      $scope.thumbs = chunk(thumbArr , 2);
+
+      function chunk(arr, size) {
+
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      console.log(newArr);
+      return newArr;
     }
 
 })

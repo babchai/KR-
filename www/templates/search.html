@@ -11,12 +11,13 @@
   </button>
 </div>
 
-<ul class="list" ng-repeat = "r in search.result">
-    <li class="item" style="background:none">
+<ul class="list" ng-repeat = "r in search.result"><!-- 
+    <li class="item" style="background:none" ui-sref="search_result({'link':'s'})"> -->
+    <li class="item" style="background:none" ng-click="redirect(r)">
        #{{r.$id}}
     </li>
 </ul>
 
 </ion-content>
 </ion-view>
-
+<div footer></div>

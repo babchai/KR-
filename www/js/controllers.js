@@ -985,6 +985,73 @@ angular.module('starter.controllers', [])
      };
   })
 
+.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory , $firebaseObject , $state) {
+    $scope.search = {};
+    $ionicLoading.show();
+
+    var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
+    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
+
+    //var lookbook = $firebaseArray(lookbookRef);
+
+    $scope.tags = $firebaseArray(tagsRef);
+
+  
+    $scope.tags.$loaded(function(data){
+      $ionicLoading.hide();
+    })
+
+    $scope.$watchCollection('search.tag', function(newVal , oldVal){
+       if($scope.search.tag !='')
+       {
+          $scope.search.result =   _.filter($scope.tags ,function(res) {
+            return res.$id.indexOf($scope.search.tag)>=0;
+          })
+        }
+    })
+
+    $scope.stringify = function(j)
+    {
+      return JSON.stringify(j);
+    }
+
+    $scope.cancel = function()
+    {
+      console.log('goBack');
+      $ionicHistory.goBack();
+    }
+
+    $scope.redirect =function(obj)
+    {
+      console.log(obj);
+      $state.go('search_result' , { 'tag': obj.$id, 'link':obj.Links});
+    }
+
+})
+.controller('SearchResultCtrl' , function($scope , $stateParams){
+
+       var thumbArr = [];
+       var links = $stateParams.link;
+       $scope.title = "#"+$stateParams.tag; 
+
+      angular.forEach(links ,  function(data){
+        thumbArr.push(data);
+      })
+
+      $scope.thumbs = chunk(thumbArr , 2);
+
+      function chunk(arr, size) {
+
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      console.log(newArr);
+      return newArr;
+    }
+
+})
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

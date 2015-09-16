@@ -145,9 +145,26 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     templateUrl : "templates/stylist.html",
     controller:"StylistCtrl"
   })
- 
+
+  .state('search' , {
+    cache: true,
+    url : "/search",
+    templateUrl : "templates/search.html",
+    controller:"SearchCtrl"
+  })
+
+ .state('search_result' , {
+    cache: true,
+    url : "/search_result",
+    templateUrl : "templates/search_result.html",
+    controller:"SearchResultCtrl",
+    params : {
+      'tag' : null,
+      'link' : null
+    }
+  })
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'

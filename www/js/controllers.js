@@ -314,7 +314,6 @@ angular.module('starter.controllers', [])
 
     $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
-    $scope.title = "kr+ Lookbook"
     $scope.thumbArr = [];
    
     var  trendingRef = new Firebase("https://9lives.firebaseio.com/likes");

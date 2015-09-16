@@ -56,7 +56,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     url:'/login',
     templateUrl : 'templates/login.html',
     controller: 'LoginCtrl',
-     cache : false
+     cache : true
   })
    .state('forgetPassword', {
     url:'/forgetPasssword',
@@ -64,25 +64,25 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     controller: 'ForgetPasswordCtrl'
   })
   .state('home', {
-      cache : false,
+      cache : true,
       url:"/home",
       templateUrl:"templates/home.html",
       controller:"HomeCtrl"
   })
   .state('trending', {
-    cache : false,
+    cache : true,
     url : "/trending",
     templateUrl:"templates/trending.html",
     controller:"TrendingCtrl"
   })
   .state('loveit', {
-    cache : false,
+    cache : true,
     url : "/loveit",
     templateUrl:"templates/loveit.html",
     controller:"LoveitCtrl"
   })
   .state('lookbook-sub', {
-    cache : false,
+    cache : true,
       url:"/lookbook-sub/:category",
       templateUrl:"templates/lookbook-sub.html",
       controller:"LookbookSubCtrl",
@@ -91,13 +91,13 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       }
   })
   .state('promotions', {
-    cache : false,
+    cache : true,
       url:"/promotions",
       templateUrl:"templates/promotions.html",
       controller:"PromotionsCtrl"
   })
   .state('lookbook', {
-    cache : false,
+    cache : true,
       url:"/lookbook",
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
@@ -106,41 +106,41 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
 
 
   .state('lookbook-detail', {
-    cache : false,
+    cache : true,
       url:"/lookbook-detail/:category/:image?id",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })
 
    .state('lookbook-detail2', {
-    cache : false,
+    cache : true,
       url:"/lookbook-detail",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })
 
   .state('mylookbook', {
-    cache : false,
+    cache : true,
       url:"/mylookbook",
       templateUrl:"templates/mylookbook.html",
       controller:"MyLookbookCtrl"
   })
   .state('mylookbook-add', {
-    cache : false,
+    cache : true,
       url:"/mylookbook-add",
       templateUrl:"templates/mylookbook-add.html",
       controller:"MyLookbookAddCtrl"
   })
 
   .state('video', {
-    cache : false,
+    cache : true,
       url:"/video",
       templateUrl:"templates/video.html",
       controller:"VideoCtrl"
   })
  
   .state('stylist' , {
-    cache: false,
+    cache: true,
     url : "/stylist",
     templateUrl : "templates/stylist.html",
     controller:"StylistCtrl"

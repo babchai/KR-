@@ -126,12 +126,17 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"MyLookbookCtrl"
   })
   .state('mylookbook-add', {
-    cache : true,
+      cache : false,
       url:"/mylookbook-add",
       templateUrl:"templates/mylookbook-add.html",
       controller:"MyLookbookAddCtrl"
   })
-
+  .state('mylookbook-all', {
+    cache : true,
+      url:"/mylookbook-all",
+      templateUrl:"templates/mylookbook-all.html",
+      controller:"MyLookbookAllCtrl"
+  })
   .state('video', {
     cache : true,
       url:"/video",

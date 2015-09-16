@@ -661,6 +661,28 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('MyLookbookAllCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){
+
+   $scope.title = 'My LOOKBOOK';
+
+   $scope.mylookbook = $localstorage.getArray('lookook');
+   //console.log("lookbook :"  , $scope.mylookbook);
+
+    $scope.thumbs = chunk($scope.mylookbook , 2);
+
+    function chunk(arr, size) {
+
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      console.log(newArr);
+      return newArr;
+    }
+
+})
+
 .controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile, $ionicPlatform,    Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];

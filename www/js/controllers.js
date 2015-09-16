@@ -58,6 +58,7 @@ angular.module('starter.controllers', [])
 
 
   $scope.login  = function(authorizationForm){
+    $localstorage.setObject("userData", {})
     if(!authorizationForm.$valid)
     {
        $mdDialog.show(
@@ -95,7 +96,7 @@ angular.module('starter.controllers', [])
       {
         $ionicLoading.hide();
         $localstorage.setObject("userData" , authData);
-        $location.path('/home');
+        $state.go('home');
 
       }
 
@@ -239,13 +240,27 @@ angular.module('starter.controllers', [])
      });
 })
 
-.controller('LookbookCtrl', function($scope, $rootScope , $mdDialog){
+.controller('LookbookCtrl', function($scope, $rootScope , $mdDialog, $firebaseArray, $ionicLoading){
+
+    $ionicLoading.show();
+
     $rootScope.footer = 'footer1'; 
 
     $scope.title = "kr+ LOOKBOOK"
 
     $scope.lookbook = {};
    
+    var categoriesRef = new Firebase("https://9lives.firebaseio.com/categories");
+
+
+    var categories = $firebaseArray(categoriesRef);
+
+    categories.$loaded(function(data){
+        $ionicLoading.hide();
+        $scope.categories = data;
+    })
+
+
    $scope.find = function(){
       $scope.search = true;
    }
@@ -419,55 +434,19 @@ angular.module('starter.controllers', [])
     
     $ionicScrollDelegate.scrollTop(false);
 
-    switch($stateParams.category){
-    case 'before_and_after' :
-        $scope.title = "Before & After"
-      break;
-    case 'blow_out_bar':
-      $scope.title = "Blow Out Bar"
-    break;
-    case 'curly_hair_style':
-      $scope.title = " Curly Hair Style"
-    break;
-    case 'celebrity_hair_style':
-      $scope.title = "Celebrity Hair Style"
-    break;
-    case 'men_hair_style':
-      $scope.title = "Men Hair Style"
-    break;
-    case 'straight_hair_style':
-      $scope.title = "Straight Hair Style"
-    break;
-    case 'updo_hair_style':
-      $scope.title = "Updo Hair Style"
-    break;
-    case 'type-a':
-      $scope.title = "Type A (oval/restangle)"
-    break;
-    case 'type-b':
-      $scope.title = "Type B (square/round)"
-    break;
-    case 'type-c':
-      $scope.title = "Type C (diamond)"
-    break;
-    case 'type-d':
-      $scope.title = "Type D (triangle)" 
-    break;
-    case 'type-e':
-      $scope.title = "Type E (inverted triangle)"
-    break;
 
-    }
+    $scope.title = $stateParams.cat.name;
+
 
 
     $ionicLoading.show();
     console.log($stateParams.category);
-    $scope.category = $stateParams.category;
+    $scope.category = $stateParams.cat.key;
     $rootScope.footer = 'footer1'; 
     //$scope.title = "kr+ Lookbook"
     var thumbArr = [];
    
-    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$scope.category);
     var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
     
         
@@ -497,7 +476,7 @@ angular.module('starter.controllers', [])
          if($scope.thumbArr)
             $scope.thumbs = chunk($scope.thumbArr , 2);
      })  
-    scrollRef.scroll.next(20);
+    scrollRef.scroll.next(250);
  
 
     $scope.loadMore = function()
@@ -505,7 +484,7 @@ angular.module('starter.controllers', [])
           $ionicLoading.show();
 
       console.log('loadMore');
-      scrollRef.scroll.next(20);
+      scrollRef.scroll.next(50);
       $scope.$broadcast('scroll.infiniteScrollComplete');
 
 
@@ -571,7 +550,7 @@ angular.module('starter.controllers', [])
    
 
       $scope.nextID  = $stateParams.id;
-      var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+      var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$stateParams.category+"");
 
       $scope.images = $firebaseArray(lookbookRef);
       
@@ -990,7 +969,7 @@ angular.module('starter.controllers', [])
     $ionicLoading.show();
 
     var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
-    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
+    //var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
 
     //var lookbook = $firebaseArray(lookbookRef);
 

@@ -309,7 +309,9 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('TrendingCtrl' , function($scope , $rootScope , $ionicLoading  ){
+.controller('TrendingCtrl' , function($scope , $rootScope , $ionicLoading  ,$ionicScrollDelegate){
+      //$ionicScrollDelegate.scrollTop(false);
+
    $scope.title = "TRENDING";
 
     $ionicLoading.show();
@@ -355,7 +357,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoveitCtrl' , function($scope , $rootScope , $ionicLoading, $localstorage , $stateParams, $ionicScrollDelegate){
-   $scope.title = "LOVE IT!";
+    //$ionicScrollDelegate.scrollTop(false);
+
+    $scope.title = "LOVE IT!";
     $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
     $scope.thumbArr = [];
@@ -367,7 +371,7 @@ angular.module('starter.controllers', [])
    $scope.scroll = function(){
       //$ionicScrollDelegate.scrollBottom();
       //$ionicScrollDelegate.scrollTo(0,10, 100);
-      console.log($ionicScrollDelegate.getScrollView());
+      //console.log($ionicScrollDelegate.getScrollView());
    }
     loveRef.orderByChild("uid")
     .on("value", function(snapshot) {
@@ -417,7 +421,7 @@ angular.module('starter.controllers', [])
 
 .controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $ionicScrollDelegate, $q){
     
-    $ionicScrollDelegate.scrollTop(false);
+    //$ionicScrollDelegate.scrollTop(false);
 
     switch($stateParams.category){
     case 'before_and_after' :

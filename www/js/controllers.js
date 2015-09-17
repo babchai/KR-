@@ -438,6 +438,7 @@ angular.module('starter.controllers', [])
     
     //$ionicScrollDelegate.scrollTop(false);
 
+    console.log($stateParams.cat);
 
     $scope.title = $stateParams.cat.name;
 

@@ -83,6 +83,8 @@ angular.module('starter.directives', [])
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
                   ' {{ title}}'+
                   '</h1>'+
+                  '<div class="buttons header-right-button">'+
+                  '</div>'+
                   '</ion-header-bar>'
     }
 })

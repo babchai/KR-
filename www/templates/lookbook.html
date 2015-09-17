@@ -25,7 +25,7 @@
 
 
     <div ng-show="lookbook.expand" ng-repeat = "cat in categories | filter:{'key':'face-matrix'}">
-      <a class="item" style=" background-color: #fff;color: #555555;" href="#/lookbook-sub/{{child.key}}"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >
+      <a class="item" style=" background-color: #fff;color: #555555;" ui-sref="lookbook-sub({'cat':child})"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >
        <!-- Type A (oval/restangle) -->
        {{child.name}}
       </a>

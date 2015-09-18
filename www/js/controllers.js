@@ -688,6 +688,14 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams){
+
+   $scope.title = 'My LOOKBOOK';
+
+   $scope.photo = $stateParams.photo;
+
+})
+
 .controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile, $ionicPlatform,    Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];

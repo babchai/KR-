@@ -120,7 +120,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
   })
 
   .state('mylookbook', {
-    cache : true,
+    cache : false,
       url:"/mylookbook",
       templateUrl:"templates/mylookbook.html",
       controller:"MyLookbookCtrl"
@@ -136,6 +136,15 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       url:"/mylookbook-all",
       templateUrl:"templates/mylookbook-all.html",
       controller:"MyLookbookAllCtrl"
+  })
+  .state('mylookbook-detail', {
+    cache : true,
+      url:"/mylookbook-detail",
+      templateUrl:"templates/mylookbook-detail.html",
+      controller:"MyLookbookDetailCtrl",
+      params:{
+        photo:null
+      }
   })
   .state('video', {
     cache : true,

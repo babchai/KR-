@@ -54,7 +54,7 @@ angular.module('starter.directives', [])
 
             }
         },
-        template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" >'+
+        template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
@@ -70,7 +70,7 @@ angular.module('starter.directives', [])
     }
 })
 
-.directive('header4', function($ionicHistory, $ionicScrollDelegate){
+.directive('header4', function($ionicHistory){
     return{
         restrict:'AEC',
         link : function(scope, elem, attrs){
@@ -79,14 +79,14 @@ angular.module('starter.directives', [])
 
             }
         },
-        template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive">'+
+        template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
                   ' {{ title}}'+
                   '</h1>'+
-                  '<div class="buttons header-right-button" ng-click="goBack()">'+
+                  '<div class="buttons header-right-button" >'+
                   '       <i class="ion-ios-arrow-right" style="font-size:30px ; color:#363636;     visibility: hidden;"  ></i>'+
                   '</div>'+
                   '</ion-header-bar>'
@@ -170,7 +170,7 @@ angular.module('starter.directives', [])
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%; margin-left:5%" ui-sref="mylookbook-add">'+
                   '  <i class="ion-ios-person-outline" style="font-size:45px; padding:8%;color:#363636" ></i>'+
                   '</md-button>'+
-                  '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%;  margin-left:5%" ui-sref="setting">'+
+                  '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%;  margin-left:5%" ui-sref="myaccount">'+
                   '  <i class="ion-ios-gear-outline" style="font-size:45px; padding:8%; color:#363636" ></i>'+
                   '</md-button>'+
                   '</h1>'+

@@ -4,30 +4,15 @@
 
 <ion-content scroll="true" overflow-scroll="true"  >
     
-    
-    <div class="list" style=" border:none">
 
-        <a class="item item-thumbnail-left" style="background:none;">
-          <img ng-src="{{user.avatar}}">
-          <h2>{{user.name}}</h2>
-          <h2>{{user.email}}</h2>
-          <h2>{{user.contact}}</h2>
-        </a>
-    </div>
-
-    <div class="list">
-    <a class="item item-icon-right"  ui-sref='#'  md-ink-ripple style="color:#ffe54e">
-     <center> Edit Profile</center>
-      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
-    </a>
-    </div>
-    <br /> 
+   <br /> 
     <div class="list" >
     <a class="item item-icon-right"  ng-click="changePassword()"  md-ink-ripple style="color:#ffe54e">
      <center> Change Password</center>
       <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
     </a>
     </div>
+
     <br /> 
     <div class="list" style=" border:none" >
     <div style="text-align:center">
@@ -51,12 +36,7 @@
     </md-list>
     </md-list-item>
     </div>
-        <center>
-                <a class="button cus-button" ng-click="logout()">
-                  LOGOUT
-                </a>
-<!-- <md-button class="md-warn" style="color:red" ng-click="logout()">Logout</md-button>
- -->    </center>
+      
         
 </ion-content>
 </ion-view>

@@ -1,0 +1,18 @@
+<div header4>
+</div>
+<ion-view view-title="Lookbook" class="has-footer" has-bouncing="true">
+
+<ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
+ <div class="gallery" style="background-color:#fff"   >
+  <div class="list" ng-repeat="mylook in mylookbooks">
+    <div class="item item-thumbnail-left item-icon-right" style="background-color:#fff">
+      <img ng-src="{{mylook.photo}}" />
+      <p>{{mylook.date | date:'MM.dd.yyyy'}}</p>
+      <p>{{mylook.stylist}}</p>
+      <i class="icon ion-ios-star-outline" style="color:#FFE54E"></i>
+    </div>
+  </div>
+</ion-content>
+</ion-view>
+<div footer></div>
+

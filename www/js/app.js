@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore' ])
+angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
 .constant('$ionicLoadingConfig', {
   'duration':'12000' , 
   'hideOnStateChange' : true,
@@ -46,6 +46,11 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       url:'/setting',
       templateUrl:"templates/setting.html",
       controller: "SettingCtrl"
+  })
+  .state('myaccount' , {
+    url : '/myaccount',
+    templateUrl:'templates/myaccount.html',
+    controller:'MyaccountCtrl'
   })
   .state('signup', {
       url:'/signup',
@@ -142,6 +147,15 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       url:"/mylookbook-detail",
       templateUrl:"templates/mylookbook-detail.html",
       controller:"MyLookbookDetailCtrl",
+      params:{
+        photo:null
+      }
+  })
+  .state('mylookbook-favorite', {
+    cache : true,
+      url:"/mylookbook-favorite",
+      templateUrl:"templates/mylookbook-favorite.html",
+      controller:"MyLookbookFavoritelCtrl",
       params:{
         photo:null
       }

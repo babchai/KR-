@@ -1,0 +1,29 @@
+<div header5>
+</div>
+<ion-view view-title="Trending" class="has-footer">
+
+<ion-content scroll="true" overflow-scroll="false" class="gallery" lazy-scroll>
+<div class="gallery" style="background-color:#ffe54e" >
+  <div class="row" ng-repeat = "rows in thumbs">
+   <div class="col" ng-repeat = "item in rows">
+    <div style="background-color:white">
+      <a href="#/lookbook-detail/{{getPath(item.key)}}.jpg">
+        <div style="min-height:251px ; background:url('http://krplus.com/lookbook/{{getPath(item.key)}}.jpg') ;background-size:cover ; background-position:top"
+        >
+        </div>
+      </a>
+    </div>
+     <!--    <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
+         -->
+    </div>
+  
+  </div>
+
+ 
+</div>
+</ion-content>
+
+
+</ion-view>
+<div footer></div>
+

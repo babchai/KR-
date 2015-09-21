@@ -1,0 +1,59 @@
+<div header4>
+</div>
+<ion-view view-title="SIGN UP">
+<ion-content>
+<md-content layout-padding >
+
+<div layout="row">
+	   <div flex >
+		  <form>
+		  	<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%">  
+			     </center>
+			  </div>
+
+			<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.email"  placeholder="email" style="width:100%">  
+			     </center>
+			  </div>
+
+		  <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%">  
+			     </center>
+			  </div>
+
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.password" placeholder="password" style="width:100%">  
+			     </center>
+			  </div>
+
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.confirmpassword" placeholder="confirm password" style="width:100%">  
+			     </center>
+			  </div>
+
+			 <center>
+		    <div style="width:70%">
+		    		By clicking below you agree to the terms & conditions of KR+
+		    </div>
+		    </center>
+
+		    <div style="margin-top:5%">
+		     <center>
+			    <a class="button cus-button" ng-click="signup()">
+			      CREATE ACCOUNT
+			    </a>
+			</center>
+			</div>
+		  </form>
+		</div>
+	</div>	 
+
+</md-content>
+</ion-content>
+</ion-view>

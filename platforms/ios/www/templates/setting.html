@@ -1,0 +1,58 @@
+<div header4>
+</div>
+<ion-view view-title="Lookbook" class="has-footer">
+
+<ion-content scroll="true" overflow-scroll="true"  >
+    
+    
+    <div class="list" style=" border:none">
+        <a class="item item-thumbnail-left" style="background:none;" href="#">
+          <img ng-src="user.avatar">
+          <h2>{{user.name}}</h2>
+        </a>
+    </div>
+
+    <div class="list" style="margin-top:10%">
+    <a class="item item-icon-right"  ui-sref='#'  md-ink-ripple style="color:#ffe54e">
+     <center> Edit Profile</center>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    </div>
+    <br /> 
+    <div class="list" >
+    <a class="item item-icon-right"  ui-sref='#'  md-ink-ripple style="color:#ffe54e">
+     <center> Change Password</center>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    </div>
+    <br /> 
+    <br /> 
+    <div style="text-align:center">
+    <center>
+    <div class="button-bar" style="width:98%">
+        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px; ">Female</a>
+        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;">Male</a>
+        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;">Unspecified</a>
+    </div>
+    </center>
+    </div>
+    <br /> 
+    <br /> 
+    <md-list>
+        <md-list-item>
+            <p>Push Notification</p>
+              <md-switch class="md-secondary" ng-model="setting.notification"></md-switch>
+        </md-list-item>
+    </md-list>
+    </md-list-item>
+        <center>
+                <a class="button cus-button" ng-click="logout()">
+                  LOGOUT
+                </a>
+<!-- <md-button class="md-warn" style="color:red" ng-click="logout()">Logout</md-button>
+ -->    </center>
+        
+</ion-content>
+</ion-view>
+<div footer></div>
+

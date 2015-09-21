@@ -1,0 +1,57 @@
+<div header4>
+</div>
+<ion-view view-title="My LOOKBOOK" class="has-footer">
+
+<ion-content scroll="true" overflow-scroll="false" >
+<div style="height:100%">
+   
+
+  <ion-slide-box style="height:65%" auto-play='true' does-continue='true' show-pager='false'>
+      <ion-slide  ng-repeat="i in mylookbook | orderBy:'-date' ">
+          <div style="
+              height:100%;
+              background-image: url('{{i.photo}}');
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: initial;
+              background-size: cover;position: relative;" >
+
+               <div class="image-desc" style="width:100%">
+                  <div class="content">
+                      <div class="row">
+                       
+                      <div class="col" style="color:#ffe54e ">
+                         <center>  {{i.date | date:'MM.dd.yyyy'}} </center>
+                      </div>
+                      
+                      </div>
+              </div>
+              </div>
+             </div> 
+         </ion-slide>
+   </ion-slide-box>
+   <div class="row">
+       <div class="col" style="text-align:center;border-right: solid 1px #ffe64e;">
+       <img src = "img/all.png" style="max-width:90px" ui-sref = "mylookbook-all" />
+     
+       </div>
+       <div class="col" style="text-align:center">
+       <img src = "img/favorite.png" style="max-width:90px" ui-sref="mylookbook-favorite"/>
+       
+       </div>
+   </div>
+   <div class="row" style=" margin-top: 10px;">
+       <div class="col">
+        <center>
+            <button class="button cus-button"  ui-sref="mylookbook-add" style="background-color: #555555;color: #ffe64e;">
+              + NEW LOOK
+            </button>
+        </center>
+    </div>
+   </div>
+</div>
+</ion-content>
+</ion-view>
+<div footer></div>
+
+

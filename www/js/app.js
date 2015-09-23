@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
 .constant('$ionicLoadingConfig', {
   'duration':'12000' , 
   'hideOnStateChange' : true,

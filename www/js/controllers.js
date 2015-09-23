@@ -672,8 +672,8 @@ angular.module('starter.controllers', [])
 
    $scope.mylookbook = $localstorage.getArray('lookook');
    //console.log("lookbook :"  , $scope.mylookbook);
-    if($scope.mylookbook.length <=0);
-       $state.go('mylookbook-add')
+    // if($scope.mylookbook.length <=0);
+    //    $state.go('mylookbook-add')
 
 })
 

@@ -1,0 +1,105 @@
+<div header7>
+</div>
+<ion-view view-title="Lookbook" class="has-footer">
+
+<ion-content scroll="false" overflow-scroll="false"  >
+   
+   <div style="height:35%">
+      <div class="row">
+          <h4>Before Hair Cut</h4>
+      </div>
+      <div class="row">
+      </div>
+        <div class="row">
+<!--             <div class="col"  ng-click="getPhotoBefore(0)">
+ -->              
+           <div class="col"   >
+           {{alert}}
+           <center>
+               <img ng-src="{{pic.before[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.before[0]" ng-click="popup(pic.before[0])" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[0]" 
+                ng-click="showListBottomSheet(0)" 
+                />
+
+                    <br />
+                   Pic 1
+                </center>
+            </div>
+           <div class="col" >
+               <center>
+               <img ng-src="{{pic.before[1]}}" style="max-width:80%; border-radius: 10px"  ng-show="pic.before[1]" ng-click="popup(pic.before[1])" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[1]"   ng-click="showListBottomSheet(1)"  />
+                    <br />
+                   Pic 2
+                </center>
+            </div>
+           <div class="col" >
+               <center>
+               <img ng-src="{{pic.before[2]}}" style="max-width:80%; border-radius: 10px" ng-click="popup(pic.before[2])"  />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[2]"  ng-click="showListBottomSheet(2)"   />
+                    <br />
+                   Pic 3
+                </center>
+            </div>
+        </div>
+   </div>
+   <div style="height:35% ; border-top:solid 1px #ffe54e">
+    <div class="row">
+          <h4>After Hair Cut</h4>
+    </div>
+      <div class="row">
+            <div class="col"  ng-click="showListBottomSheet(3)">
+               <center>
+
+               <img ng-src="{{pic.after[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.after[0]"  />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[0]"  />
+                    <br />
+                   Pic 1
+                </center>
+
+            </div>
+             <div class="col"  ng-click="showListBottomSheet(4)">
+               <center>
+               <img ng-src="{{pic.after[1]}}" style="max-width:80% ;  border-radius: 10px;" ng-show="pic.after[1]" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[1]"  />
+                <br />
+                   Pic 2
+                </center>
+            </div>
+             <div class="col"  ng-click="showListBottomSheet(5)">
+               <center>
+               <img ng-src="{{pic.after[2]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.after[1]" />
+               <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.after[1]"  />
+                    <br />
+                   Pic 3
+                </center>
+            </div>
+      </div>
+   </div>
+    <div style="height:20%">
+     <center>
+        <button class="button cus-button-grey" style="width:50%" ng-click="selectStylist()" ng-hide="stylist">
+            Stylist
+        </button>
+     </center>   
+      <md-list style="border-top:solid 1px #ffe54e" ng-show="stylist">
+          <div class="row">
+
+          <h4>Stylist</h4>
+      </div>
+        <md-list-item class="md-2-line"  ng-click="selectStylist()"  >
+           <img src="http://findicons.com/files/icons/1072/face_avatars/300/i03.png" class="md-avatar" >
+          <div class="md-list-item-text" ng-click="stylistDetail(1)" >
+            <h3>KAKARUTO</h3>
+          </div>
+        </md-list-item>
+      </md-list>
+
+    </div>
+
+</ion-content>
+</ion-view>
+<div footer></div>
+
+
+    

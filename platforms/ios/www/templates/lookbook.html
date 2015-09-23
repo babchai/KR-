@@ -1,0 +1,73 @@
+<div header6>
+</div>
+<ion-view view-title="Lookbook" class="has-footer">
+
+
+<ion-content scroll="true" overflow-scroll="true" class="lookbook" >
+
+  <div class="list">
+<!--     <a class="item item-icon-right"  ui-sref="lookbook-sub({'cat':'before_and_after'})"  md-ink-ripple >
+ -->      
+    <a class="item item-icon-right"  href="#/lookbook-sub/before_and_after"  md-ink-ripple >
+      Before & After
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    
+    <a class="item item-icon-right"  href="#/lookbook-sub/blow_out_bar" md-ink-ripple >
+    Blow Out Bar
+    <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+
+    <a class="item item-icon-right"  href="#/lookbook-sub/curly_hair_style" md-ink-ripple >
+      Curly Hairstyle
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    <a class="item item-icon-right"  href="#/lookbook-sub/celebrity_hair_style" md-ink-ripple >
+      kr+ Celebrity Hairstyle
+      <i class="icon ion-chevron-right"  style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    <a class="item item-icon-right"  href="#/lookbook-sub/men_hair_style" md-ink-ripple >
+      Men Hairstyle
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    <a class="item item-icon-right"  href="#/lookbook-sub/straight_hair_style" md-ink-ripple >
+      Straight Hairstyle
+      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e"></i>
+    </a>
+    <a class="item item-icon-right" href="#/lookbook-sub/updo_hair_style" md-ink-ripple >
+      Updo Hairstyle
+      <i class="icon ion-chevron-right" style="font-size:15px; color:#ffe54e"></i>
+    </a>
+     
+     <a class="item item-icon-right" style="background-color:#ffe54e; color:#555555"  ng-click="expand()" md-ink-ripple ng-show="lookbook.expand">
+      Face Matrix
+      <i class="icon ion-chevron-down"  style="font-size:15px; color:#555555" ></i>
+    </a>
+
+    <a class="item item-icon-right"  ng-click="expand()" md-ink-ripple ng-show="!lookbook.expand" >
+      Face Matrix
+      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e" ></i>
+    </a>
+
+      <div ng-show="lookbook.expand">
+    
+    <a class="item" style=" background-color: #fff;color: #555555;"   href="#" md-ink-ripple >
+     Type A (oval/restangle)
+    </a>
+    <a class="item" style=" background-color: #fff;color: #555555;"  href="#" md-ink-ripple >
+      Type B (square/round) 
+    </a>
+    <a class="item" style=" background-color: #fff;color: #555555;"  href="#" md-ink-ripple >
+      Type C (diamond)
+    </a>
+    </div>
+
+
+</div>
+</ion-content>
+
+
+</ion-view>
+<div footer></div>
+
+

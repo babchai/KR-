@@ -1,0 +1,42 @@
+<div header5>
+</div>
+<ion-view view-title="Love It!" class="has-footer">
+
+<ion-content scroll="true" overflow-scroll="true" class="gallery" >
+<ion-scroll style="height: 100%;" lazy-scroll>
+<ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+<div class="gallery" style="background-color:#ffe54e" >
+  <div class="row" ng-repeat = "rows in thumbs"  >
+   <div class="col" ng-repeat = "item in rows" `>
+     <div style="background-color:white">
+       <div style="min-height:251px ; 
+       background-color:white;
+       background:url('http://krplus.com/lookbook/bob/BOB{{item}}.jpg') ;
+       background-size:cover ; 
+       background-repeat: no-repeat;
+       "
+       ui-sref="lookbook-detail({image:item})"
+       >
+       </div>
+      </div>
+        <!-- <img fallbackSrc='' image-lazy-src="http://krplus.com/lookbook/bob/BOB{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines"  > -->
+      
+    </div>
+  
+  </div>
+
+ 
+</div>
+<ion-infinite-scroll
+    on-infinite="loadMore()"
+    distance="0%">
+</ion-infinite-scroll>
+
+</ion-scroll>
+</ion-content>
+</ion-view>
+<div footer></div>
+

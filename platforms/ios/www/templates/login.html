@@ -1,0 +1,60 @@
+<ion-view>
+
+<ion-content locking="true" padding="true">
+ 
+  <div style="padding-top:44px">
+     <center><img src = "http://krplus.com/images/logo_KrPlus.png" ></center>
+  </div>
+
+ <div ng-show="registerSuccess">
+
+ </div>
+  <form name="authorizationForm" novalidate="" >
+  <div class="login-wraper">
+  	<center>
+  	<input type="email" name="email" class="login-textfield" ng-model="user.email" placeholder="email" style="width: 80%;" ng- required>  
+    <div role="alert">
+      <span class="error" ng-show="authorizationForm.email.$error.required && authorizationForm.email.$dirty">
+        Required!</span>
+      <span class="error" ng-show="authorizationForm.email.$error.email && authorizationForm.email.$dirty">
+        Not valid email!</span>
+    </div>
+     </center>
+  </div>
+  <div class="login-wraper">
+  	<center>
+  	<input type="password" name="password" class="login-textfield" ng-model="user.password"  placeholder="password" style="width: 80%;" required> 
+     <div role="alert">
+      <span class="error" ng-show="authorizationForm.password.$error.required && authorizationForm.password.$dirty">
+        Required!</span>
+      
+    </div>
+  </center>
+  </div>
+  <div>
+  	<center>
+    <a class="button cus-button" ng-click="login(authorizationForm)" ng-disabled = "!authorizationForm.$dirty ||  !authorizationForm.$valid">
+      SIGN IN
+    </a>
+  
+</center>
+  </div>
+  </form>
+
+	
+</ion-content>     
+
+<ion-footer-bar  align-title="center" class="bar bar-footer bar-positive" style="height:60px ; padding:0px ; background:none">
+	<div style="width:50%  ; color: #363636 ;  vertical-align: middle ;display: table-cell;" ui-sref="signup">
+ 		 	<div style="padding-top: 10%;
+    text-align: center;
+    font-size: 20px;">	Sign Up</div>
+	</div>	
+	<div style="width:50% ; color: #363636 ; border-left:solid 1px #ffe54e" ui-sref="forgetPassword">
+		  <div style="padding-top: 10%;
+    text-align: center;
+    font-size: 20px;">  Forget Password</div>
+  </div>
+	</div>	
+</ion-footer-bar>
+</ion-view>

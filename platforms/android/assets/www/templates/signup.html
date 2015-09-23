@@ -1,0 +1,74 @@
+<div header4>
+</div>
+<ion-view view-title="SIGN UP">
+<ion-content>
+<md-content layout-padding >
+
+<div layout="row">
+	   <div flex >
+		  <form>
+		  	<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%">  
+			     </center>
+			  </div>
+
+			<div class="login-wraper">
+			  	<center>
+			  	<input type="text"  class="login-textfield" ng-model="user.email"  placeholder="email" style="width:100%">  
+			     </center>
+			  </div>
+
+		  <div class="login-wraper">
+			  	<center>
+			  	<input type="number"  class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%">  
+			     </center>
+			  </div>
+
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="password"  class="login-textfield" ng-model="user.password" placeholder="password" style="width:100%">  
+			     </center>
+			  </div>
+
+		    <div class="login-wraper">
+			  	<center>
+			  	<input type="password"  class="login-textfield" ng-model="user.confirmpassword" placeholder="confirm password" style="width:100%">  
+			     </center>
+			  </div>
+
+
+		    <div class="login-wraper">
+			  	<center>
+			     <div class="button-bar" style="width:98%">
+
+			        <a class="button"  style="background:none; border-color:#ffe54e;font-size: 15px;" 
+			        ng-class="{'btn-active': user.gender == 'female'}" ng-click="setGender('female')" >Female</a>
+			        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;" 
+ 					ng-class="{'btn-active': user.gender == 'male'}"
+			        ng-click="setGender('male')" >Male</a>
+			    </div> 
+			     </center>
+			 </div>
+ 
+
+			 <center>
+		    <div style="width:70%">
+		    		By clicking below you agree to the terms & conditions of KR+
+		    </div>
+		    </center>
+
+		    <div style="margin-top:5%">
+		     <center>
+			    <a class="button cus-button" ng-click="signup()">
+			      CREATE ACCOUNT
+			    </a>
+			</center>
+			</div>
+		  </form>
+		</div>
+	</div>	 
+
+</md-content>
+</ion-content>
+</ion-view>

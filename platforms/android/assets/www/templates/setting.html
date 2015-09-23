@@ -1,0 +1,44 @@
+<div header4>
+</div>
+<ion-view view-title="Lookbook" class="has-footer">
+
+<ion-content scroll="true" overflow-scroll="true"  >
+    
+
+   <br /> 
+    <div class="list" >
+    <a class="item item-icon-right"  ng-click="changePassword()"  md-ink-ripple style="color:#ffe54e">
+     <center> Change Password</center>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+    </a>
+    </div>
+
+    <br /> 
+    <div class="list" style=" border:none" >
+    <div style="text-align:center">
+    <center>
+    <div class="button-bar" style="width:98%">
+        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;" 
+        ng-class="{'btn-active': user.gender == 'female'}" ng-click="setGender('female')" >Female</a>
+        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;" 
+        ng-class="{'btn-active': user.gender == 'male'}" ng-click="setGender('male')">Male</a>
+    </div>
+    </center>
+    </div>
+    </div>
+    <br /> 
+    <div class="list" style=" border:none" >
+    <md-list>
+        <md-list-item>
+            <p>Push Notification</p>
+              <md-switch class="md-secondary" ng-model="setting.notification"></md-switch>
+        </md-list-item>
+    </md-list>
+    </md-list-item>
+    </div>
+      
+        
+</ion-content>
+</ion-view>
+<div footer></div>
+

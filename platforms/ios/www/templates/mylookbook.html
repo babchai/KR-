@@ -4,25 +4,7 @@
 
 <ion-content scroll="true" overflow-scroll="false" >
 <div style="height:100%">
-   <!-- <div style="height:65% ;
-    background-image: url('{{mylookbook[0].photo}}');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: initial;
-    background-size: cover;position: relative;" >
-
-     <div class="image-desc" style="width:100%">
-        <div class="content">
-            <div class="row">
-             
-            <div class="col" style="color:#ffe54e ">
-               <center>  {{mylookbook[0].date}} </center>
-            </div>
-            
-            </div>
-    </div>
-    </div>
-   </div> -->
+   
 
   <ion-slide-box style="height:65%" auto-play='true' does-continue='true' show-pager='false'>
       <ion-slide  ng-repeat="i in mylookbook | orderBy:'-date' ">
@@ -50,16 +32,12 @@
    </ion-slide-box>
    <div class="row">
        <div class="col" style="text-align:center;border-right: solid 1px #ffe64e;">
-       <img src = "img/all.png" style="max-width:90px" arial-label="coming soon" />
-       <md-tooltip>
-          coming soon
-       </md-tooltip>
+       <img src = "img/all.png" style="max-width:90px" ui-sref = "mylookbook-all" />
+     
        </div>
        <div class="col" style="text-align:center">
-       <img src = "img/favorite.png" style="max-width:90px" arial-label="coming soon"/>
-       <md-tooltip>
-          coming soon
-       </md-tooltip>
+       <img src = "img/favorite.png" style="max-width:90px" ui-sref="mylookbook-favorite"/>
+       
        </div>
    </div>
    <div class="row" style=" margin-top: 10px;">

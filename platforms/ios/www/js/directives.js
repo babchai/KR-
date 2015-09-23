@@ -7,7 +7,7 @@ angular.module('starter.directives', [])
                   '<md-button class="md-icon-button md-primary" aria-label="Settings" ui-sref="mylookbook-add">'+
                   '       <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                   '</md-button>'+
-                   '<h1 class="title" style="text-align:center; font-size:30px; margin-top:10px"><img src="img/icon.png" style="width:50px"/> </h1>'+
+                   '<h1 class="title" style="text-align:center; font-size:30px;height: 100%;"><img src="img/icon.png" style="width:50px; margin-top:8px;"/> </h1>'+
                    '<md-button class="md-icon-button header-right-button" aria-label="Settings" ng-click="showMap()">'+
                     '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
                     '</md-button>'+
@@ -54,7 +54,7 @@ angular.module('starter.directives', [])
 
             }
         },
-        template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" >'+
+        template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
@@ -63,11 +63,14 @@ angular.module('starter.directives', [])
                   '  <i class="ion-android-favorite" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="volted" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
+                  '<div class="buttons header-right-button" ng-click="goBack()">'+
+                  '       <i class="ion-ios-arrow-right" style="font-size:30px ; color:#363636;     visibility: hidden;"  ></i>'+
+                  '</div>'+
                   '</ion-header-bar>'
     }
 })
 
-.directive('header4', function($ionicHistory, $ionicScrollDelegate){
+.directive('header4', function($ionicHistory){
     return{
         restrict:'AEC',
         link : function(scope, elem, attrs){
@@ -76,13 +79,16 @@ angular.module('starter.directives', [])
 
             }
         },
-        template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive">'+
+        template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
                   ' {{ title}}'+
                   '</h1>'+
+                  '<div class="buttons header-right-button" >'+
+                  '       <i class="ion-ios-arrow-right" style="font-size:30px ; color:#363636;     visibility: hidden;"  ></i>'+
+                  '</div>'+
                   '</ion-header-bar>'
     }
 })
@@ -123,9 +129,8 @@ angular.module('starter.directives', [])
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
-                   '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ></i>'+
+                   '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ui-sref="search" ></i>'+
                    '</div>'+
-                    '<md-tooltip>Coming Soon</md-tooltip>'+
                    '</ion-header-bar>'
     }
 })
@@ -145,7 +150,7 @@ angular.module('starter.directives', [])
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
-                   ' <button class="button cus-button" ng-click="saveImage()">Save</button>'+
+                   ' <button class="button cus-button" ng-click="saveImage()" ng-show="pic.before.length >0 || pic.after.length >0">Save</button>'+
                    '</div>'+
                    '</ion-header-bar>'
     }
@@ -165,7 +170,7 @@ angular.module('starter.directives', [])
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%; margin-left:5%" ui-sref="mylookbook-add">'+
                   '  <i class="ion-ios-person-outline" style="font-size:45px; padding:8%;color:#363636" ></i>'+
                   '</md-button>'+
-                  '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%;  margin-left:5%" ui-sref="setting">'+
+                  '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%;  margin-left:5%" ui-sref="myaccount">'+
                   '  <i class="ion-ios-gear-outline" style="font-size:45px; padding:8%; color:#363636" ></i>'+
                   '</md-button>'+
                   '</h1>'+

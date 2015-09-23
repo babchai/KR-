@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase' ])
+angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
 .constant('$ionicLoadingConfig', {
   'duration':'12000' , 
   'hideOnStateChange' : true,
@@ -47,6 +47,11 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       templateUrl:"templates/setting.html",
       controller: "SettingCtrl"
   })
+  .state('myaccount' , {
+    url : '/myaccount',
+    templateUrl:'templates/myaccount.html',
+    controller:'MyaccountCtrl'
+  })
   .state('signup', {
       url:'/signup',
       templateUrl : "templates/signup.html",
@@ -56,7 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     url:'/login',
     templateUrl : 'templates/login.html',
     controller: 'LoginCtrl',
-     cache : false
+     cache : true
   })
    .state('forgetPassword', {
     url:'/forgetPasssword',
@@ -64,25 +69,25 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
     controller: 'ForgetPasswordCtrl'
   })
   .state('home', {
-      cache : false,
+      cache : true,
       url:"/home",
       templateUrl:"templates/home.html",
       controller:"HomeCtrl"
   })
   .state('trending', {
-    cache : false,
+    cache : true,
     url : "/trending",
     templateUrl:"templates/trending.html",
     controller:"TrendingCtrl"
   })
   .state('loveit', {
-    cache : false,
+    cache : true,
     url : "/loveit",
     templateUrl:"templates/loveit.html",
     controller:"LoveitCtrl"
   })
   .state('lookbook-sub', {
-    cache : false,
+    cache : true,
       url:"/lookbook-sub/:category",
       templateUrl:"templates/lookbook-sub.html",
       controller:"LookbookSubCtrl",
@@ -91,20 +96,30 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       }
   })
   .state('promotions', {
-    cache : false,
+    cache : true,
       url:"/promotions",
       templateUrl:"templates/promotions.html",
       controller:"PromotionsCtrl"
   })
   .state('lookbook', {
-    cache : false,
+    cache : true,
       url:"/lookbook",
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
+
+
+
   .state('lookbook-detail', {
-    cache : false,
-      url:"/lookbook-detail/:category/:image",
+    cache : true,
+      url:"/lookbook-detail/:category/:image?id",
+      templateUrl:"templates/lookbook-detail.html",
+      controller:"LookbookDetailCtrl"
+  })
+
+   .state('lookbook-detail2', {
+    cache : true,
+      url:"/lookbook-detail",
       templateUrl:"templates/lookbook-detail.html",
       controller:"LookbookDetailCtrl"
   })
@@ -116,28 +131,68 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.directives'
       controller:"MyLookbookCtrl"
   })
   .state('mylookbook-add', {
-    cache : false,
+      cache : false,
       url:"/mylookbook-add",
       templateUrl:"templates/mylookbook-add.html",
       controller:"MyLookbookAddCtrl"
   })
-
+  .state('mylookbook-all', {
+    cache : true,
+      url:"/mylookbook-all",
+      templateUrl:"templates/mylookbook-all.html",
+      controller:"MyLookbookAllCtrl"
+  })
+  .state('mylookbook-detail', {
+    cache : true,
+      url:"/mylookbook-detail",
+      templateUrl:"templates/mylookbook-detail.html",
+      controller:"MyLookbookDetailCtrl",
+      params:{
+        photo:null
+      }
+  })
+  .state('mylookbook-favorite', {
+    cache : true,
+      url:"/mylookbook-favorite",
+      templateUrl:"templates/mylookbook-favorite.html",
+      controller:"MyLookbookFavoritelCtrl",
+      params:{
+        photo:null
+      }
+  })
   .state('video', {
-    cache : false,
+    cache : true,
       url:"/video",
       templateUrl:"templates/video.html",
       controller:"VideoCtrl"
   })
  
   .state('stylist' , {
-    cache: false,
+    cache: true,
     url : "/stylist",
     templateUrl : "templates/stylist.html",
     controller:"StylistCtrl"
   })
- 
+
+  .state('search' , {
+    cache: true,
+    url : "/search",
+    templateUrl : "templates/search.html",
+    controller:"SearchCtrl"
+  })
+
+ .state('search_result' , {
+    cache: true,
+    url : "/search_result",
+    templateUrl : "templates/search_result.html",
+    controller:"SearchResultCtrl",
+    params : {
+      'tag' : null,
+      'link' : null
+    }
+  })
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'

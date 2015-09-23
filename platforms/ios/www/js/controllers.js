@@ -32,32 +32,13 @@ angular.module('starter.controllers', [])
      userData = userRef.getAuth();
      $localstorage.setObject('userData', userData);
 
+
      if(userData)
         $state.go('home');
-        //$location.path('/home');
-
-     
-     userData = $localstorage.getObject('userData');
-
-   if(userData !== null)
-   {
-    if(typeof userData.token !='undefined')
-    {
-      $ionicLoading.show();
-      userRef.authWithCustomToken(userData.token , function(error, newUserdata){
-        $ionicLoading.hide();
-        if(!error)
-        {
-          $localstorage.setObject("userData" , newUserdata);
-          $location.path('/home');
-        }
-      });
-    }
-  }
-
 
 
   $scope.login  = function(authorizationForm){
+    $localstorage.setObject("userData", {})
     if(!authorizationForm.$valid)
     {
        $mdDialog.show(
@@ -95,7 +76,7 @@ angular.module('starter.controllers', [])
       {
         $ionicLoading.hide();
         $localstorage.setObject("userData" , authData);
-        $location.path('/home');
+        $state.go('home');
 
       }
 
@@ -117,23 +98,51 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('SignupCtrl', function($scope , $rootScope){
+.controller('SignupCtrl', function($scope , $rootScope , $ionicHistory , $ionicLoading, $state , $mdDialog){
   $scope.title="SIGN UP";
   $scope.user = {};
   ///var ref = new Firebase("https://9lives.firebaseio.com");
 
+  $scope.setGender = function(gender)
+  {
+    $scope.user.gender = gender;
+  }
+  
   $scope.signup = function()
   {
-
+    $ionicLoading.show();
       var userRef = new Firebase("https://9lives.firebaseio.com");
       userRef.createUser({
         email    : $scope.user.email,
         password : $scope.user.password
       }, function(error, userData) {
         if (error) {
+          $ionicLoading.hide();
+
+          var message = "Sorry. Signup failed."
+          if(error.code == "EMAIL_TAKEN")
+          {
+            message = "Sorry. Email already taken. Please use another email. ";
+          }
+          else if(error.code == "INVALID_EMAIL")
+          {
+            message = "Sorry. The specified email is invalid.";
+          }
+
+
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .title('Signup Failed')
+              .content(message)
+              .ok('Got it!')
+          );
+
           console.log("Error creating user:", error);
         } else {
 
+           $ionicLoading.hide();
           var profile = userRef.child("profile/"+userData.uid);
           
           var profileObj = {};
@@ -141,14 +150,14 @@ angular.module('starter.controllers', [])
           profileObj = {
             'name' : $scope.user.name,
             'email' : $scope.user.email,
-            'contact' : $scope.user.contact
+            'contact' : $scope.user.contact,
+            'gender' : $scope.user.gender
           }
 
           profile.set(profileObj);
 
           $rootScope.registerSuccess = true;
-          window.history.back();
-          
+          $state.go('login');
         }
       });
   }
@@ -196,32 +205,93 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
-
+    $scope.promo = {};
+   
      $ionicPlatform.onHardwareBackButton(function() {
-        //event.preventDefault();
-        //event.stopPropagation();
-        
-        //alert('exit?');
-
-
      });
+     
+     var promo = $localstorage.getObject('promo');
+
+    var promotionsRef = new Firebase("https://9lives.firebaseio.com/promotions");
+
+    if(promo)
+    {
+      //console.log(promo.lastSeen);
+      promotionsRef.once("value", function(snapshot) {
+        var filter =   _.filter(snapshot.val(), function(data){
+            //console.log(data.time , promo.lastSeen);
+            return data.time > promo.lastSeen;
+          });  
+         $scope.promo.count = filter.length;
+      });
+      
+      // promotionsRef.on("child_added", function(snapshot) {
+      //   console.log(snapshot.val());
+      //     var filter =   _.filter(snapshot.val(), function(data){
+      //       //console.log(data.time , promo.lastSeen);
+      //       console.log(data);
+      //       return data.time > promo.lastSeen;
+      //     }); 
+
+      //     $scope.promo.count += filter.length;
+      // });
+    }
+
+
+
 })
 
-.controller('LookbookCtrl', function($scope, $rootScope){
+.controller('LookbookCtrl', function($scope, $rootScope , $mdDialog, $firebaseArray, $ionicLoading){
+
+    $ionicLoading.show();
+
     $rootScope.footer = 'footer1'; 
+
     $scope.title = "kr+ LOOKBOOK"
 
     $scope.lookbook = {};
    
+    var categoriesRef = new Firebase("https://9lives.firebaseio.com/categories");
+
+
+    var categories = $firebaseArray(categoriesRef);
+
+    categories.$loaded(function(data){
+        $ionicLoading.hide();
+        $scope.categories = data;
+    })
+
+
    $scope.find = function(){
       $scope.search = true;
    }
    $scope.cancelFind = function(){
       $scope.search = false;
+   }
+
+
+   $scope.faceMatric = function(items){
+    $scope.items = items;
+      $mdDialog.show({
+        controller: DialogController,
+        templateUrl: 'templates/face.tmp.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose:true,
+        locals: {
+           items: $scope.items
+         },
+      })
+      .then(function(answer) {
+        //console.log(answer);
+        //$scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        console.log('dialog closed.');
+        //$scope.status = 'You cancelled the dialog.';
+      });
    }
 
     $scope.expand = function(){
@@ -230,21 +300,42 @@ angular.module('starter.controllers', [])
       else
         $scope.lookbook.expand = true;
     }
+  
+    function DialogController ($scope, $mdDialog, items)
+    {
+      console.log('adad');
+      $scope.items = items;
+       console.log($scope.items);
+    }
+    //Cleanup the modal when we're done with it!
+
 
 })
-.controller('PromotionsCtrl', function($scope , $rootScope){
+.controller('PromotionsCtrl', function($scope , $rootScope, $ionicLoading , $firebaseArray , $localstorage){
     //$rootScope.header = 'header4';
+    $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
-    $scope.title = "PROMOTIONS"
+    $scope.title = "PROMOTIONS";
+ 
+     var TIMESTAMP = Math.round((new Date()).getTime() / 1000);
+    //$scope.promo = getObject('promo');
 
+    var promoRef = new Firebase("https://9lives.firebaseio.com/promotions");
+    $scope.promotions = $firebaseArray(promoRef);
+
+    $scope.promotions.$loaded(function(data){
+      $localstorage.setObject('promo',{'lastSeen': TIMESTAMP});
+      $ionicLoading.hide();
+    })
+   
 })
 
-.controller('TrendingCtrl' , function($scope , $rootScope , $ionicLoading  ){
+.controller('TrendingCtrl' , function($scope , $rootScope , $ionicLoading){
+
    $scope.title = "TRENDING";
 
     $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
-    $scope.title = "kr+ Lookbook"
     $scope.thumbArr = [];
    
     var  trendingRef = new Firebase("https://9lives.firebaseio.com/likes");
@@ -269,12 +360,7 @@ angular.module('starter.controllers', [])
       console.log($scope.thumbs);
     })
 
-    // $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
-    //      console.log($scope.thumbArr);
-    //      if($scope.thumbArr)
-    //         $scope.thumbs = chunk($scope.thumbArr , 2);
-    // })  
-
+    
     function chunk(arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -290,35 +376,49 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LoveitCtrl' , function($scope , $rootScope){
-   $scope.title = "LOVE IT!";
-    var thumbArr = [];
+.controller('LoveitCtrl' , function($scope , $rootScope , $ionicLoading, $localstorage , $stateParams){
+
+    $scope.title = "LOVE IT!";
+    $ionicLoading.show();
+    $rootScope.footer = 'footer1'; 
+    $scope.thumbArr = [];
+   
+    var  loveRef = new Firebase("https://9lives.firebaseio.com/likes");
+
+
+   //$scope.votes = $firebaseObject(voteRef);
+   $scope.scroll = function(){
+  
+   }
+    loveRef.orderByChild("uid")
+    .on("value", function(snapshot) {
+        $ionicLoading.hide();
+        //console.log(snapshot.val());
+        snapshot.forEach(function(childSnaphot){
+          if(_.find(childSnaphot.val().by , {'uid':$localstorage.getObject('userData').uid})){
+              //console.log(childSnaphot.key());
+              var data = childSnaphot.key().split(':');
+              console.log(data); 
+              $scope.thumbArr.push({
+                'category':data[0],
+                'filename':data[1]
+              })
+          };
+
+       
+        });
+        console.log($scope.thumbArr);
+
+        $scope.thumbs = chunk($scope.thumbArr , 2);  
+      });
+   
+
+
+    // $scope.$watchCollection('thumbs' , function(){
+    //   console.log($scope.thumbs);
+    // })
+
     
-    var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/accessories");
-
-    var scrollRef = new Firebase.util.Scroll(lookbookRef, 'photos');
-
-        scrollRef.scroll.next(20);
-
-
-    scrollRef.on("value", function(snapshot) {
-        console.log(snapshot.val());
-
-        //thumbArr.push(snapshot);
-        angular.forEach(snapshot.val() , function(photos, index){
-          //console.log(photos);
-          angular.forEach(photos , function(photo){
-            console.log(photo);
-            thumbArr.push(photo.filename);
-          })
-        })
-
-         $scope.thumbs = chunk(thumbArr , 2);
-
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
     function chunk(arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -327,28 +427,46 @@ angular.module('starter.controllers', [])
       return newArr;
     }
 
+    $scope.getPath = function(path)
+    {
+      var arr = path.split(':');
+      return arr[0]+"/"+arr[1];
+    }
 
 })
 
 
-.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $ionicScrollDelegate, $q){
+.controller('LookbookSubCtrl', function($scope, $rootScope ,$ionicLoading, $stateParams , $firebaseArray , $q){
     
-    $ionicScrollDelegate.scrollTop(false);
+
+
+    $scope.title = $stateParams.cat.name;
+
+
+
     $ionicLoading.show();
     console.log($stateParams.category);
-    $scope.category = $stateParams.category;
+    $scope.category = $stateParams.cat.key;
     $rootScope.footer = 'footer1'; 
-    $scope.title = "kr+ Lookbook"
+    //$scope.title = "kr+ Lookbook"
     var thumbArr = [];
    
-    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
+    var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$scope.category);
     var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
     
         
     scrollRef.on("value", function(snapshot) {
       console.log(snapshot.key());
       $ionicLoading.hide();
-      $scope.thumbArr = snapshot.val();
+
+       snapshot.forEach(function(childSnaphot){
+          //console.log(childSnaphot.key() , childSnaphot.val());
+          thumbArr.push({
+            'key':childSnaphot.key(),
+            'val':childSnaphot.val()
+          });
+        });
+        $scope.thumbs = chunk(thumbArr , 2);
     });
  
     $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
@@ -358,16 +476,17 @@ angular.module('starter.controllers', [])
          if($scope.thumbArr)
             $scope.thumbs = chunk($scope.thumbArr , 2);
      })  
-    scrollRef.scroll.next(20);
+    scrollRef.scroll.next(50);
  
 
     $scope.loadMore = function()
     {
+      console.log(scrollRef.scroll);
           $ionicLoading.show();
 
       console.log('loadMore');
-      scrollRef.scroll.next(20);
-      $scope.$broadcast('scroll.infiniteScrollComplete');
+      scrollRef.scroll.next(50);
+      //$scope.$broadcast('scroll.infiniteScrollComplete');
 
 
     }
@@ -392,19 +511,24 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject , $ionicPlatform){
     $scope.title = "LOOKBOOK"
-  
+  //console.log($stateParams)
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
-   var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/"+$stateParams.category+"/photos");
-   var imagename = $stateParams.image.split('.');
-   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes/"+$stateParams.category+":"+imagename[0]);
+   $scope.votes = [];
 
+ 
+   var imagename = $stateParams.image.split('.');
+   var  voteRef = new Firebase("https://9lives.firebaseio.com/likes");
+
+   $scope.votes = $firebaseObject(voteRef);
+
+   
 
     if($localstorage.getObject('userData') )
     {
-      voteRef.child('/by').orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
+      voteRef.child($stateParams.category+":"+imagename[0]+"/by").orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
          if(data.val()!==null)
             $scope.volted = true;
          else
@@ -412,18 +536,69 @@ angular.module('starter.controllers', [])
       });
     }
 
-    voteRef.child('/count').on('value' , function(snapshot){
-      if(snapshot.val() === null)
-          $scope.count = "0 Love";
-      else
-        $scope.count = snapshot.val() + " Loves";
-    })
-   
-   $scope.nextImage = function(){
-      $scope.image = $scope.images[3].filename;
-      console.log($scope.images);
-   }
 
+
+   // if($stateParams.id)
+   // {
+   // }
+
+      voteRef.child($stateParams.category+":"+imagename[0]+'/count').on('value' , function(snapshot){
+        if(snapshot.val() === null)
+            $scope.count = "0";
+        else
+          $scope.count = snapshot.val() + "";
+      })
+   
+
+      $scope.nextID  = $stateParams.id;
+      var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$stateParams.category+"");
+
+      $scope.images = $firebaseArray(lookbookRef);
+      
+
+      $scope.nextImage = function(direction){
+
+        var current = _.findIndex($scope.images , {'filename':$scope.image});
+        if(direction == 'fwd')
+          $scope.image = $scope.images[current + 1].filename; 
+        else
+          $scope.image = $scope.images[current - 1].filename; 
+
+        var i = $scope.image.split('.');
+
+        if($scope.votes[$scope.category+':'+i[0]] !== undefined){
+            console.log( $scope.votes[$scope.category+':'+i[0]] );
+             if($scope.votes[$scope.category+':'+i[0]].count > 0)
+             {
+                $scope.count = $scope.votes[$scope.category+':'+i[0]].count;
+                //console.log($scope.count);
+             }
+             else
+             {
+                $scope.count = 0;
+                //console.log($scope.count);
+             }
+
+            var uid = $localstorage.getObject('userData').uid;
+            var find = _.find($scope.votes[$scope.category+':'+i[0]].by , {"uid":uid});
+            console.log(find);
+            if( find ===null || find === undefined )
+            {
+               $scope.volted = false;
+            }
+            else
+            {
+              $scope.volted = true;
+            }
+
+        }
+        else
+        {
+          $scope.volted = false;
+          $scope.count = 0;
+        }
+      
+      }
 
    var message ="message";
    var subject = "subject";
@@ -432,18 +607,21 @@ angular.module('starter.controllers', [])
 
    $scope.love = function(){
       $scope.volted = true;
-
-      voteRef.child("/count").transaction(function(current_value){
-
-            return (current_value || 0) + 1; 
+      var imagename = $scope.image.split('.');
+      console.log($stateParams.category+":"+imagename[0]+"/count");
+      voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
+            count = (current_value || 0) + 1
+            $scope.count = count;
+            return count; 
       });
       
       var uid = $localstorage.getObject('userData').uid;
-      voteRef.child("/by").push({'uid':uid});
+      voteRef.child($stateParams.category+":"+imagename[0]+"/by").push({'uid':uid});
       //$scope.$apply();
    }
 
-   $scope.share = function(){
+  $scope.share = function(){
+  $ionicPlatform.ready(function() {
     $cordovaSocialSharing
     .share(message, subject, file, link) // Share via native share sheet
     .then(function(result) {
@@ -468,19 +646,63 @@ angular.module('starter.controllers', [])
         );
     });
 
+  });
+
+
    }
    
 })
 
-.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){
+.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location , $state ){
+
+   $scope.title = 'My LOOKBOOK';
+
+
+   $scope.mylookbook = $localstorage.getArray('lookook');
+   //console.log("lookbook :"  , $scope.mylookbook);
+    // if($scope.mylookbook.length <=0);
+    //    $state.go('mylookbook-add')
+
+})
+
+.controller('MyLookbookAllCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){
 
    $scope.title = 'My LOOKBOOK';
 
    $scope.mylookbook = $localstorage.getArray('lookook');
+   //console.log("lookbook :"  , $scope.mylookbook);
+
+    $scope.thumbs = chunk($scope.mylookbook , 2);
+
+    function chunk(arr, size) {
+
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      console.log(newArr);
+      return newArr;
+    }
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile,   Camera){
+.controller('MyLookbookFavoritelCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location){
+
+   $scope.title = 'My LOOKBOOK';
+
+   $scope.mylookbooks = $localstorage.getArray('lookook');
+})
+
+.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams){
+
+   $scope.title = 'My LOOKBOOK';
+
+   $scope.photo = $stateParams.photo;
+
+})
+
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile, $ionicPlatform,    Camera){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
@@ -492,21 +714,6 @@ angular.module('starter.controllers', [])
        }
     }
 
-  // $scope.popup = function(path){
-  //   $mdDialog.show({
-  //       controller : popoutCtrl,
-  //       templateUrl: 'templates/photo.tmp.html',
-  //       locals:{
-  //         photo : $scope.items
-  //       },
-  //       parent: angular.element(document.body),
-  //       clickOutsideToClose:true
-  //     })
-  // }  
-  // function popoutCtrl($scope)
-  // {
-  //   $scope.items = "iemasd";
-  // }
 
   $scope.showListBottomSheet = function(index) {
     //$scope.photoIndex = index;
@@ -525,13 +732,17 @@ angular.module('starter.controllers', [])
 
   $scope.getPhotoBefore = function(index) {
      var option = {quality:50 , 
-      //destinationType: Camera.DestinationType.FILE_URI,
-
+      //destinationType : Camera.DestinationType.DATA_URL,
+      destinationType:1,
       encodingType: 0,
       targetWidth: 1080,
       targetHeight: 1080,
       allowEdit : true,
-      correctOrientation:true};
+      correctOrientation:true,
+      PictureSourceType:2,
+
+      //saveToPhotoAlbum:true
+    };
 
 
     Camera.getPicture(option).then(function(imageURI) {
@@ -574,44 +785,39 @@ angular.module('starter.controllers', [])
        }
        $mdDialog.show(
         $mdDialog.alert()
-          .parent(angular.element(document.querySelector('#popupContainer')))
           .clickOutsideToClose(true)
           .title('My New Look')
           .content("New look saved.")
           .ok('Ok!')
         );
-      
-      console.log('Saved.');
     })
   }
 
   function createFileEntry(imageUrl) {
-    //console.log($rootScope.pic.before[0]);
-     //var imageUrl = $rootScope.pic.before[0];
-     //console.log(imageUrl);
+  
      var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
       var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
       var newName = makeid() + name;
 
-      //console.log(namePath, name);
-      //console.log(cordova.file.dataDirectory, newName);
+     
+      $ionicPlatform.ready(function() {
+        $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
+          .then(function(info) {
+            console.log("success",info);
+            var library =  $localstorage.getArray('lookook');
+            library.push({
+               'stylist' : $rootScope.stylist,
+               'date'    :new Date(),
+               'photo'   : cordova.file.dataDirectory+newName
+            });
+            $localstorage.setArray('lookook', library);
+            console.log(library);
 
-      $cordovaFile.copyFile(namePath, name, cordova.file.externalDataDirectory, newName)
-        .then(function(info) {
-          console.log("success",info);
-          var library =  $localstorage.getArray('lookook');
-          library.push({
-             'stylist' : $rootScope.stylist,
-             'date'    :new Date(),
-             'photo'   : cordova.file.externalDataDirectory+newName
+          }, function(e) {
+            console.log("Failed" , e);
+            //reject();
           });
-          $localstorage.setArray('lookook', library);
-
-        }, function(e) {
-          console.log("Failed" , 
-            e);
-          //reject();
-        });
+      });
   }
 
 
@@ -699,15 +905,33 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SettingCtrl' , function($scope , $localstorage,$location){
-     $scope.title = "ACCOUNT SETTINGS"
+.controller('MyaccountCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
+  $ionicLoading.show();
+     $scope.title = "MY ACCOUNT"
      $scope.user = {}
+
     
       var authData =   $localstorage.getObject("userData");
 
-     var profile = new Firebase("https://9lives.firebaseio.com/profile");
+     var profile = new Firebase("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
     
+    //console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
+     profile.on('value' , function(snapshot){
+       if(snapshot.val() !== null)
+       {
+         $ionicLoading.hide();
+          $scope.user = snapshot.val();
+          $scope.user.avatar = "img/avatar.png";
+       }
+     })
 
+     $scope.setGender = function(gender){
+        $scope.user.gender = gender;
+        profile.update({
+          'gender':$scope.user.gender
+        })
+
+     }
 
      $scope.logout = function(){
        var userRef = new Firebase("https://9lives.firebaseio.com");
@@ -716,8 +940,240 @@ angular.module('starter.controllers', [])
         $localstorage.setObject("userData" , {});
         $location.path('/login');
      }
-})
 
+    $scope.changePassword = function() {
+      $scope.password = {}
+
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"> '+
+                  '</div>'+
+                   ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%">'+
+                  ' </div>'+
+                  ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%">'+
+                  ' </div>',
+        scope: $scope,
+        cssClass: 'custom-popup',
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'cus-button',
+            onTap: function(e) {
+              if ($scope.newPassword != $scope.confirmPassword) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                  return true;
+              }
+            }
+          }
+        ]
+      });
+
+      myPopup.then(function(res) {
+        if(res)
+        {
+          $ionicLoading.show();
+           var userRef = new Firebase("https://9lives.firebaseio.com");
+           userRef.changePassword({
+              'email' : $scope.user.email,
+              'oldPassword': $scope.password.oldPassword,
+              'newPassword' : $scope.password.newPassword
+           }, function(error){
+             $ionicLoading.hide();
+            if (error) {
+                switch (error.code) {
+                  case "INVALID_PASSWORD":
+                    alert("Error changing password. The specified user account password is incorrect.");
+                    break;
+                  default:
+                     alert("Error changing password");
+                }
+              }
+              else
+              {
+                alert("Password changed successfully.")
+              }
+           })
+         }
+        console.log('Tapped!', res);
+      });
+
+     };
+  })
+
+.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
+  $ionicLoading.show();
+     $scope.title = "ACCOUNT SETTINGS"
+     $scope.user = {}
+
+    
+      var authData =   $localstorage.getObject("userData");
+
+     var profile = new Firebase("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
+    
+    //console.log("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
+     profile.on('value' , function(snapshot){
+       if(snapshot.val() !== null)
+       {
+         $ionicLoading.hide();
+          $scope.user = snapshot.val();
+          $scope.user.avatar = "img/avatar.png";
+       }
+     })
+
+     $scope.setGender = function(gender){
+        $scope.user.gender = gender;
+        profile.update({
+          'gender':$scope.user.gender
+        })
+
+     }
+
+     $scope.logout = function(){
+       var userRef = new Firebase("https://9lives.firebaseio.com");
+
+        userRef.unauth();
+        $localstorage.setObject("userData" , {});
+        $location.path('/login');
+     }
+
+    $scope.changePassword = function() {
+      $scope.password = {}
+
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"> '+
+                  '</div>'+
+                   ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%">'+
+                  ' </div>'+
+                  ' <div class="login-wraper">'+
+                  '<input type="password"  class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%">'+
+                  ' </div>',
+        scope: $scope,
+        cssClass: 'custom-popup',
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'cus-button',
+            onTap: function(e) {
+              if ($scope.newPassword != $scope.confirmPassword) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                  return true;
+              }
+            }
+          }
+        ]
+      });
+
+      myPopup.then(function(res) {
+        if(res)
+        {
+          $ionicLoading.show();
+           var userRef = new Firebase("https://9lives.firebaseio.com");
+           userRef.changePassword({
+              'email' : $scope.user.email,
+              'oldPassword': $scope.password.oldPassword,
+              'newPassword' : $scope.password.newPassword
+           }, function(error){
+             $ionicLoading.hide();
+            if (error) {
+                switch (error.code) {
+                  case "INVALID_PASSWORD":
+                    alert("Error changing password. The specified user account password is incorrect.");
+                    break;
+                  default:
+                     alert("Error changing password");
+                }
+              }
+              else
+              {
+                alert("Password changed successfully.")
+              }
+           })
+         }
+        console.log('Tapped!', res);
+      });
+
+     };
+  })
+
+.controller('SearchCtrl', function($scope , $firebaseArray , $ionicLoading , $ionicHistory , $firebaseObject , $state) {
+    $scope.search = {};
+    $ionicLoading.show();
+
+    var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
+    //var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
+
+    //var lookbook = $firebaseArray(lookbookRef);
+
+    $scope.tags = $firebaseArray(tagsRef);
+
+  
+    $scope.tags.$loaded(function(data){
+      $ionicLoading.hide();
+    })
+
+    $scope.$watchCollection('search.tag', function(newVal , oldVal){
+       if($scope.search.tag !='')
+       {
+          $scope.search.result =   _.filter($scope.tags ,function(res) {
+            return res.$id.indexOf($scope.search.tag)>=0;
+          })
+        }
+    })
+
+    $scope.stringify = function(j)
+    {
+      return JSON.stringify(j);
+    }
+
+    $scope.cancel = function()
+    {
+      console.log('goBack');
+      $ionicHistory.goBack();
+    }
+
+    $scope.redirect =function(obj)
+    {
+      console.log(obj);
+      $state.go('search_result' , { 'tag': obj.$id, 'link':obj.Links});
+    }
+
+})
+.controller('SearchResultCtrl' , function($scope , $stateParams){
+
+       var thumbArr = [];
+       var links = $stateParams.link;
+       $scope.title = "#"+$stateParams.tag; 
+
+      angular.forEach(links ,  function(data){
+        thumbArr.push(data);
+      })
+
+      $scope.thumbs = chunk(thumbArr , 2);
+
+      function chunk(arr, size) {
+
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      console.log(newArr);
+      return newArr;
+    }
+
+})
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

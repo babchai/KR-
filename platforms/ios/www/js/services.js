@@ -1,4 +1,7 @@
 angular.module('starter.services', [])
+.factory('$firebase', function() {
+    return new Firebase('https://9lives.firebaseio.com');
+})
 
 .factory('Camera', ['$q', function($q) {
 

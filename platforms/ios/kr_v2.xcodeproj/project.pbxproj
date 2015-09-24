@@ -61,6 +61,7 @@
 		DFB1C8FF4FB74BD7B926880A /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F711F17422A4B8E9815FB2D /* ELCAssetTablePicker.m */; };
 		E333C27AC15B468CB909E429 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E15D6E0B0F4DAA8C81F84A /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F860560D7E3B452F9B5013F0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52616E0F3F9C44C1B2C694A1 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4A72C97DAA3F44539688A7A1 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = A54B94AE40B5441AB430608B /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,8 @@
 		F48734A444C84724899E92EA /* CDVJpegHeaderWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVJpegHeaderWriter.m; path = org.apache.cordova.camera/CDVJpegHeaderWriter.m; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = kr_v2/config.xml; sourceTree = "<group>"; };
 		F8E15D6E0B0F4DAA8C81F84A /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		A54B94AE40B5441AB430608B /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		FAC0F5D2D083401C8F1F5CD6 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +305,8 @@
 				16DF75D876914848BA21601F /* ELCAssetSelectionDelegate.h */,
 				59ECACD6D0044818939BC6A4 /* ELCAssetTablePicker.h */,
 				7D8C319C8A754803B75FD1D9 /* ELCImagePickerController.h */,
+				A54B94AE40B5441AB430608B /* CDVInAppBrowser.m */,
+				FAC0F5D2D083401C8F1F5CD6 /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = kr_v2/Plugins;
@@ -509,6 +514,7 @@
 				60ABEA7342DC480C9B343FCE /* ELCAssetCell.m in Sources */,
 				DFB1C8FF4FB74BD7B926880A /* ELCAssetTablePicker.m in Sources */,
 				44121C7DC7484717889116C0 /* ELCImagePickerController.m in Sources */,
+				4A72C97DAA3F44539688A7A1 /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

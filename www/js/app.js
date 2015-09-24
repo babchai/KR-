@@ -32,7 +32,15 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 
 
 
-.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider) {
+.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {
+
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from our assets domain.  Notice the difference between * and **.
+    'https://www.youtube/*'
+  ]);
+
 
   $mdThemingProvider.theme('default')
     .primaryPalette('grey')

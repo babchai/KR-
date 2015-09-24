@@ -187,6 +187,14 @@ module.exports = [
         "clobbers": [
             "plugins.imagePicker"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+        "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "clobbers": [
+            "cordova.InAppBrowser.open",
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -195,7 +203,8 @@ module.exports.metadata =
     "nl.x-services.plugins.socialsharing": "4.3.19",
     "org.apache.cordova.camera": "0.3.6",
     "org.apache.cordova.file": "1.3.3",
-    "com.synconset.imagepicker": "1.0.6"
+    "com.synconset.imagepicker": "1.0.6",
+    "cordova-plugin-inappbrowser": "1.0.2-dev"
 }
 // BOTTOM OF METADATA
 });

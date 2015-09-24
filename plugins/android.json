@@ -23,6 +23,10 @@
                         {
                             "xml": "<feature name=\"ImagePicker\"><param name=\"android-package\" value=\"com.synconset.ImagePicker\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -62,6 +66,9 @@
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         },
         "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         }
     },

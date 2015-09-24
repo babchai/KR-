@@ -35,6 +35,10 @@
                         {
                             "xml": "false",
                             "count": 2
+                        },
+                        {
+                            "xml": false,
+                            "count": 1
                         }
                     ],
                     "AssetsLibrary.framework": [
@@ -73,6 +77,10 @@
                         {
                             "xml": "<feature name=\"ImagePicker\"><param name=\"ios-package\" value=\"SOSPicker\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -100,6 +108,9 @@
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         },
         "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         }
     },

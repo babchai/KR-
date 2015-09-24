@@ -7,7 +7,8 @@ angular.module('starter.directives', [])
                   '<md-button class="md-icon-button md-primary" aria-label="Settings" ui-sref="mylookbook-add">'+
                   '       <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                   '</md-button>'+
-                   '<h1 class="title" style="text-align:center; font-size:30px;height: 100%;"><img src="img/icon.png" style="width:50px; margin-top:8px;"/> </h1>'+
+                   '<div class="title" style="text-align:center; font-size:30px;">'+
+                   '<img src="img/icon.png" style="height:100%;"/> </div>'+
                    '<md-button class="md-icon-button header-right-button" aria-label="Settings" ng-click="showMap()">'+
                     '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
                     '</md-button>'+

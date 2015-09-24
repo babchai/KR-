@@ -28,6 +28,11 @@
       <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
 
   </feature>
+
+ <feature name="InAppBrowser">
+      <param name="ios-package" value="CDVInAppBrowser" />
+       <param name="android-package" value="org.apache.cordova.InAppBrowser" />
+  </feature>
  
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>

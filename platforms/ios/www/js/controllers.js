@@ -704,8 +704,8 @@ angular.module('starter.controllers', [])
 
   var options = {
    maximumImagesCount: 1,
-   width: 800,
-   height: 800,
+   width: 1080,
+   height: 1080,
    quality: 80
   };
 

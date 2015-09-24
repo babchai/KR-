@@ -668,7 +668,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile, $ionicPlatform,    Camera){
+.controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile,$ionicPlatform,Camera,$cordovaImagePicker){
     $scope.title = 'My LOOKBOOK';
     $scope.images=[];
 
@@ -701,19 +701,40 @@ angular.module('starter.controllers', [])
   };
 
   $scope.getLibrary = function(index){
-    window.imagePicker.getPictures(
-        function(results) {
-            for (var i = 0; i < results.length; i++) {
-                console.log('Image URI: ' + results[i]);
-                $rootScope.pic.before[index] = results[i];
-            }
-        }, function (error) {
-            alert(error);
-            console.log('Error: ' + error);
-        },{
-          width: 1080
-        }
-    );
+
+  var options = {
+   maximumImagesCount: 1,
+   width: 800,
+   height: 800,
+   quality: 80
+  };
+
+  $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+       $rootScope.pic.before[index] = results[i];
+      }
+    }, function(error) {
+      // error getting photos
+       console.log('Error: ' + error);
+    });
+
+    // window.imagePicker.getPictures(
+    //     function(results) {
+    //         for (var i = 0; i < results.length; i++) {
+    //             //console.log('Image URI: ' + results[i]);
+    //             //alert(results);
+    //             $scope.imageURI = results[i];
+    //             $rootScope.pic.before[index] = results[i];
+    //             //$rootScope.apply();
+    //         }
+    //     }, function (error) {
+    //         alert(error);
+    //         console.log('Error: ' + error);
+    //     },{
+    //       width: 1080
+    //     }
+    // );
   }
 
   $scope.getPhotoBefore = function(index) {

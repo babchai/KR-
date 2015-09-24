@@ -11,6 +11,9 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
+    <feature name="ImagePicker">
+        <param name="android-package" value="com.synconset.ImagePicker" />
+    </feature>
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -44,7 +47,4 @@
     <preference name="iosPersistentFileLocation" value="Compatibility" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <feature name="ImagePicker">
-        <param name="android-package" value="com.synconset.ImagePicker" />
-    </feature>
 </widget>

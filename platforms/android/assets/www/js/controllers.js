@@ -98,6 +98,9 @@ angular.module('starter.controllers', [])
   }
 
 })
+.controller('EditProfileCtrl', function($scope , $rootScope , $ionicHistory , $ionicLoading, $state , $mdDialog){
+  
+})
 .controller('SignupCtrl', function($scope , $rootScope , $ionicHistory , $ionicLoading, $state , $mdDialog){
   $scope.title="SIGN UP";
   $scope.user = {};
@@ -110,56 +113,7 @@ angular.module('starter.controllers', [])
   
   $scope.signup = function()
   {
-    $ionicLoading.show();
-      var userRef = new Firebase("https://9lives.firebaseio.com");
-      userRef.createUser({
-        email    : $scope.user.email,
-        password : $scope.user.password
-      }, function(error, userData) {
-        if (error) {
-          $ionicLoading.hide();
-
-          var message = "Sorry. Signup failed."
-          if(error.code == "EMAIL_TAKEN")
-          {
-            message = "Sorry. Email already taken. Please use another email. ";
-          }
-          else if(error.code == "INVALID_EMAIL")
-          {
-            message = "Sorry. The specified email is invalid.";
-          }
-
-
-          $mdDialog.show(
-            $mdDialog.alert()
-              .parent(angular.element(document.querySelector('#popupContainer')))
-              .clickOutsideToClose(true)
-              .title('Signup Failed')
-              .content(message)
-              .ok('Got it!')
-          );
-
-          console.log("Error creating user:", error);
-        } else {
-
-           $ionicLoading.hide();
-          var profile = userRef.child("profile/"+userData.uid);
-          
-          var profileObj = {};
-
-          profileObj = {
-            'name' : $scope.user.name,
-            'email' : $scope.user.email,
-            'contact' : $scope.user.contact,
-            'gender' : $scope.user.gender
-          }
-
-          profile.set(profileObj);
-
-          $rootScope.registerSuccess = true;
-          $state.go('login');
-        }
-      });
+    
   }
 
 })
@@ -737,10 +691,32 @@ angular.module('starter.controllers', [])
       //console.log(action);
        if(action == 0)
        {
-          $scope.getPhotoBefore(index)
+          $scope.getPhotoBefore(index);
+       }
+       else
+       {
+          $scope.getLibrary(index);
        }
     });
   };
+
+  $scope.getLibrary = function(index){
+    window.imagePicker.getPictures(
+        function(results) {
+            for (var i = 0; i < results.length; i++) {
+                //console.log('Image URI: ' + results[i]);
+                //alert(results);
+                $rootScope.pic.before[index] = results[i];
+                $rootScope.apply();
+            }
+        }, function (error) {
+            alert(error);
+            console.log('Error: ' + error);
+        },{
+          width: 1080
+        }
+    );
+  }
 
   $scope.getPhotoBefore = function(index) {
      var option = {quality:50 , 

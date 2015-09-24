@@ -691,10 +691,30 @@ angular.module('starter.controllers', [])
       //console.log(action);
        if(action == 0)
        {
-          $scope.getPhotoBefore(index)
+          $scope.getPhotoBefore(index);
+       }
+       else
+       {
+          $scope.getLibrary(index);
        }
     });
   };
+
+  $scope.getLibrary = function(index){
+    window.imagePicker.getPictures(
+        function(results) {
+            for (var i = 0; i < results.length; i++) {
+                console.log('Image URI: ' + results[i]);
+                $rootScope.pic.before[index] = results[i];
+            }
+        }, function (error) {
+            alert(error);
+            console.log('Error: ' + error);
+        },{
+          width: 1080
+        }
+    );
+  }
 
   $scope.getPhotoBefore = function(index) {
      var option = {quality:50 , 

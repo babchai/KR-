@@ -180,6 +180,13 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/com.synconset.imagepicker/www/imagepicker.js",
+        "id": "com.synconset.imagepicker.ImagePicker",
+        "clobbers": [
+            "plugins.imagePicker"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -187,7 +194,8 @@ module.exports.metadata =
 {
     "nl.x-services.plugins.socialsharing": "4.3.19",
     "org.apache.cordova.camera": "0.3.6",
-    "org.apache.cordova.file": "1.3.3"
+    "org.apache.cordova.file": "1.3.3",
+    "com.synconset.imagepicker": "1.0.6"
 }
 // BOTTOM OF METADATA
 });

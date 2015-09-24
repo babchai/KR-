@@ -517,6 +517,7 @@ angular.module('starter.controllers', [])
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
    $scope.votes = [];
+   $scope.tags ='';
 
  
    var imagename = $stateParams.image.split('.');
@@ -536,12 +537,6 @@ angular.module('starter.controllers', [])
       });
     }
 
-
-
-   // if($stateParams.id)
-   // {
-   // }
-
       voteRef.child($stateParams.category+":"+imagename[0]+'/count').on('value' , function(snapshot){
         if(snapshot.val() === null)
             $scope.count = "0";
@@ -555,14 +550,31 @@ angular.module('starter.controllers', [])
 
       $scope.images = $firebaseArray(lookbookRef);
       
+      $scope.images.$loaded(function(data){
+          var current  = _.find($scope.images, {"filename":$stateParams.image});
+          angular.forEach(current.tags , function(t){
+              $scope.tags =  $scope.tags+'#'+t+" ";
+          })
+      })
 
       $scope.nextImage = function(direction){
-
+        $scope.tags ='';
         var current = _.findIndex($scope.images , {'filename':$scope.image});
         if(direction == 'fwd')
+        {
+           angular.forEach($scope.images[current + 1].tags , function(t){
+              $scope.tags =  $scope.tags+'#'+t+" ";
+           })
+
           $scope.image = $scope.images[current + 1].filename; 
+        }
         else
+        {
+          angular.forEach($scope.images[current - 1].tags , function(t){
+              $scope.tags =  $scope.tags+'#'+t+" ";
+           })
           $scope.image = $scope.images[current - 1].filename; 
+        }
 
         var i = $scope.image.split('.');
 

@@ -30,9 +30,25 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 })
 
 
+ //  .config(function($sceDelegateProvider) {
+ //  $sceDelegateProvider.resourceUrlWhitelist([
+ //    // Allow same origin resource loads.
+ //    'self',
+ //    // Allow loading from outer templates domain.
+ //    'https://www.youtube.com/**'
+ //  ]); 
+ // })
+     
+.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from outer templates domain.
+    'https://www.youtube.com/**'
+  ]); 
+ })
+.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {
 
-
-.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider) {
 
   $mdThemingProvider.theme('default')
     .primaryPalette('grey')

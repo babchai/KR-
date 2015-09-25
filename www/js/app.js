@@ -30,16 +30,24 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 })
 
 
-
-
-.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {
-
+ //  .config(function($sceDelegateProvider) {
+ //  $sceDelegateProvider.resourceUrlWhitelist([
+ //    // Allow same origin resource loads.
+ //    'self',
+ //    // Allow loading from outer templates domain.
+ //    'https://www.youtube.com/**'
+ //  ]); 
+ // })
+     
+.config(function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
     'self',
-    // Allow loading from our assets domain.  Notice the difference between * and **.
-    'https://www.youtube/*'
-  ]);
+    // Allow loading from outer templates domain.
+    'https://www.youtube.com/**'
+  ]); 
+ })
+.config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {
 
 
   $mdThemingProvider.theme('default')

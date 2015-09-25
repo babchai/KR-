@@ -5,33 +5,14 @@
    		<div layout="column">
 
 
-		 <md-card>
-		  	<!--<iframe width="100%" src="https://www.youtube.com/embed/UYmOuMUgfYM" frameborder="0" allowfullscreen></iframe> -->
+		 <md-card ng-repeat="video in videos">
 		
-		      <iframe src="https://www.youtube.com/embed/SmRzvvJ4TnA?rel=0"  style="min-height:250px" frameborder="0" allowfullscreen></iframe>
+		      <iframe src="{{video.path}}"  style="min-height:250px" frameborder="0" allowfullscreen></iframe>
 
 		    <md-card-content>
-		    <p>Interview: Kim Robinson on Wearing the Right Hairstyle</p>
+		    <p>{{video.description}}</p>
 		   </md-card-content>	
 		  </md-card>
-
-		 <md-card >
-		   
-		    <iframe src="https://www.youtube.com/embed/UaMI4CAy3Js?rel=0" style="min-height:250px" frameborder="0" allowfullscreen></iframe>
-
-		   <md-card-content>
-		   <p>Hair Rejuvenation from Kim Robinson</p>
-		   </md-card-content>
-		 </md-card>
-
-		 <md-card >
-		  
-		    <iframe src="https://www.youtube.com/embed/JUU-iVvC9WM?rel=0" style="min-height:250px" frameborder="0" allowfullscreen></iframe>
-
-		   <md-card-content>
-		   <p>Kim Robinson教你打造星級派對髮型</p>
-		   </md-card-content>
-		 </md-card>
 		 
 		</div>
 	

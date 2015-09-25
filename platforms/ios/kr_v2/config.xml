@@ -82,4 +82,8 @@
     <preference name="iosPersistentFileLocation" value="Compatibility" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
 </widget>

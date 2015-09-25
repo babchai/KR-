@@ -38,7 +38,7 @@
                         },
                         {
                             "xml": false,
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "AssetsLibrary.framework": [
@@ -81,6 +81,10 @@
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -111,6 +115,12 @@
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         },
         "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         }
     },

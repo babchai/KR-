@@ -907,8 +907,11 @@ angular.module('starter.controllers', [])
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
-.controller('VideoCtrl', function($scope , $rootScope){
-      $scope.title = "VIDEO"
+.controller('VideoCtrl', function($scope , $rootScope, $firebase,$firebaseArray){
+    $scope.title = "VIDEO"
+    var firebaseRef = new Firebase("https://9lives.firebaseio.com/");
+    var videoRef = firebaseRef.child('videos');
+    $scope.videos = $firebaseArray(videoRef);
 
 })
 

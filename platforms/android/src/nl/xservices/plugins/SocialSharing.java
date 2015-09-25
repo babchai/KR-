@@ -8,10 +8,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.text.Html;
 import android.util.Base64;
 import android.view.Gravity;
 import android.widget.Toast;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -42,6 +44,7 @@ public class SocialSharing extends CordovaPlugin {
   private static final String ACTION_SHARE_VIA_FACEBOOK_EVENT = "shareViaFacebook";
   private static final String ACTION_SHARE_VIA_FACEBOOK_WITH_PASTEMESSAGEHINT = "shareViaFacebookWithPasteMessageHint";
   private static final String ACTION_SHARE_VIA_WHATSAPP_EVENT = "shareViaWhatsApp";
+  private static final String ACTION_SHARE_VIA_INSTAGRAM_EVENT = "shareViaInstagram";
   private static final String ACTION_SHARE_VIA_SMS_EVENT = "shareViaSMS";
   private static final String ACTION_SHARE_VIA_EMAIL_EVENT = "shareViaEmail";
 
@@ -76,6 +79,11 @@ public class SocialSharing extends CordovaPlugin {
       return doSendIntent(callbackContext, args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), "com.facebook.katana", false);
     } else if (ACTION_SHARE_VIA_WHATSAPP_EVENT.equals(action)) {
       return doSendIntent(callbackContext, args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), "whatsapp", false);
+    } else if (ACTION_SHARE_VIA_INSTAGRAM_EVENT.equals(action)) {
+      if (notEmpty(args.getString(0))) {
+        copyHintToClipboard(args.getString(0), "Instagram paste message");
+      }
+      return doSendIntent(callbackContext, args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), "instagram", false);
     } else if (ACTION_CAN_SHARE_VIA.equals(action)) {
       return doSendIntent(callbackContext, args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getString(4), true);
     } else if (ACTION_CAN_SHARE_VIA_EMAIL.equals(action)) {
@@ -133,16 +141,18 @@ public class SocialSharing extends CordovaPlugin {
             draft.putExtra(android.content.Intent.EXTRA_BCC, toStringArray(bcc));
           }
           if (files.length() > 0) {
-            ArrayList<Uri> fileUris = new ArrayList<Uri>();
             final String dir = getDownloadDir();
-            for (int i = 0; i < files.length(); i++) {
-              final Uri fileUri = getFileUriAndSetType(draft, dir, files.getString(i), subject, i);
-              if (fileUri != null) {
-                fileUris.add(fileUri);
+            if (dir != null) {
+              ArrayList<Uri> fileUris = new ArrayList<Uri>();
+              for (int i = 0; i < files.length(); i++) {
+                final Uri fileUri = getFileUriAndSetType(draft, dir, files.getString(i), subject, i);
+                if (fileUri != null) {
+                  fileUris.add(fileUri);
+                }
               }
-            }
-            if (!fileUris.isEmpty()) {
-              draft.putExtra(Intent.EXTRA_STREAM, fileUris);
+              if (!fileUris.isEmpty()) {
+                draft.putExtra(Intent.EXTRA_STREAM, fileUris);
+              }
             }
           }
         } catch (Exception e) {
@@ -158,11 +168,15 @@ public class SocialSharing extends CordovaPlugin {
   }
 
   private String getDownloadDir() throws IOException {
-    final String dir = webView.getContext().getExternalFilesDir(null) + "/socialsharing-downloads"; // external
-
-//    final String dir = webView.getContext().getCacheDir() + "/socialsharing-downloads"; // internal (no external permission needed)
-    createOrCleanDir(dir);
-    return dir;
+    // better check, otherwise it may crash the app
+    if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+      // we need to use external storage since we need to share to another app
+      final String dir = webView.getContext().getExternalFilesDir(null) + "/socialsharing-downloads";
+      createOrCleanDir(dir);
+      return dir;
+    } else {
+      return null;
+    }
   }
 
   private boolean doSendIntent(final CallbackContext callbackContext, final String msg, final String subject, final JSONArray files, final String url, final String appPackageName, final boolean peek) {
@@ -177,29 +191,33 @@ public class SocialSharing extends CordovaPlugin {
         final Intent sendIntent = new Intent(hasMultipleAttachments ? Intent.ACTION_SEND_MULTIPLE : Intent.ACTION_SEND);
         sendIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
-        if (files.length() > 0) {
-          ArrayList<Uri> fileUris = new ArrayList<Uri>();
-          try {
+        try {
+          if (files.length() > 0 && !"".equals(files.getString(0))) {
             final String dir = getDownloadDir();
-            Uri fileUri = null;
-            for (int i = 0; i < files.length(); i++) {
-              fileUri = getFileUriAndSetType(sendIntent, dir, files.getString(i), subject, i);
-              if (fileUri != null) {
-                fileUris.add(fileUri);
+            if (dir != null) {
+              ArrayList<Uri> fileUris = new ArrayList<Uri>();
+              Uri fileUri = null;
+              for (int i = 0; i < files.length(); i++) {
+                fileUri = getFileUriAndSetType(sendIntent, dir, files.getString(i), subject, i);
+                if (fileUri != null) {
+                  fileUris.add(fileUri);
+                }
               }
-            }
-            if (!fileUris.isEmpty()) {
-              if (hasMultipleAttachments) {
-                sendIntent.putExtra(Intent.EXTRA_STREAM, fileUris);
-              } else {
-                sendIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+              if (!fileUris.isEmpty()) {
+                if (hasMultipleAttachments) {
+                  sendIntent.putExtra(Intent.EXTRA_STREAM, fileUris);
+                } else {
+                  sendIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                }
               }
+            } else {
+              sendIntent.setType("text/plain");
             }
-          } catch (Exception e) {
-            callbackContext.error(e.getMessage());
+          } else {
+            sendIntent.setType("text/plain");
           }
-        } else {
-          sendIntent.setType("text/plain");
+        } catch (Exception e) {
+          callbackContext.error(e.getMessage());
         }
 
         if (notEmpty(subject)) {
@@ -242,7 +260,8 @@ public class SocialSharing extends CordovaPlugin {
                   public void run() {
                     cordova.getActivity().runOnUiThread(new Runnable() {
                       public void run() {
-                        showPasteMessage(msg, pasteMessage);
+                        copyHintToClipboard(msg, pasteMessage);
+                        showPasteMessage(pasteMessage);
                       }
                     });
                   }
@@ -263,16 +282,20 @@ public class SocialSharing extends CordovaPlugin {
   }
 
   @SuppressLint("NewApi")
-  private void showPasteMessage(String msg, String label) {
+  private void copyHintToClipboard(String msg, String label) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
       return;
     }
-    // copy to clipboard
     final ClipboardManager clipboard = (android.content.ClipboardManager) cordova.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
     final ClipData clip = android.content.ClipData.newPlainText(label, msg);
     clipboard.setPrimaryClip(clip);
+  }
 
-    // show a toast
+  @SuppressLint("NewApi")
+  private void showPasteMessage(String label) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+      return;
+    }
     final Toast toast = Toast.makeText(webView.getContext(), label, Toast.LENGTH_LONG);
     toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
     toast.show();
@@ -432,12 +455,14 @@ public class SocialSharing extends CordovaPlugin {
     }
   }
 
-  private String getFileName(String url) {
-    final int lastIndexOfSlash = url.lastIndexOf('/');
-    if (lastIndexOfSlash == -1) {
-      return url;
+  private static String getFileName(String url) {
+    final String pattern = ".*/([^?#]+)?";
+    Pattern r = Pattern.compile(pattern);
+    Matcher m = r.matcher(url);
+    if (m.find()) {
+      return m.group(1);
     } else {
-      return url.substring(lastIndexOfSlash + 1);
+      return null;
     }
   }
 

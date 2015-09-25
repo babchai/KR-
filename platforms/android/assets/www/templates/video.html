@@ -1,45 +1,18 @@
 <div header4>
 </div>
 
-<ion-content scroll="true" overflow-scroll="false" class="lookbook" >
+<ion-content scroll="true" overflow-scroll="true" class="lookbook" >
    		<div layout="column">
-	
-		 <md-card >
-		    <a href="https://www.youtube.com/embed/UYmOuMUgfYM?autoplay=true" target="_self">
-		    	<img width="100%" src="http://img.youtube.com/vi/UYmOuMUgfYM/0.jpg" class="md-card-image">
-		    </a>
-		   <md-card-content>
-		   <p>Kr+</p>
-		   </md-card-content>
-		 </md-card>
 
-		 <md-card>
-		  	<!--<iframe width="100%" src="https://www.youtube.com/embed/UYmOuMUgfYM" frameborder="0" allowfullscreen></iframe> -->
-		    <a href="https://www.youtube.com/embed/SmRzvvJ4TnA?autoplay=true" target="_self">
-		    	<img width="100%" src="http://img.youtube.com/vi/SmRzvvJ4TnA/0.jpg"  class="md-card-image">
-		    </a>
+
+		 <md-card ng-repeat="video in videos">
+		
+		      <iframe src="{{video.path}}"  style="min-height:250px" frameborder="0" allowfullscreen></iframe>
+
 		    <md-card-content>
-		    <p>Interview: Kim Robinson on Wearing the Right Hairstyle</p>
+		    <p>{{video.description}}</p>
 		   </md-card-content>	
 		  </md-card>
-
-		 <md-card >
-		    <a href="https://www.youtube.com/embed/UaMI4CAy3Js?autoplay=true" target="_self">
-		    	<img width="100%" src="http://img.youtube.com/vi/UaMI4CAy3Js/0.jpg" class="md-card-image">
-		    </a>
-		   <md-card-content>
-		   <p>Hair Rejuvenation from Kim Robinson</p>
-		   </md-card-content>
-		 </md-card>
-
-		 <md-card >
-		    <a href="https://www.youtube.com/embed/JUU-iVvC9WM?autoplay=true" target="_self">
-		    	<img width="100%" src="http://img.youtube.com/vi/JUU-iVvC9WM/0.jpg" class="md-card-image">
-		    </a>
-		   <md-card-content>
-		   <p>Kim Robinson教你打造星級派對髮型</p>
-		   </md-card-content>
-		 </md-card>
 		 
 		</div>
 	
@@ -47,6 +20,7 @@
 
 </ion-view>
 
+<div footer></div>
 
 
 	

@@ -1,4 +1,11 @@
 {
   "name": "kr_v2",
-  "app_id": "7b78a89d"
+  "app_id": "7b78a89d",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
 }

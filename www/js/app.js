@@ -187,7 +187,16 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       templateUrl:"templates/video.html",
       controller:"VideoCtrl"
   })
- 
+  
+  .state('stylistList' , {
+    cache: true,
+    url : "/stylistList",
+    templateUrl : "templates/stylistList.html",
+    controller:"stylistListCtrl",
+    params:{
+      cat:null
+    }
+  })
   .state('stylist' , {
     cache: true,
     url : "/stylist",

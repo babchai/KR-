@@ -1134,7 +1134,7 @@ $scope.stylistDetail = function(id) {
      };
   })
 
-.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
+.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase ,$ionicPush){
   $ionicLoading.show();
      $scope.title = "ACCOUNT SETTINGS"
      $scope.user = {}
@@ -1168,6 +1168,27 @@ $scope.stylistDetail = function(id) {
         userRef.unauth();
         $localstorage.setObject("userData" , {});
         $location.path('/login');
+     }
+
+     $scope.changeNotification = function(){
+
+       if(this.setting.notification)
+       {
+          $ionicPush.register({
+            canShowAlert: true, //Can pushes show an alert on your screen?
+            canSetBadge: true, //Can pushes update app icon badges?
+            canPlaySound: true, //Can notifications play a sound?
+            canRunActionsOnWake: true, //Can run actions outside the app,
+            onNotification: function(notification) {
+              // Handle new push notifications here
+              // $log.info(notification);
+              console.log(notification);
+              return true;
+            }
+          });
+
+       }
+
      }
 
     $scope.changePassword = function() {

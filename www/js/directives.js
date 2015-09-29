@@ -81,7 +81,7 @@ angular.module('starter.directives', [])
             }
         },
         template:'<ion-header-bar name="header4" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
-                  '<div class="buttons header-left-button" ng-click="goBack()">'+
+                  '<div class="buttons header-left-button" ng-click="goBack()" style="width: 30px;height: 100%;">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+

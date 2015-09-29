@@ -319,3 +319,15 @@ html, body{
 .custom-popup .popup-head{
     display: none;
 }
+
+.card .item {
+    background-color : #fff;
+}
+
+.stylist .popup{
+    width: 90%
+}
+
+.stylist .popup-head{
+    display: none
+}

@@ -113,7 +113,56 @@ angular.module('starter.controllers', [])
   
   $scope.signup = function()
   {
-    
+    $ionicLoading.show();
+      var userRef = new Firebase("https://9lives.firebaseio.com");
+      userRef.createUser({
+        email    : $scope.user.email,
+        password : $scope.user.password
+      }, function(error, userData) {
+        if (error) {
+          $ionicLoading.hide();
+
+          var message = "Sorry. Signup failed."
+          if(error.code == "EMAIL_TAKEN")
+          {
+            message = "Sorry. Email already taken. Please use another email. ";
+          }
+          else if(error.code == "INVALID_EMAIL")
+          {
+            message = "Sorry. The specified email is invalid.";
+          }
+
+
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .title('Signup Failed')
+              .content(message)
+              .ok('Got it!')
+          );
+
+          console.log("Error creating user:", error);
+        } else {
+
+           $ionicLoading.hide();
+          var profile = userRef.child("profile/"+userData.uid);
+          
+          var profileObj = {};
+
+          profileObj = {
+            'name' : $scope.user.name,
+            'email' : $scope.user.email,
+            'contact' : $scope.user.contact,
+            'gender' : $scope.user.gender
+          }
+
+          profile.set(profileObj);
+
+          $rootScope.registerSuccess = true;
+          $state.go('login');
+        }
+      });
   }
 
 })
@@ -248,11 +297,25 @@ angular.module('starter.controllers', [])
       });
    }
 
-    $scope.expand = function(){
-      if($scope.lookbook.expand == true)
-        $scope.lookbook.expand = false
+    $scope.expand = function(type){
+      // if($scope.lookbook.expand == true)
+      //   $scope.lookbook.expand = false
+      // else
+      //   $scope.lookbook.expand = true;
+      if(type == "stylist")
+      {
+        if($scope.lookbook.expandStylist == true)
+          $scope.lookbook.expandStylist = false
+        else
+          $scope.lookbook.expandStylist = true;
+      }
       else
-        $scope.lookbook.expand = true;
+      {
+        if($scope.lookbook.expandFace == true)
+          $scope.lookbook.expandFace = false
+        else
+          $scope.lookbook.expandFace = true;
+      }
     }
   
     function DialogController ($scope, $mdDialog, items)
@@ -406,22 +469,42 @@ angular.module('starter.controllers', [])
     var thumbArr = [];
    
     var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$scope.category);
-    var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
+    //var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
     
-        
-    scrollRef.on("value", function(snapshot) {
-      console.log(snapshot.key());
-      $ionicLoading.hide();
+    var photos = $firebaseArray(lookbookRef);
 
-       snapshot.forEach(function(childSnaphot){
-          //console.log(childSnaphot.key() , childSnaphot.val());
+    photos.$loaded(function(snapshot){
+      $ionicLoading.hide();
+        console.log(snapshot);
+        snapshot.forEach(function(childSnaphot){
+          console.log(childSnaphot);
           thumbArr.push({
-            'key':childSnaphot.key(),
-            'val':childSnaphot.val()
-          });
+             'key':childSnaphot.$id,
+             'val':childSnaphot
+           });
         });
-        $scope.thumbs = chunk(thumbArr , 2);
-    });
+        // snapshot.forEach(function(childSnaphot){
+        //   console.log(childSnaphot.key() , childSnaphot.val());
+        //   thumbArr.push({
+        //     'key':childSnaphot.key(),
+        //     'val':childSnaphot.val()
+        //   });
+        // });
+         $scope.thumbs = chunk(thumbArr , 2);
+    })
+        
+    // scrollRef.on("value", function(snapshot) {
+    //   $ionicLoading.hide();
+
+    //    snapshot.forEach(function(childSnaphot){
+    //       //console.log(childSnaphot.key() , childSnaphot.val());
+    //       thumbArr.push({
+    //         'key':childSnaphot.key(),
+    //         'val':childSnaphot.val()
+    //       });
+    //     });
+    //     $scope.thumbs = chunk(thumbArr , 2);
+    // });
  
     $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
        
@@ -430,7 +513,7 @@ angular.module('starter.controllers', [])
          if($scope.thumbArr)
             $scope.thumbs = chunk($scope.thumbArr , 2);
      })  
-    scrollRef.scroll.next(50);
+    //scrollRef.scroll.next(10);
  
 
     $scope.loadMore = function()
@@ -439,7 +522,7 @@ angular.module('starter.controllers', [])
           $ionicLoading.show();
 
       console.log('loadMore');
-      scrollRef.scroll.next(50);
+     // scrollRef.scroll.next(10);
       //$scope.$broadcast('scroll.infiniteScrollComplete');
 
 
@@ -448,8 +531,8 @@ angular.module('starter.controllers', [])
     $scope.moreDataCanBeLoaded = function()
     {
 
-      var hasMore = scrollRef.scroll.hasNext();
-      return scrollRef.scroll.hasNext();
+      // var hasMore = scrollRef.scroll.hasNext();
+      // return scrollRef.scroll.hasNext();
     }
     
     //$scope.thumbs = chunk(thumbArr , 2);
@@ -865,6 +948,41 @@ angular.module('starter.controllers', [])
   $scope.listItemClick = function($index) {
     $mdBottomSheet.hide($index);
   };
+})
+.controller('stylistListCtrl' , function($scope, $firebaseArray,$stateParams , $ionicPopup){
+   $scope.title = $stateParams.cat.name;
+
+  var firebaseRef = new Firebase("https://9lives.firebaseio.com/");
+
+  $scope.category = $stateParams.cat.key;
+  var stylistRef = firebaseRef.child('lookbook2/'+$stateParams.cat.key);
+  $scope.stylists = $firebaseArray(stylistRef);
+
+$scope.stylistDetail = function(id) {
+      // An elaborate, custom popup
+     console.log($scope.stylists[id]);
+
+    var myPopup = $ionicPopup.show({
+      cssClass : "stylist",
+      template: '<div class="list card">'+
+                  '<div class="item item-image">'+
+                  '  <img src="http://krplus.com/lookbook/'+$scope.category+'/'+$scope.stylists[id].filename+'">'+
+                  '</div>'+
+                  '<div class="item item-text-wrap">'+
+                  '<h3>'+$scope.stylists[id].name+'</h3>'+
+                  ''+$scope.stylists[id].desc+''+
+                  '</div>'+
+                '</div>',
+      scope: $scope,
+      buttons: [
+        { text: 'Close' },
+      
+      ]
+    });
+  }
+
+
+
 })
 
 .controller('StylistCtrl' , function($scope , $mdDialog , $rootScope ){

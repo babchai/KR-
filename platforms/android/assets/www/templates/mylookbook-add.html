@@ -15,7 +15,6 @@
 <!--             <div class="col"  ng-click="getPhotoBefore(0)">
  -->              
            <div class="col"   >
-           {{alert}}
            <center>
                <img ng-src="{{pic.before[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.before[0]" ng-click="popup(pic.before[0])" />
                <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[0]" 
@@ -71,7 +70,7 @@
             </div>
       </div>
    </div>
-    <div style="height:20%">
+   <!--  <div style="height:20%">
      <center>
         <button class="button cus-button-grey" style="width:50%" ng-click="selectStylist()" ng-hide="stylist">
             Stylist
@@ -90,7 +89,7 @@
         </md-list-item>
       </md-list>
 
-    </div>
+    </div> -->
 
 </ion-content>
 </ion-view>

@@ -71,6 +71,31 @@ angular.module('starter.directives', [])
     }
 })
 
+.directive('header8' , function($ionicHistory){
+    return{
+        restrict: 'AEC',
+        link : function(scope, elem, attrs){
+            scope.goBack = function(){
+                $ionicHistory.goBack();
+
+            }
+        },
+        template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
+                  '<div class="buttons header-left-button" ng-click="goBack()" style="width: 30px;height: 100%;">'+
+                  '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
+                  '</div>'+
+                  '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
+                  '  <i class="ion-ios-star-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!volted"></i>'+
+                  '  <i class="ion-ios-star" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="volted" ></i>'+
+                  '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
+                  '</h1>'+
+                  '<div class="buttons header-right-button" style="width: 30px;height: 100%;padding-top: 2%;" ng-click="delete()">'+
+                  '       <i class="ion-ios-trash-outline" style="font-size:30px ; color:#363636;""></i>'+
+                  '</div>'+
+                  '</ion-header-bar>'
+    }
+})
+
 .directive('header4', function($ionicHistory){
     return{
         restrict:'AEC',
@@ -88,7 +113,7 @@ angular.module('starter.directives', [])
                   ' {{ title}}'+
                   '</h1>'+
                   '<div class="buttons header-right-button" >'+
-                  '       <i class="ion-ios-arrow-right" style="font-size:30px ; color:#363636;     visibility: hidden;"  ></i>'+
+                  '       <i class="ion-android-more-vertical" style="font-size:30px ; color:#363636;     visibility: hidden;"  ></i>'+
                   '</div>'+
                   '</ion-header-bar>'
     }

@@ -158,18 +158,18 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       controller:"MyLookbookAddCtrl"
   })
   .state('mylookbook-all', {
-    cache : true,
+    cache : false,
       url:"/mylookbook-all",
       templateUrl:"templates/mylookbook-all.html",
       controller:"MyLookbookAllCtrl"
   })
   .state('mylookbook-detail', {
-    cache : true,
+    cache : false,
       url:"/mylookbook-detail",
       templateUrl:"templates/mylookbook-detail.html",
       controller:"MyLookbookDetailCtrl",
       params:{
-        photo:null
+        item:null
       }
   })
   .state('mylookbook-favorite', {

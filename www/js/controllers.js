@@ -743,11 +743,39 @@ angular.module('starter.controllers', [])
    $scope.mylookbooks = $localstorage.getArray('lookook');
 })
 
-.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams){
+.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams  , $state , $ionicPopup){
 
    $scope.title = 'My LOOKBOOK';
 
-   $scope.photo = $stateParams.photo;
+   $scope.photo = $stateParams.item.photo;
+   $scope.date = $stateParams.item.date;
+
+
+  $scope.delete = function() {
+       var confirmPopup = $ionicPopup.confirm({
+         title: 'MyLookbook',
+         template: 'Are you sure you want to delete this photo?'
+       });
+       confirmPopup.then(function(res) {
+         if(res) {
+           //console.log('You are sure');
+           removePhoto();
+         } else {
+           console.log('You are not sure');
+         }
+       });
+ };
+
+
+   function removePhoto(){
+    
+    var dictionary =  $localstorage.getArray('lookook');
+    var index = _.findIndex(dictionary, {"photo": $scope.photo})
+ 
+    dictionary = _.without(dictionary, _.findWhere(dictionary, {"photo": $scope.photo}));
+    $localstorage.setArray('lookook', dictionary);
+    $state.go('mylookbook-all');
+   }
 
 })
 
@@ -811,8 +839,7 @@ angular.module('starter.controllers', [])
       destinationType:1,
       encodingType: 0,
       targetWidth: 1080,
-      targetHeight: 1080,
-      allowEdit : true,
+      
       correctOrientation:true,
       PictureSourceType:2,
 
@@ -1045,6 +1072,14 @@ $scope.stylistDetail = function(id) {
         })
 
      }
+
+   $scope.logout = function(){
+       var userRef = new Firebase("https://9lives.firebaseio.com");
+
+        userRef.unauth();
+        $localstorage.setObject("userData" , {});
+        $location.path('/login');
+     }   
 
   $scope.updateAvatar = function(){
 
@@ -1373,7 +1408,19 @@ $scope.stylistDetail = function(id) {
     }
 
 })
+.controller('tncCtrl', function($scope ,$sce , $ionicLoading){
+  $scope.title = "Terms and Privacy"
+  $ionicLoading.show();
+    var tncRef = new Firebase("https://9lives.firebaseio.com/TNC");
 
+    tncRef.once('value', function(snapshot){
+      $ionicLoading.hide();
+      $scope.tnc = $sce.trustAsHtml(snapshot.val().value);
+
+       console.log($scope.tnc);
+    })
+
+})
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true

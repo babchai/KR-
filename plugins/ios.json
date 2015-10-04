@@ -122,6 +122,9 @@
         },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
         }
     },
     "dependent_plugins": {}

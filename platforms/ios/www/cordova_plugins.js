@@ -213,7 +213,8 @@ module.exports.metadata =
     "com.synconset.imagepicker": "1.0.6",
     "cordova-plugin-inappbrowser": "1.0.2-dev",
     "cordova-plugin-crosswalk-webview": "1.3.1",
-    "cordova-plugin-splashscreen": "2.1.0"
+    "cordova-plugin-splashscreen": "2.1.0",
+    "cordova-plugin-whitelist": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

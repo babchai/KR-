@@ -15,6 +15,7 @@ angular.module('starter.services', [])
         q.resolve(result);
       }, function(err) {
         q.reject(err);
+        
       }, options);
 
       return q.promise;

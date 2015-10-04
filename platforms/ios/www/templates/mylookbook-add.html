@@ -4,7 +4,7 @@
 
 <ion-content scroll="true" overflow-scroll="true"  >
    
-   <div style="height:35%">
+   <div style="height:50%">
 
       <div class="row">
           <h4>Before Hair Cut</h4>
@@ -15,7 +15,6 @@
 <!--             <div class="col"  ng-click="getPhotoBefore(0)">
  -->              
            <div class="col"   >
-           {{alert}}
            <center>
                <img ng-src="{{pic.before[0]}}" style="max-width:80%; border-radius: 10px" ng-show="pic.before[0]" ng-click="popup(pic.before[0])" />
                <img ng-src="img/icon/upload-icon.png" style="max-width:80%; border-radius: 10px" ng-show="!pic.before[0]" 
@@ -41,7 +40,7 @@
             </div>
         </div>
    </div>
-   <div style="height:35% ; border-top:solid 1px #ffe54e">
+   <div style="height:50% ; border-top:solid 1px #ffe54e">
     <div class="row">
           <h4>After Hair Cut</h4>
     </div>
@@ -71,7 +70,7 @@
             </div>
       </div>
    </div>
-    <div style="height:20%">
+   <!--  <div style="height:20%">
      <center>
         <button class="button cus-button-grey" style="width:50%" ng-click="selectStylist()" ng-hide="stylist">
             Stylist
@@ -90,7 +89,7 @@
         </md-list-item>
       </md-list>
 
-    </div>
+    </div> -->
 
 </ion-content>
 </ion-view>

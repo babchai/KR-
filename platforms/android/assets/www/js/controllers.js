@@ -1408,7 +1408,19 @@ $scope.stylistDetail = function(id) {
     }
 
 })
+.controller('tncCtrl', function($scope ,$sce , $ionicLoading){
+  $scope.title = "Terms and Privacy"
+  $ionicLoading.show();
+    var tncRef = new Firebase("https://9lives.firebaseio.com/TNC");
 
+    tncRef.once('value', function(snapshot){
+      $ionicLoading.hide();
+      $scope.tnc = $sce.trustAsHtml(snapshot.val().value);
+
+       console.log($scope.tnc);
+    })
+
+})
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true

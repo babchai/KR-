@@ -743,11 +743,39 @@ angular.module('starter.controllers', [])
    $scope.mylookbooks = $localstorage.getArray('lookook');
 })
 
-.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams){
+.controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams  , $state , $ionicPopup){
 
    $scope.title = 'My LOOKBOOK';
 
-   $scope.photo = $stateParams.photo;
+   $scope.photo = $stateParams.item.photo;
+   $scope.date = $stateParams.item.date;
+
+
+  $scope.delete = function() {
+       var confirmPopup = $ionicPopup.confirm({
+         title: 'MyLookbook',
+         template: 'Are you sure you want to delete this photo?'
+       });
+       confirmPopup.then(function(res) {
+         if(res) {
+           //console.log('You are sure');
+           removePhoto();
+         } else {
+           console.log('You are not sure');
+         }
+       });
+ };
+
+
+   function removePhoto(){
+    
+    var dictionary =  $localstorage.getArray('lookook');
+    var index = _.findIndex(dictionary, {"photo": $scope.photo})
+ 
+    dictionary = _.without(dictionary, _.findWhere(dictionary, {"photo": $scope.photo}));
+    $localstorage.setArray('lookook', dictionary);
+    $state.go('mylookbook-all');
+   }
 
 })
 
@@ -802,22 +830,7 @@ angular.module('starter.controllers', [])
        console.log('Error: ' + error);
     });
 
-    // window.imagePicker.getPictures(
-    //     function(results) {
-    //         for (var i = 0; i < results.length; i++) {
-    //             //console.log('Image URI: ' + results[i]);
-    //             //alert(results);
-    //             $scope.imageURI = results[i];
-    //             $rootScope.pic.before[index] = results[i];
-    //             //$rootScope.apply();
-    //         }
-    //     }, function (error) {
-    //         alert(error);
-    //         console.log('Error: ' + error);
-    //     },{
-    //       width: 1080
-    //     }
-    // );
+    
   }
 
   $scope.getPhotoBefore = function(index) {
@@ -826,8 +839,7 @@ angular.module('starter.controllers', [])
       destinationType:1,
       encodingType: 0,
       targetWidth: 1080,
-      targetHeight: 1080,
-      allowEdit : true,
+      
       correctOrientation:true,
       PictureSourceType:2,
 
@@ -1033,13 +1045,12 @@ $scope.stylistDetail = function(id) {
 
 })
 
-.controller('MyaccountCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
+.controller('MyaccountCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase , $mdBottomSheet , $cordovaImagePicker , Camera){
   $ionicLoading.show();
      $scope.title = "MY ACCOUNT"
      $scope.user = {}
 
-    
-      var authData =   $localstorage.getObject("userData");
+     var authData =   $localstorage.getObject("userData");
 
      var profile = new Firebase("https://9lives.firebaseio.com/profile/"+$localstorage.getObject('userData').uid);
     
@@ -1047,9 +1058,10 @@ $scope.stylistDetail = function(id) {
      profile.on('value' , function(snapshot){
        if(snapshot.val() !== null)
        {
-         $ionicLoading.hide();
+          console.log(snapshot.val());
+          $ionicLoading.hide();
           $scope.user = snapshot.val();
-          $scope.user.avatar = "img/avatar.png";
+          //$scope.user.avatar = "img/avatar.png";
        }
      })
 
@@ -1061,28 +1073,28 @@ $scope.stylistDetail = function(id) {
 
      }
 
-     $scope.logout = function(){
+   $scope.logout = function(){
        var userRef = new Firebase("https://9lives.firebaseio.com");
 
         userRef.unauth();
         $localstorage.setObject("userData" , {});
         $location.path('/login');
-     }
+     }   
 
-    $scope.changePassword = function() {
-      $scope.password = {}
+  $scope.updateAvatar = function(){
 
-      // An elaborate, custom popup
+    $scope.showListBottomSheet(0);
+  }
+
+  $scope.editProfile = function() {
+      console.log($scope.user.contact);
       var myPopup = $ionicPopup.show({
         template: ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"> '+
+                  '   <input type="text"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%">'+
                   '</div>'+
-                   ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%">'+
-                  ' </div>'+
-                  ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%">'+
-                  ' </div>',
+                  '<div class="login-wraper">'+
+                  '   <input type="text"  class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%">'+  
+                  '</div>',
         scope: $scope,
         cssClass: 'custom-popup',
         buttons: [
@@ -1091,50 +1103,123 @@ $scope.stylistDetail = function(id) {
             text: '<b>Save</b>',
             type: 'cus-button',
             onTap: function(e) {
-              if ($scope.newPassword != $scope.confirmPassword) {
-                //don't allow the user to close unless he enters wifi password
-                e.preventDefault();
-              } else {
-                  return true;
-              }
+              return true;
             }
           }
         ]
       });
 
-      myPopup.then(function(res) {
+       myPopup.then(function(res) {
         if(res)
         {
           $ionicLoading.show();
-           var userRef = new Firebase("https://9lives.firebaseio.com");
-           userRef.changePassword({
-              'email' : $scope.user.email,
-              'oldPassword': $scope.password.oldPassword,
-              'newPassword' : $scope.password.newPassword
+           profile.update({
+              'name' : $scope.user.name,
+              'contact': $scope.user.contact,
            }, function(error){
              $ionicLoading.hide();
             if (error) {
-                switch (error.code) {
-                  case "INVALID_PASSWORD":
-                    alert("Error changing password. The specified user account password is incorrect.");
-                    break;
-                  default:
-                     alert("Error changing password");
-                }
+                alert("Error changing profile." + error.code);
               }
               else
               {
-                alert("Password changed successfully.")
+                alert("Profile changed successfully.")
               }
            })
          }
         console.log('Tapped!', res);
       });
 
-     };
+  }
+
+  $scope.showListBottomSheet = function(index) {
+    console.log(index);
+    //$scope.photoIndex = index;
+    $mdBottomSheet.show({
+      templateUrl: 'templates/bottom-sheet-list-template.html',
+      controller: 'ListBottomSheetCtrl',
+      local : {photoIndex:index}
+    }).then(function(action) {
+      //console.log(action);
+       if(action == 0)
+       {
+          $scope.getPhotoBefore(index);
+       }
+       else
+       {
+          $scope.getLibrary(index);
+       }
+    });
+  };
+
+  $scope.getLibrary = function(index){
+
+  var options = {
+   maximumImagesCount: 1,
+   width: 1080,
+   height: 1080,
+   quality: 80
+  };
+
+  $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+       $scope.user.avatar = results[i];
+        profile.update({
+          'avatar': $scope.user.avatar 
+        })
+      }
+    }, function(error) {
+      // error getting photos
+       console.log('Error: ' + error);
+    });
+
+    
+  }
+
+  $scope.getPhotoBefore = function(index) {
+     var option = {quality:50 , 
+      //destinationType : Camera.DestinationType.DATA_URL,
+      destinationType:1,
+      encodingType: 0,
+      targetWidth: 1080,
+      targetHeight: 1080,
+      allowEdit : true,
+      correctOrientation:true,
+      PictureSourceType:2,
+
+      //saveToPhotoAlbum:true
+    };
+
+
+    Camera.getPicture(option).then(function(imageURI) {
+      $scope.user.avatar = imageURI
+      profile.update({
+        'avatar': $scope.user.avatar 
+      })
+        // if(index < 3)
+        //     $scope.user.avatar = imageURI;
+        // else
+        //   $rootScope.pic.after[index-3] = imageURI;
+    }, function(err) {
+      console.log(err);
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('Camera Failed')
+          .content("Opps! Something went wrong. Please try again.")
+          .ok('Ok!')
+        );
+    })
+
+    //$cordovaCamera.cleanup();
+  };
+
+
   })
 
-.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase){
+.controller('SettingCtrl' , function($scope , $localstorage,$location , $ionicLoading , $ionicPopup, $firebase ,$ionicPush){
   $ionicLoading.show();
      $scope.title = "ACCOUNT SETTINGS"
      $scope.user = {}
@@ -1150,7 +1235,7 @@ $scope.stylistDetail = function(id) {
        {
          $ionicLoading.hide();
           $scope.user = snapshot.val();
-          $scope.user.avatar = "img/avatar.png";
+          //$scope.user.avatar = "img/avatar.png";
        }
      })
 
@@ -1168,6 +1253,27 @@ $scope.stylistDetail = function(id) {
         userRef.unauth();
         $localstorage.setObject("userData" , {});
         $location.path('/login');
+     }
+
+     $scope.changeNotification = function(){
+
+       if(this.setting.notification)
+       {
+          $ionicPush.register({
+            canShowAlert: true, //Can pushes show an alert on your screen?
+            canSetBadge: true, //Can pushes update app icon badges?
+            canPlaySound: true, //Can notifications play a sound?
+            canRunActionsOnWake: true, //Can run actions outside the app,
+            onNotification: function(notification) {
+              // Handle new push notifications here
+              // $log.info(notification);
+              console.log(notification);
+              return true;
+            }
+          });
+
+       }
+
      }
 
     $scope.changePassword = function() {
@@ -1302,7 +1408,19 @@ $scope.stylistDetail = function(id) {
     }
 
 })
+.controller('tncCtrl', function($scope ,$sce , $ionicLoading){
+  $scope.title = "Terms and Privacy"
+  $ionicLoading.show();
+    var tncRef = new Firebase("https://9lives.firebaseio.com/TNC");
 
+    tncRef.once('value', function(snapshot){
+      $ionicLoading.hide();
+      $scope.tnc = $sce.trustAsHtml(snapshot.val().value);
+
+       console.log($scope.tnc);
+    })
+
+})
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true

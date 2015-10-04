@@ -20,7 +20,9 @@
 
     <a class="item item-icon-right"  ng-click="expand('face-matrix')" md-ink-ripple ng-show="!lookbook.expand && categories.length > 0" >
       Face Matrix
-      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e" ></i>
+      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e" ng-hide="lookbook.expandFace" ></i>
+      <i class="icon ion-chevron-down"  style="font-size:15px; color:#ffe54e" ng-show="lookbook.expandFace" ></i>
+
     </a>
     <div ng-show="lookbook.expandFace" ng-repeat = "cat in categories | filter:{'key':'face-matrix'}">
       <a class="item" style=" background-color: #fff;color: #555555;" ui-sref="lookbook-sub({'cat':child})"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >
@@ -31,7 +33,9 @@
 
     <a class="item item-icon-right"  ng-click="expand('stylist')" md-ink-ripple ng-show="!lookbook.expand && categories.length > 0" >
       Stylist
-      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e" ></i>
+      <i class="icon ion-chevron-right"  style="font-size:15px; color:#ffe54e" ng-hide="lookbook.expandStylist" ></i>
+      <i class="icon ion-chevron-down"  style="font-size:15px; color:#ffe54e" ng-show="lookbook.expandStylist"></i>
+
     </a>
     <div ng-show="lookbook.expandStylist" ng-repeat = "cat in categories | filter:{'key':'stylist'}">
     <a class="item" style=" background-color: #fff;color: #555555;" ui-sref="stylistList({'cat':child})"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >

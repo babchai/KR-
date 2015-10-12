@@ -982,7 +982,10 @@ $scope.stylistDetail = function(id) {
                   '</div>'+
                   '<div class="item item-text-wrap">'+
                   '<h3>'+$scope.stylists[id].name+'</h3>'+
-                  ''+$scope.stylists[id].desc+''+
+                  'I love hair because '+$scope.stylists[id].desc+'<br /><br>'+
+                  'My passion are '+$scope.stylists[id].passion+'<br/><br>'+
+                  'Start Sign : '+$scope.stylists[id].star+'<br /><br />'+
+                  'Love Match : '+$scope.stylists[id].love+'<br /><br />'+
                   '</div>'+
                 '</div>',
       scope: $scope,

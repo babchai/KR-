@@ -39,6 +39,7 @@ angular.module('starter.directives', [])
                    '     <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
+                     
                    '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
                    '  <i class="ion-location" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
@@ -154,7 +155,7 @@ angular.module('starter.directives', [])
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
-                   '<div md-ink-ripple="" class="buttons header-right-button" style="right: 15px;">'+
+                   '<div md-ink-ripple="" class="buttons header-right-button"  style="width: 30px;height: 100%;padding-top: 2%;" >'+
                    '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ui-sref="search" ></i>'+
                    '</div>'+
                    '</ion-header-bar>'

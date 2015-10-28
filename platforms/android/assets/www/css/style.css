@@ -344,5 +344,9 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .popup-buttons .button{
      background-color: #ffe54e !important;
      border: none;
+
 }
+
+pre {
+    font-family: inherit;
 }

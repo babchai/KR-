@@ -2,17 +2,32 @@
 </div>
 <ion-view view-title="Stylist" class="has-footer">
 
-<ion-content scroll="true" overflow-scroll="true" >
-  <md-list ng-repeat = "stylist in stylists track by $index">
+<!--   <md-list ng-repeat = "stylist in stylists track by $index">
       <md-list-item class="md-2-line" >
-         <img ng-src="http://krplus.com/lookbook/{{category}}/{{stylist.filename}}" class="md-avatar">
+        <img ng-src="http://krplus.com/lookbook/{{category}}/{{stylist.filename}}" class="md-avatar">
         <div class="md-list-item-text" ng-click="stylistDetail($index)" >
           <h3>{{stylist.name}} </h3>
           <p>{{stylist.desc}}</p>
         </div>
       </md-list-item>
       <md-divider ></md-divider>
-  </md-list>
+  </md-list> -->
+
+  <ion-content scroll="true" overflow-scroll="true" >
+
+    <div class="list" style="border:none">
+    <a class="item  item-thumbnail-left" style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057 ; margin-bottom:1px; padding-top: 15px;padding-left: 140px;" 
+    ng-repeat="stylist in stylists track by $index"  ng-click="stylistDetail($index)" >
+          <img src = "http://krplus.com/lookbook/{{category}}/{{stylist.filename}}" style="max-width:90px; max-height:90px;vertical-align:middle;" >
+          <div style="position: absolute;height: 90px; border-right: solid 1px #F4E057;left: 120px;"></div>
+          <p style=" height:90px; display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">
+           <span style="font-weight: bold;">{{stylist.name}} </span><br>
+          {{stylist.desc}}
+          </p>
+    </a>  
+    </div>
+
+  
 </ion-content>
 
 </ion-view> 

@@ -128,6 +128,12 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
+  .state('facematrix', {
+    cache : true,
+    url:"/facematrix",
+    templateUrl:"templates/facematrix.html",
+    controller:"FacematrixCtrl"
+  })
 
 
 
@@ -203,6 +209,12 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
     params:{
       cat:null
     }
+  })
+  .state('shopList' , {
+    cache: true,
+    url : "/shopList",
+    templateUrl : "templates/shopList.html",
+    controller:"ShopListCtrl"
   })
   .state('stylist' , {
     cache: true,

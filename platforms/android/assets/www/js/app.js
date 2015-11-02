@@ -204,6 +204,12 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       cat:null
     }
   })
+  .state('shopList' , {
+    cache: true,
+    url : "/shopList",
+    templateUrl : "templates/shopList.html",
+    controller:"ShopListCtrl"
+  })
   .state('stylist' , {
     cache: true,
     url : "/stylist",

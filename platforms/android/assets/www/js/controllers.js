@@ -575,6 +575,7 @@ angular.module('starter.controllers', [])
     }
 
       voteRef.child($stateParams.category+":"+imagename[0]+'/count').on('value' , function(snapshot){
+
         if(snapshot.val() === null)
             $scope.count = "0";
         else
@@ -593,6 +594,17 @@ angular.module('starter.controllers', [])
               $scope.tags =  $scope.tags+'#'+t+" ";
           })
       })
+
+      $scope.getCount = function(count){
+         
+           if(count === undefined)
+              count = 0;
+
+          if(count  > 1 || count == 0)
+            return count +' Loves';
+          else
+            return count +' Love';
+      }
 
       $scope.nextImage = function(direction){
         $scope.tags ='';
@@ -649,8 +661,8 @@ angular.module('starter.controllers', [])
       
       }
 
-   var message ="message";
-   var subject = "subject";
+   var message ="Look at this cool style from the new app from kr+!";
+   var subject = "Cool Style from kr+";
    var link = "";
    var  file = "http://krplus.com/lookbook/"+$stateParams.category+"/"+$scope.image;
 
@@ -669,6 +681,27 @@ angular.module('starter.controllers', [])
       //$scope.$apply();
    }
 
+  $scope.unlove  = function(){
+    console.log($scope.image);
+    $scope.volted = false;
+    var imagename = $scope.image.split('.');
+
+    voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
+            count = (current_value || 0) - 1
+            $scope.count = count;
+            return count; 
+      });
+    
+    voteRef.child($stateParams.category+":"+imagename[0]+"/by").orderByChild('uid').startAt($localstorage.getObject('userData').uid).once('value', function(data){
+       data.forEach(function(childSnaphot){
+          voteRef.child($stateParams.category+":"+imagename[0]+"/by/"+childSnaphot.key()).remove(function(res){
+            $scope.volted = false;
+          })
+        });
+    });
+
+  }
+
   $scope.share = function(){
   $ionicPlatform.ready(function() {
     $cordovaSocialSharing
@@ -684,7 +717,6 @@ angular.module('starter.controllers', [])
         );
       
     }, function(err) {
-      console.log('err');
       $mdDialog.show(
         $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))

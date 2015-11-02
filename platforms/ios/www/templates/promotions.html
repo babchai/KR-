@@ -4,17 +4,13 @@
 <ion-content scroll="true" overflow-scroll="false" >
 
     <div class="list" style="border:none">
-    <a class="item  item-avatar" style="background-color: #fff;color: #555555; border-bottom:solid 1px #FFE54E ; margin-bottom:1px" ng-repeat="p in promotions">
-            <img src = "https://www.krplus.com/app/promotion/icon/{{p.icon}}" ng-show="p.icon" >
-          <p>{{p.title}}</p>
+    <a class="item  item-thumbnail-left" style="background-color: #fff;color: #555555; border-bottom:solid 1px #FFE54E ; margin-bottom:1px; padding-top: 15px;" ng-repeat="p in promotions">
+          <img src = "https://www.krplus.com/app/promotion/icon/{{p.icon}}" ng-show="p.icon" style="max-width:70px; max-height:70px;vertical-align:middle;" >
+          <div style="position: absolute;height: 70px; border-right: solid 1px #FFE54E;left: 90px;"></div>
+          <p style="font-size:18px; height:70px; display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">{{p.title}}</p>
     </a>	
     </div>
 
-  <!--    <a class="item item-thumbnail-left" href="#">
-      <img src="cover.jpg">
-      <h2>Pretty Hate Machine</h2>
-      <p>Nine Inch Nails</p>
-    </a> -->
 	
 </ion-content>
 

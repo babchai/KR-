@@ -7,7 +7,7 @@ angular.module('starter.directives', [])
                   '<md-button class="md-icon-button md-primary" aria-label="Settings" ui-sref="mylookbook-add">'+
                   '       <i class="ion-plus" style="font-size:30px ; color:#363636"></i>'+
                   '</md-button>'+
-                   '<div class="title" style="text-align:center; font-size:30px;">'+
+                   '<div class="title" style="text-align:center; font-size:30px; top:5px;">'+
                    '<img src="img/icon.png" style="height:100%;"/> </div>'+
                    '<md-button class="md-icon-button header-right-button" aria-label="Settings" ng-click="showMap()">'+
                     '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
@@ -62,7 +62,7 @@ angular.module('starter.directives', [])
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
                   '  <i class="ion-android-favorite-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!volted"></i>'+
-                  '  <i class="ion-android-favorite" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="volted" ></i>'+
+                  '  <i class="ion-android-favorite" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="unlove()"  ng-show="volted" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '<div class="buttons header-right-button" ng-click="goBack()">'+
@@ -155,7 +155,7 @@ angular.module('starter.directives', [])
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
-                   '<div md-ink-ripple="" class="buttons header-right-button"  style="width: 30px;height: 100%;padding-top: 2%;" >'+
+                   '<div md-ink-ripple="" class="buttons header-right-button"  style="width: 48px;height: 100%;padding-top: 2%;" >'+
                    '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ui-sref="search" ></i>'+
                    '</div>'+
                    '</ion-header-bar>'
@@ -185,20 +185,40 @@ angular.module('starter.directives', [])
 
 .directive('footer', function(){
     return{
+        controller: function($scope , $state){
+
+          console.log($state.current.name);
+        
+
+          if($state.current.name == 'home')
+            $scope.atHome = true;
+          else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail" || $state.current.name == "facematrix")
+            $scope.atLookbook  = true;
+          else if($state.current.name == "mylookbook-add" || $state.current.name == "mylookbook" || $state.current.name == "mylookbook-all" ||  $state.current.name  == "mylookbook-detail")
+          {
+            console.log('atMyLookbook')
+            $scope.atMyLookbook  = true;
+          }
+          else if($state.current.name == 'myaccount' || $state.current.name == 'setting' || $state.current.name == 'tnc')
+          {
+            console.log('atSetting');
+            $scope.atSetting = true;
+          }
+        },
         restrict:'AEC',
         template:'<ion-footer-bar name="footer" align-title="center" class="bar bar-footer bar-positive" >'+
                   '<h1 class="title" style="padding:0px">'+
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings" style="margin-right:5%; margin-left:5%" ui-sref="home">'+
-                  '  <i class="ion-ios-home-outline" style="font-size:45px; padding:8%; color:#363636" ></i>'+
+                  '  <i class="ion-ios-home-outline"  ng-class="{footerIconSelected:atHome ,footerIcon:!atHome }"></i>'+
                   '</md-button>'+
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%; margin-left:5%"  ui-sref="lookbook">'+
-                  '  <i class="ion-ios-personadd-outline"  style="font-size:45px; padding:8%; color:#363636"></i>'+
+                  '  <i class="ion-ios-personadd-outline"  ng-class="{footerIconSelected:atLookbook ,footerIcon:!atLookbook }"></i>'+
                   '</md-button>'+
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%; margin-left:5%" ui-sref="mylookbook-add">'+
-                  '  <i class="ion-ios-person-outline" style="font-size:45px; padding:8%;color:#363636" ></i>'+
+                  '  <i class="ion-ios-person-outline" ng-class="{footerIconSelected:atMyLookbook ,footerIcon:!atMyLookbook }"></i>'+
                   '</md-button>'+
                   '<md-button md-ink-ripple class="md-icon-button md-primary" aria-label="Settings"  style="margin-right:5%;  margin-left:5%" ui-sref="myaccount">'+
-                  '  <i class="ion-ios-gear-outline" style="font-size:45px; padding:8%; color:#363636" ></i>'+
+                  '  <i class="ion-ios-gear-outline"  ng-class="{footerIconSelected:atSetting ,footerIcon:!atSetting }"></i>'+
                   '</md-button>'+
                   '</h1>'+
                 '</ion-footer-bar>'

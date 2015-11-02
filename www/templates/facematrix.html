@@ -1,17 +1,18 @@
 <div header4>
 </div>
-<ion-view view-title="Lookbook" class="has-footer" has-bouncing="true">
+<ion-view view-title="Face Matrix" class="has-footer" has-bouncing="true">
 
 <ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
  <div class="gallery" style="background-color:#fff"   >
   <div class="row" ng-repeat = "rows in thumbs ">
    <div class="col" ng-repeat = "item in rows track by $index" style="max-width:50%">
-   <a href="#/lookbook-detail/{{category}}/{{item.val.filename}}?id={{item.key}}">
+   <a ui-sref="lookbook-sub({'cat':item.val})"
+   >
         <div style="background-color:white">
            <div style="min-height:251px ; 
            background-color:white;
-           background:url('http://krplus.com/lookbook/{{category}}/{{item.val.filename}}') ;
-           background-size:cover ; 
+           background:url('../img/{{item.val.key}}.png') ;
+           background-size:contain ; 
            background-repeat: no-repeat;
            ">
            </div>
@@ -19,18 +20,11 @@
       </a>
     </div>
   </div>
+
 </div>
 
 
- <ion-infinite-scroll
-    ng-if="moreDataCanBeLoaded()"
-    on-infinite="loadMore()"
-    distance="10%"
-    immediate-check= "false"
-    icon="ion-loading-c"
-    >
-    Loading....
-  </ion-infinite-scroll>
+
 </ion-content>
 </ion-view>
 <div footer></div>

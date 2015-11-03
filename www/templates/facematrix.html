@@ -8,10 +8,20 @@
    <div class="col" ng-repeat = "item in rows track by $index" style="max-width:50%">
    <a ui-sref="lookbook-sub({'cat':item.val})"
    >
-        <div style="background-color:white">
+     <!--    <div style="background-color:white">
            <div style="min-height:251px ; 
            background-color:white;
            background:url('../img/{{item.val.key}}.png') ;
+           background-size:contain ; 
+           background-repeat: no-repeat;
+           ">
+           </div>
+      </div> -->
+
+      <div style="background-color:#blue">
+           <div style="min-height:251px ; 
+           background-color:white;
+           background:url('http://www.krplus.com/lookbook/facematrix/{{item.val.key}}.png') ;
            background-size:contain ; 
            background-repeat: no-repeat;
            ">

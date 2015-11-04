@@ -192,7 +192,7 @@ angular.module('starter.directives', [])
 
           if($state.current.name == 'home')
             $scope.atHome = true;
-          else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail" || $state.current.name == "facematrix")
+          else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail" || $state.current.name == "facematrix" || $state.current.name=="search")
             $scope.atLookbook  = true;
           else if($state.current.name == "mylookbook-add" || $state.current.name == "mylookbook" || $state.current.name == "mylookbook-all" ||  $state.current.name  == "mylookbook-detail")
           {

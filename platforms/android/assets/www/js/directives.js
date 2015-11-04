@@ -155,7 +155,7 @@ angular.module('starter.directives', [])
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                    '</div>'+
                    '<h1 class="header-center-title title " style="text-align:center; font-size:20px">{{title}}</h1>'+
-                   '<div md-ink-ripple="" class="buttons header-right-button"  style="width: 30px;height: 100%;padding-top: 2%;" >'+
+                   '<div md-ink-ripple="" class="buttons header-right-button"  style="width: 48px;height: 100%;padding-top: 2%;" >'+
                    '  <i class="ion-ios-search" style="font-size:30px ; color:#363636" ui-sref="search" ></i>'+
                    '</div>'+
                    '</ion-header-bar>'
@@ -192,7 +192,7 @@ angular.module('starter.directives', [])
 
           if($state.current.name == 'home')
             $scope.atHome = true;
-          else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail")
+          else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail" || $state.current.name == "facematrix" || $state.current.name=="search")
             $scope.atLookbook  = true;
           else if($state.current.name == "mylookbook-add" || $state.current.name == "mylookbook" || $state.current.name == "mylookbook-all" ||  $state.current.name  == "mylookbook-detail")
           {

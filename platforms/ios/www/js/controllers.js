@@ -1451,13 +1451,12 @@ $scope.stylistDetail = function(id) {
 
     $scope.cancel = function()
     {
-      console.log('goBack');
-      $ionicHistory.goBack();
+      //$ionicHistory.goBack();
+      $state.go('lookbook');
     }
 
     $scope.redirect =function(obj)
     {
-      console.log(obj);
       $state.go('search_result' , { 'tag': obj.$id, 'link':obj.Links});
     }
 

@@ -248,6 +248,44 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('FacematrixCtrl' , function($scope, $rootScope , $mdDialog, $firebaseArray, $ionicLoading){
+    $ionicLoading.show();
+
+ $scope.title = "Face Matrix"
+
+    var thumbArr = [];
+    var categoriesRef = new Firebase("https://9lives.firebaseio.com/categories/face-matrix/child");
+    var categories = $firebaseArray(categoriesRef);
+   
+      categories.$loaded(function(snapshot){
+                $ionicLoading.hide();
+
+      $ionicLoading.hide();
+        console.log(snapshot);
+        snapshot.forEach(function(childSnaphot){
+          console.log(childSnaphot);
+          thumbArr.push({
+             'key':childSnaphot.$id,
+             'val':childSnaphot
+           });
+        });
+       
+         $scope.thumbs = chunk(thumbArr , 2);
+    })
+        
+
+
+    function chunk(arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        var a = arr.slice(i, i+size);
+        newArr.push(arr.slice(i, i+size));
+      }
+      //console.log(newArr);
+      return newArr;
+    }
+
+})
 .controller('LookbookCtrl', function($scope, $rootScope , $mdDialog, $firebaseArray, $ionicLoading){
 
     $ionicLoading.show();
@@ -483,28 +521,10 @@ angular.module('starter.controllers', [])
              'val':childSnaphot
            });
         });
-        // snapshot.forEach(function(childSnaphot){
-        //   console.log(childSnaphot.key() , childSnaphot.val());
-        //   thumbArr.push({
-        //     'key':childSnaphot.key(),
-        //     'val':childSnaphot.val()
-        //   });
-        // });
+       
          $scope.thumbs = chunk(thumbArr , 2);
     })
         
-    // scrollRef.on("value", function(snapshot) {
-    //   $ionicLoading.hide();
-
-    //    snapshot.forEach(function(childSnaphot){
-    //       //console.log(childSnaphot.key() , childSnaphot.val());
-    //       thumbArr.push({
-    //         'key':childSnaphot.key(),
-    //         'val':childSnaphot.val()
-    //       });
-    //     });
-    //     $scope.thumbs = chunk(thumbArr , 2);
-    // });
  
     $scope.$watchCollection('thumbArr' , function(oldVal, newVal){
        
@@ -1032,6 +1052,32 @@ $scope.stylistDetail = function(id) {
 
 })
 
+.controller('ShopListCtrl' , function($scope, $rootScope , $mdDialog, $firebaseArray, $ionicLoading ){
+    $ionicLoading.show();
+
+    $rootScope.footer = 'footer1'; 
+
+    $scope.title = "Stylist"
+
+    $scope.lookbook = {};
+   
+    var categoriesRef = new Firebase("https://9lives.firebaseio.com/categories");
+
+
+    var categories = $firebaseArray(categoriesRef);
+
+    categories.$loaded(function(data){
+        $ionicLoading.hide();
+        $scope.categories = data;
+    })
+
+
+
+
+
+
+})
+
 .controller('StylistCtrl' , function($scope , $mdDialog , $rootScope ){
    console.log('Stylist');
    $scope.title = "STYLIST";
@@ -1381,9 +1427,6 @@ $scope.stylistDetail = function(id) {
     $ionicLoading.show();
 
     var tagsRef = new Firebase("https://9lives.firebaseio.com/tags");
-    //var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook/");
-
-    //var lookbook = $firebaseArray(lookbookRef);
 
     $scope.tags = $firebaseArray(tagsRef);
 
@@ -1408,13 +1451,12 @@ $scope.stylistDetail = function(id) {
 
     $scope.cancel = function()
     {
-      console.log('goBack');
-      $ionicHistory.goBack();
+      //$ionicHistory.goBack();
+      $state.go('lookbook');
     }
 
     $scope.redirect =function(obj)
     {
-      console.log(obj);
       $state.go('search_result' , { 'tag': obj.$id, 'link':obj.Links});
     }
 

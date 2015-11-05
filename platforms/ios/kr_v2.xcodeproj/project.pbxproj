@@ -64,6 +64,8 @@
 		DFB1C8FF4FB74BD7B926880A /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F711F17422A4B8E9815FB2D /* ELCAssetTablePicker.m */; };
 		E333C27AC15B468CB909E429 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E15D6E0B0F4DAA8C81F84A /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F860560D7E3B452F9B5013F0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52616E0F3F9C44C1B2C694A1 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		57C3149B3DFD4A7899BCC694 /* LaunchNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DDCAFA0B224D8093A88354 /* LaunchNavigator.m */; };
+		199CCEFE1B9E4F598771C618 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B00E00AD49914EC586C69B10 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +173,9 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = kr_v2/config.xml; sourceTree = "<group>"; };
 		F8E15D6E0B0F4DAA8C81F84A /* Social.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FAC0F5D2D083401C8F1F5CD6 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; };
+		77DDCAFA0B224D8093A88354 /* LaunchNavigator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "LaunchNavigator.m"; path = "uk.co.workingedge.phonegap.plugin.LaunchNavigator/LaunchNavigator.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		161F4E763A474E759E4C8723 /* LaunchNavigator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LaunchNavigator.h"; path = "uk.co.workingedge.phonegap.plugin.LaunchNavigator/LaunchNavigator.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		B00E00AD49914EC586C69B10 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "MapKit.framework"; path = "System/Library/Frameworks/MapKit.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +191,7 @@
 				F860560D7E3B452F9B5013F0 /* MessageUI.framework in Frameworks */,
 				DB16A98520114AB092191942 /* ImageIO.framework in Frameworks */,
 				2FFB852A1CFD42EA9D9A1AC5 /* CoreLocation.framework in Frameworks */,
+				199CCEFE1B9E4F598771C618 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +273,7 @@
 				52616E0F3F9C44C1B2C694A1 /* MessageUI.framework */,
 				6675E6DFDFCF4AB6B3E3165E /* ImageIO.framework */,
 				C84D5ECC2E3241848218A3E9 /* CoreLocation.framework */,
+				B00E00AD49914EC586C69B10 /* MapKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -317,6 +324,8 @@
 				BE19E73F4DA74E3EBDFB35F0 /* CDVViewController+SplashScreen.m */,
 				4DF6A6AC45A7475B937A4375 /* CDVSplashScreen.h */,
 				CF067FC38DC94AF791C61206 /* CDVViewController+SplashScreen.h */,
+				77DDCAFA0B224D8093A88354 /* LaunchNavigator.m */,
+				161F4E763A474E759E4C8723 /* LaunchNavigator.h */,
 			);
 			name = Plugins;
 			path = kr_v2/Plugins;
@@ -527,6 +536,7 @@
 				4A72C97DAA3F44539688A7A1 /* CDVInAppBrowser.m in Sources */,
 				0949B00FA8F0425C9CAD7F18 /* CDVSplashScreen.m in Sources */,
 				0B6ED8E016B24C24BBD28E32 /* CDVViewController+SplashScreen.m in Sources */,
+				57C3149B3DFD4A7899BCC694 /* LaunchNavigator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

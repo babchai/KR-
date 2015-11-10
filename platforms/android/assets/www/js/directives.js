@@ -15,6 +15,7 @@ angular.module('starter.directives', [])
                     '</ion-header-bar>',
         controller : function($scope, $element, $mdDialog){
            $scope.showMap = function(){
+
               $mdDialog.show({
                   templateUrl: 'templates/dialog.tpm.html',
                   parent: angular.element(document.body),

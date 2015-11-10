@@ -39,7 +39,9 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
  //  ]); 
  // })
      
-.config(function($sceDelegateProvider) {
+.config(function($sceDelegateProvider , $compileProvider) {
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo):/);
+
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
     'self',

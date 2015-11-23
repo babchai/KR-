@@ -1,0 +1,29 @@
+<div header6>
+</div>
+<ion-view view-title="Shop List" class="has-footer">
+
+
+<ion-content scroll="true" overflow-scroll="true" class="lookbook" >
+
+  <div class="list">
+    
+
+    <div  ng-repeat = "cat in categories | filter:{'key':'stylist'}">
+    <a class="item"  ui-sref="stylistList({'cat':child})"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >
+       {{child.name}}
+      </a>
+     <!--  <a class="item" style=" background-color: #fff;color: #555555;" ui-sref="lookbook-sub({'cat':child})"  md-ink-ripple ng-hide ng-repeat="child in cat.child" >
+       {{child.name}}
+      </a> -->
+    </div>  
+   
+  
+
+</div>
+</ion-content>
+
+
+</ion-view>
+<div footer></div>
+
+

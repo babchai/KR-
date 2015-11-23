@@ -1,0 +1,41 @@
+<div header4>
+</div>
+<ion-view view-title="Face Matrix" class="has-footer" has-bouncing="true">
+
+<ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
+ <div class="gallery" style="background-color:#fff"   >
+  <div class="row" ng-repeat = "rows in thumbs ">
+   <div class="col" ng-repeat = "item in rows track by $index" style="max-width:50%">
+   <a ui-sref="lookbook-sub({'cat':item.val})"
+   >
+     <!--    <div style="background-color:white">
+           <div style="min-height:251px ; 
+           background-color:white;
+           background:url('../img/{{item.val.key}}.png') ;
+           background-size:contain ; 
+           background-repeat: no-repeat;
+           ">
+           </div>
+      </div> -->
+
+      <div style="background-color:#blue">
+           <div style="min-height:251px ; 
+           background-color:white;
+           background:url('http://www.krplus.com/lookbook/facematrix/{{item.val.key}}.png') ;
+           background-size:contain ; 
+           background-repeat: no-repeat;
+           ">
+           </div>
+      </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+
+
+</ion-content>
+</ion-view>
+<div footer></div>
+

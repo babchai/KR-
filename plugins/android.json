@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LaunchNavigator\"><param name=\"android-package\" value=\"uk.co.workingedge.phonegap.plugin.LaunchNavigator\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -110,6 +114,9 @@
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         },
         "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.ionicframework.krv2917874"
+        },
+        "uk.co.workingedge.phonegap.plugin.LaunchNavigator": {
             "PACKAGE_NAME": "com.ionicframework.krv2917874"
         }
     },

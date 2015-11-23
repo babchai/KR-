@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
 .constant('$ionicLoadingConfig', {
   'duration':'12000' , 
   'hideOnStateChange' : true,
@@ -39,7 +39,9 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
  //  ]); 
  // })
      
-.config(function($sceDelegateProvider) {
+.config(function($sceDelegateProvider , $compileProvider) {
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo):/);
+
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
     'self',
@@ -128,6 +130,12 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       templateUrl:"templates/lookbook.html",
       controller:"LookbookCtrl"
   })
+  .state('facematrix', {
+    cache : true,
+    url:"/facematrix",
+    templateUrl:"templates/facematrix.html",
+    controller:"FacematrixCtrl"
+  })
 
 
 
@@ -158,18 +166,18 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       controller:"MyLookbookAddCtrl"
   })
   .state('mylookbook-all', {
-    cache : true,
+    cache : false,
       url:"/mylookbook-all",
       templateUrl:"templates/mylookbook-all.html",
       controller:"MyLookbookAllCtrl"
   })
   .state('mylookbook-detail', {
-    cache : true,
+    cache : false,
       url:"/mylookbook-detail",
       templateUrl:"templates/mylookbook-detail.html",
       controller:"MyLookbookDetailCtrl",
       params:{
-        photo:null
+        item:null
       }
   })
   .state('mylookbook-favorite', {
@@ -187,7 +195,29 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       templateUrl:"templates/video.html",
       controller:"VideoCtrl"
   })
- 
+  
+  .state('tnc', {
+    cache : true,
+      url:"/tnc",
+      templateUrl:"templates/tnc.html",
+      controller:"tncCtrl"
+  })
+
+  .state('stylistList' , {
+    cache: true,
+    url : "/stylistList",
+    templateUrl : "templates/stylistList.html",
+    controller:"stylistListCtrl",
+    params:{
+      cat:null
+    }
+  })
+  .state('shopList' , {
+    cache: true,
+    url : "/shopList",
+    templateUrl : "templates/shopList.html",
+    controller:"ShopListCtrl"
+  })
   .state('stylist' , {
     cache: true,
     url : "/stylist",
@@ -263,6 +293,7 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
         }
       }
     })
+
 
   .state('tab.account', {
     url: '/account',

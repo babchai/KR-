@@ -450,7 +450,7 @@ function($q, $ionicCoreSettings, $timeout, $http, persistentStorage, $ionicApp) 
 
 // Auto-generated configuration factory
 .factory('$ionicCoreSettings', function() {
-  var settings = {"app_id":"7b78a89d","api_key":"812aff78a241332dcbdad0184449f0444e1965c7924cc3ad","dev_push":true};
+  var settings = {"app_id":"7b78a89d","api_key":"812aff78a241332dcbdad0184449f0444e1965c7924cc3ad","dev_push":true,"gcm_key":"796093019547"};
   return {
     get: function(setting) {
       if (settings[setting]) {

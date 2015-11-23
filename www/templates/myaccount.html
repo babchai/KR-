@@ -6,32 +6,31 @@
     
     
     <div class="list" style=" border:none; padding-right:20%; padding-left:20%">
-        <a class="item item-thumbnail-left" style="background:none;">     
+        <a class="item item-thumbnail-left" style="background:none;" ng-click="updateAvatar()">     
           <img ng-src="{{user.avatar}}">
-          <span style="font-size:25px; line-height:80px">{{user.name}}</span>
-
-        </a> 
+          <span style="font-size:15px; line-height:80px">{{user.name}}</span>
+        </a>
 
     </div>
 
     <div class="list">
-    <a class="item item-icon-right"  ui-sref='#'  md-ink-ripple style="color:#ffe54e">
+    <a class="item item-icon-right"  ng-click="editProfile()"  md-ink-ripple style="color:#F4E057">
      <center> Edit Profile</center>
-      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#F4E057"></i>
     </a>
     </div>
     <br /> 
     <div class="list" >
-    <a class="item item-icon-right"  ui-sref="setting"  md-ink-ripple style="color:#ffe54e">
+    <a class="item item-icon-right"  ui-sref="setting"  md-ink-ripple style="color:#F4E057">
      <center> Account Settings</center>
-      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#F4E057"></i>
     </a>
     </div>
     <br />
     <div class="list" >
-    <a class="item item-icon-right"  md-ink-ripple style="color:#ffe54e">
+    <a class="item item-icon-right"  md-ink-ripple style="color:#F4E057"  ui-sref="tnc" >
      <center> Terms & Privacy</center>
-      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#F4E057"></i>
     </a>
     </div>
   <br />  

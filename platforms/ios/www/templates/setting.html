@@ -7,9 +7,9 @@
 
    <br /> 
     <div class="list" >
-    <a class="item item-icon-right"  ng-click="changePassword()"  md-ink-ripple style="color:#ffe54e">
+    <a class="item item-icon-right"  ng-click="changePassword()"  md-ink-ripple style="color:#F4E057">
      <center> Change Password</center>
-      <i class="icon ion-chevron-right" style="font-size:15px;color:#ffe54e"></i>
+      <i class="icon ion-chevron-right" style="font-size:15px;color:#F4E057"></i>
     </a>
     </div>
 
@@ -18,9 +18,9 @@
     <div style="text-align:center">
     <center>
     <div class="button-bar" style="width:98%">
-        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;" 
+        <a class="button" style="background:none; border-color:#F4E057;font-size: 15px;" 
         ng-class="{'btn-active': user.gender == 'female'}" ng-click="setGender('female')" >Female</a>
-        <a class="button" style="background:none; border-color:#ffe54e;font-size: 15px;" 
+        <a class="button" style="background:none; border-color:#F4E057;font-size: 15px;" 
         ng-class="{'btn-active': user.gender == 'male'}" ng-click="setGender('male')">Male</a>
     </div>
     </center>
@@ -30,8 +30,14 @@
     <div class="list" style=" border:none" >
     <md-list>
         <md-list-item>
-            <p>Push Notification</p>
-              <md-switch class="md-secondary" ng-model="setting.notification"></md-switch>
+            <p>Push Notification</p> 
+            <label class="toggle">
+               <input type="checkbox" ng-model="setting.notification"  ng-click="changeNotification()">
+               <div class="track">
+                 <div class="handle"></div>
+               </div>
+            </label>
+             <!--  <md-switch class="md-secondary" ng-model="setting.notification" ng-click="changeNotification()"></md-switch> -->
         </md-list-item>
     </md-list>
     </md-list-item>

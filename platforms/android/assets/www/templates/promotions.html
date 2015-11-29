@@ -3,18 +3,14 @@
 <ion-view view-title="Promotions" class="has-footer">
 <ion-content scroll="true" overflow-scroll="false" >
 
-    <div class="list" ng-repeat="p in promotions">
-    <div class="item" style=" background-color: #fff;color: #555555;">
-    <div class="row" >
-        <div class="col col-20" style="border-right:solid 1px #ffe54e">
-            <img src="cover.jpg">
-        </div>
-        <div class="col">
-          <h2>{{p.title}}</h2>
-        </div>
-    </div>     
-    </div>	
+    <div class="list" style="border:none">
+    <a class="item  item-thumbnail-left" style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057 ; margin-bottom:1px; padding-top: 15px;" ng-repeat="p in promotions">
+          <img src = "https://www.krplus.com/app/promotion/icon/{{p.icon}}" ng-show="p.icon" style="max-width:70px; max-height:70px;vertical-align:middle;" >
+          <div style="position: absolute;height: 70px; border-right: solid 1px #F4E057;left: 90px;"></div>
+          <p style="font-size:18px; height:70px; display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">{{p.title}}</p>
+    </a>	
     </div>
+
 	
 </ion-content>
 

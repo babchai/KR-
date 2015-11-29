@@ -207,6 +207,13 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/uk.co.workingedge.phonegap.plugin.LaunchNavigator/www/android/launchnavigator.js",
+        "id": "uk.co.workingedge.phonegap.plugin.LaunchNavigator.LaunchNavigator",
+        "clobbers": [
+            "launchnavigator"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -216,10 +223,11 @@ module.exports.metadata =
     "cordova-plugin-crosswalk-webview": "1.3.1",
     "cordova-plugin-inappbrowser": "1.0.2-dev",
     "cordova-plugin-splashscreen": "2.1.0",
-    "cordova-plugin-whitelist": "1.1.0",
+    "cordova-plugin-whitelist": "1.0.0",
     "cordova-plugin-x-socialsharing": "5.0.3",
     "org.apache.cordova.camera": "0.3.6",
-    "org.apache.cordova.file": "1.3.3"
+    "org.apache.cordova.file": "1.3.3",
+    "uk.co.workingedge.phonegap.plugin.LaunchNavigator": "2.9.6"
 }
 // BOTTOM OF METADATA
 });

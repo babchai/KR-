@@ -424,6 +424,13 @@ angular.module('starter.controllers', [])
       return newArr;
     }
 
+    $scope.getThumbPath = function(path)
+    {
+      var arr = path.split(':');
+      return arr[0]+"/"+arr[1];
+
+    }
+
     $scope.getPath = function(path)
     {
       var arr = path.split(':');

@@ -10,7 +10,7 @@
       <ion-slide  ng-repeat="i in mylookbook | orderBy:'-date' ">
           <div style="
               height:100%;
-              background-image: url('{{i.photo}}');
+              background-image: url('{{i.image}}');
               background-size: contain;
               background-repeat: no-repeat;
               background-position: initial;
@@ -22,6 +22,7 @@
                        
                       <div class="col" style="color:#F4E057 ">
                          <center>  {{i.date | date:'MM.dd.yyyy'}} </center>
+                         <center> {{i.type}} Hair Cut</center>
                       </div>
                       
                       </div>

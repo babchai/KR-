@@ -1,10 +1,10 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "file": "plugins/com.ionic.keyboard/www/keyboard.js",
+        "id": "com.ionic.keyboard.keyboard",
         "clobbers": [
-            "window.plugins.socialsharing"
+            "cordova.plugins.Keyboard"
         ]
     },
     {
@@ -33,6 +33,13 @@ module.exports = [
         "id": "org.apache.cordova.camera.CameraPopoverHandle",
         "clobbers": [
             "CameraPopoverHandle"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
         ]
     },
     {
@@ -182,13 +189,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/com.synconset.imagepicker/www/imagepicker.js",
-        "id": "com.synconset.imagepicker.ImagePicker",
-        "clobbers": [
-            "plugins.imagePicker"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
         "id": "cordova-plugin-inappbrowser.inappbrowser",
         "clobbers": [
@@ -197,32 +197,38 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/com.synconset.imagepicker/www/imagepicker.js",
+        "id": "com.synconset.imagepicker.ImagePicker",
         "clobbers": [
-            "navigator.splashscreen"
+            "plugins.imagePicker"
         ]
     },
     {
-        "file": "plugins/uk.co.workingedge.phonegap.plugin.LaunchNavigator/www/ios/launchnavigator.js",
-        "id": "uk.co.workingedge.phonegap.plugin.LaunchNavigator.LaunchNavigator",
+        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
+        "id": "org.apache.cordova.file-transfer.FileTransferError",
         "clobbers": [
-            "launchnavigator"
+            "window.FileTransferError"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransfer.js",
+        "id": "org.apache.cordova.file-transfer.FileTransfer",
+        "clobbers": [
+            "window.FileTransfer"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "nl.x-services.plugins.socialsharing": "4.3.19",
+    "com.ionic.keyboard": "1.0.4",
+    "cordova-plugin-whitelist": "1.2.0",
     "org.apache.cordova.camera": "0.3.6",
+    "cordova-plugin-x-socialsharing": "5.0.7",
     "org.apache.cordova.file": "1.3.3",
-    "com.synconset.imagepicker": "1.0.6",
-    "cordova-plugin-inappbrowser": "1.0.2-dev",
-    "cordova-plugin-crosswalk-webview": "1.3.1",
-    "cordova-plugin-splashscreen": "2.1.0",
-    "cordova-plugin-whitelist": "1.0.0",
-    "uk.co.workingedge.phonegap.plugin.LaunchNavigator": "2.9.6"
+    "cordova-plugin-inappbrowser": "1.1.0",
+    "com.synconset.imagepicker": "1.0.7",
+    "org.apache.cordova.file-transfer": "0.5.0"
 }
 // BOTTOM OF METADATA
 });

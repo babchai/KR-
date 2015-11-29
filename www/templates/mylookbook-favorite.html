@@ -2,7 +2,27 @@
 </div>
 <ion-view view-title="Lookbook" class="has-footer" has-bouncing="true">
 
-<ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
+
+ <ion-content scroll="true" overflow-scroll="true" >
+    <div class="list" style="border:none" ng-repeat="mylook in mylookbook | filter:{'like':'!true'}">
+    <a class="item  item-thumbnail-left" style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057 ; margin-bottom:1px; padding-top: 15px;padding-left: 140px;" 
+    >
+             <img ng-src = "{{mylook.image}}" style="max-width:80px; max-height:100px ;vertical-align:middle;" >
+                
+
+<!--   		  <div style="height:90px; width:90px; position:absolute; left:5px;background:url('{{mylook.image}}');"></div>    
+ -->          <div style="position: absolute;height: 90px; border-right: solid 1px #F4E057;left: 100px;"></div>
+          <p style=" height:90px; display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">
+           <span style="font-weight: bold;">{{mylook.date | date:'MM.dd.yyyy'}}</span><br>
+          </p>
+    </a>  
+    </div>
+
+  
+</ion-content>
+
+
+<!--   <ion-content scroll="true" overflow-scroll="true" >
  <div class="gallery" style="background-color:#fff"   >
   <div class="list" ng-repeat="mylook in mylookbooks">
     <div class="item item-thumbnail-left item-icon-right" style="background-color:#fff">
@@ -12,7 +32,7 @@
       <i class="icon ion-ios-star-outline" style="color:#F4E057"></i>
     </div>
   </div>
-</ion-content>
+</ion-content> -->
 </ion-view>
 <div footer></div>
 

@@ -6,38 +6,64 @@
 
 <div layout="row">
 	   <div flex >
-		  <form>
+		  <form  name="signupForm" novalidate="">
 		  	<div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%">  
+			  	<input type="text" name="name"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%" required>  
+			  	<span class="error" ng-show="signupForm.name.$error.required && signupForm.name.$dirty  && signupForm.name.$touched">
+        Required!</span>
 			     </center>
 			  </div>
 
 			<div class="login-wraper">
 			  	<center>
-			  	<input type="text"  class="login-textfield" ng-model="user.email"  placeholder="email" style="width:100%">  
+			  	<input type="email" name="email"  class="login-textfield" ng-model="user.email"  placeholder="email" style="width:100%" required>  
+			  	<span class="error" ng-show="signupForm.email.$error.required && signupForm.email.$dirty  && signupForm.email.$touched">
+        Required!</span>
+             <span class="error" ng-show="signupForm.email.$error.email && signupForm.email.$dirty  && signupForm.email.$touched">
+        Not valid email!</span>
 			     </center>
 			  </div>
 
 		  <div class="login-wraper">
 			  	<center>
-			  	<input type="number"  class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%">  
+			  	<input type="number" name="contact" class="login-textfield" ng-model="user.contact" placeholder="contact no" style="width:100%" required>  
+			  	<span class="error" ng-show="signupForm.contact.$error.required && signupForm.contact.$dirty && signupForm.contact.$touched">
+        Required!</span>
+                <span class="error" ng-show="signupForm.contact.$error.number && signupForm.contact.$dirty  && signupForm.contact.$touched">
+        		</span>
 			     </center>
 			  </div>
 
 		    <div class="login-wraper">
 			  	<center>
-			  	<input type="password"  class="login-textfield" ng-model="user.password" placeholder="password" style="width:100%">  
+			  	<input type="password"  name="password" class="login-textfield" ng-model="user.password" placeholder="password" style="width:100%"
+			  	ng-minlength="8" 
+   				ng-maxlength="25"
+   				required
+			  	>  
+
+			  	<span class="error" ng-show="signupForm.password.$error.required && signupForm.password.$dirty && signupForm.password.$touched">
+        Required!</span>
+         <span class="error" ng-show="signupForm.password.$error.minlength && signupForm.password.$dirty && signupForm.password.$touched">
+         Password Must be contain at least 8 characters.</span>
 			     </center>
 			  </div>
 
 		    <div class="login-wraper">
 			  	<center>
-			  	<input type="password"  class="login-textfield" ng-model="user.confirmpassword" placeholder="confirm password" style="width:100%">  
-			     </center>
+			  	<input type="password"  name="confirmpassword"  class="login-textfield" ng-model="user.confirmpassword" placeholder="confirm password"  style="width:100%"
+			  	ng-minlength="8" 
+   				ng-maxlength="25"
+   				required
+			  	> 
+			  	 <span class="error" ng-show="signupForm.confirmpassword.$error.required && signupForm.confirmpassword.$dirty">
+        Required!</span>
+         <span class="error" ng-show="signupForm.confirmpassword.$error.minlength && signupForm.confirmpassword.$dirty && signupForm.confirmpassword.$touched">
+         Password Must be contain at least 8 characters.</span>
 			  </div>
 
-
+<!-- 
 		    <div class="login-wraper">
 			  	<center>
 			     <div class="button-bar" style="width:98%">
@@ -49,7 +75,7 @@
 			        ng-click="setGender('male')" >Male</a>
 			    </div> 
 			     </center>
-			 </div>
+			 </div> -->
  
 
 			 <center>
@@ -60,7 +86,7 @@
 
 		    <div style="margin-top:5%">
 		     <center>
-			    <a class="button cus-button" ng-click="signup()">
+			    <a class="button cus-button" ng-click="signup()" ng-disabled = "!signupForm.$valid">
 			      CREATE ACCOUNT
 			    </a>
 			</center>

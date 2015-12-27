@@ -31,7 +31,8 @@ angular.module('starter.controllers', [])
   
      userData = userRef.getAuth();
      $localstorage.setObject('userData', userData);
-
+     
+      console.log(userData);
 
      if(userData)
         $state.go('home');
@@ -154,7 +155,7 @@ angular.module('starter.controllers', [])
             'name' : $scope.user.name,
             'email' : $scope.user.email,
             'contact' : $scope.user.contact,
-            'gender' : $scope.user.gender
+            // 'gender' : $scope.user.gender
           }
 
           profile.set(profileObj);
@@ -208,14 +209,29 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
     $scope.promo = {};
-   
-     $ionicPlatform.onHardwareBackButton(function() {
-     });
+    console.log($state.current.name);
+
+    // $ionicPlatform.onHardwareBackButton(function() {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   alert('going back now all');
+    // });
+     $ionicPlatform.registerBackButtonAction(function (event) {
+           if($state.current.name=="home"){
+               //event.preventDefault();
+               event.preventDefault();
+               event.stopPropagation();
+          }
+          else
+          {
+            $ionicHistory.goBack();
+          }
+       }, 100);
      
      var promo = $localstorage.getObject('promo');
 
@@ -431,6 +447,18 @@ angular.module('starter.controllers', [])
 
     }
 
+    $scope.getThumbCat = function(path)
+    {
+      var arr = path.split(':');
+      return arr[0];
+    }
+
+     $scope.getThumbFile = function(path)
+    {
+      var arr = path.split(':');
+      return arr[1];
+    }
+
     $scope.getPath = function(path)
     {
       var arr = path.split(':');
@@ -580,6 +608,8 @@ angular.module('starter.controllers', [])
   //console.log($stateParams)
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
+      console.log($scope.category , $scope.image);
+
    $scope.votes = [];
    $scope.tags ='';
 
@@ -779,7 +809,7 @@ angular.module('starter.controllers', [])
        $ionicLoading.hide();
         //$ionicLoading.hide();
         //$scope.categories = data;
-        $scope.mylookbook = data;
+        $scope.mylookbook = data.reverse();
         console.log("lookbook :"  , $scope.mylookbook);
         $ionicSlideBoxDelegate.update();
     })
@@ -806,7 +836,8 @@ angular.module('starter.controllers', [])
     myLookbook.$loaded(function(data){
         $ionicLoading.hide();
         $scope.mylookbook = data;
-        $scope.thumbs = chunk($scope.mylookbook , 2);
+
+        $scope.thumbs = chunk($scope.mylookbook.reverse() , 2);
     });
 
    //$scope.mylookbook = $localstorage.getArray('lookook');
@@ -840,8 +871,15 @@ angular.module('starter.controllers', [])
 
     mylooks.$loaded(function(data){
     $ionicLoading.hide();
-      $scope.mylookbook = data;
+      $scope.mylookbook = data.reverse();
     }) 
+
+    $scope.unlove = function(id){
+      console.log('unlove');
+      console.log(id);
+      looksRef.child(id).update({'like' : null});
+
+    } 
   
 
 })
@@ -932,7 +970,7 @@ angular.module('starter.controllers', [])
 
       firebaseRef.child('looks/'+$scope.id+'').update({'like' : null});
 
-      $scope.liked = true;
+      $scope.liked = false;
    
    }
 
@@ -1107,8 +1145,8 @@ angular.module('starter.controllers', [])
             //    'photo'   : cordova.file.dataDirectory+newName,
             //    'type'    : type
             // });
-            var d = new Date();
-            convertImgToBase64URL(cordova.file.dataDirectory+newName, output, 'image/jpeg' , type , d);
+
+            convertImgToBase64URL(cordova.file.dataDirectory+newName, output, 'image/jpeg' , type , getDateString());
             //$localstorage.setArray('lookook', library);
 
           }, function(e) {
@@ -1145,7 +1183,14 @@ angular.module('starter.controllers', [])
         canvas = null; 
     };
     img.src = url;
-}
+  }
+
+  function getDateString() {
+    var now = new Date();
+    var todayUTC = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    return todayUTC.toISOString().slice(0, 10).replace(/-/g, '-');
+  };
+
 
 
   // 6
@@ -1371,11 +1416,19 @@ $scope.stylistDetail = function(id) {
            }, function(error){
              $ionicLoading.hide();
             if (error) {
-                alert("Error changing profile." + error.code);
+              var alertPopup = $ionicPopup.alert({
+                    title : 'My Account',
+                    template: 'Error changing profile.' + error.code
+                });
+                //alert("Error changing profile." + error.code);
               }
               else
               {
-                alert("Profile changed successfully.")
+                var alertPopup = $ionicPopup.alert({
+                    title : 'My Account',
+                    template: 'Profile changed successfully.'
+                });
+                //alert("Profile changed successfully.")
               }
            })
          }
@@ -1533,28 +1586,42 @@ $scope.stylistDetail = function(id) {
 
       // An elaborate, custom popup
       var myPopup = $ionicPopup.show({
-        template: ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"> '+
+        template: '<form  name="Form">'+
+                  '<div class="login-wraper">'+
+                  '<input name="password" type="password"  class="login-textfield" ng-model="password.oldPassword" placeholder="Existing Password" style="width:100%"  required> '+
+                  '<span class="error" ng-show="Form.password.$error.required && Form.password.$dirty && Form.password.$touched">Required!</span>'+
                   '</div>'+
-                   ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%">'+
+                  '<div class="login-wraper">'+
+                  '<input name="newPassword" type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%" required ng-minlength="8" ng-maxlength="25">'+
+                  '<span class="error" ng-show="Form.newPassword.$error.required && Form.newPassword.$dirty && Form.newPassword.$touched">Required!</span>'+
+                  '<span class="error" ng-show="Form.newPassword.$error.minlength && Form.newPassword.$dirty && Form.newPassword.$touched">'+
+                  'Password Must be contain at least 8 characters.</span>'+
                   ' </div>'+
                   ' <div class="login-wraper">'+
-                  '<input type="password"  class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%">'+
-                  ' </div>',
+                  '<input name="cPassword" type="password" class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%" required ng-minlength="8" ng-maxlength="25">'+
+                  '<span class="error" ng-show="Form.cPassword.$error.required && Form.cPassword.$dirty && Form.cPassword.$touched">Required!</span>'+
+                  '<span class="error" ng-show="Form.cPassword.$error.minlength && Form.cPassword.$dirty && Form.cPassword.$touched">'+
+                  'Password Must be contain at least 8 characters.</span>'+
+                  '<span class="error" ng-show="confirmError">'+
+                  'New Password and Confirm Password not match.</span>'+
+                  ' </div></form>',
         scope: $scope,
         cssClass: 'custom-popup',
         buttons: [
           { text: 'Cancel' },
           {
-            text: '<b>Save</b>',
+            text: '<b >Save</b>',
             type: 'cus-button',
+            attr: 'data-ng-disabled="!Form.$valid"',
             onTap: function(e) {
-              if ($scope.newPassword != $scope.confirmPassword) {
+              if ($scope.password.newPassword != $scope.password.confirmPassword) {
                 //don't allow the user to close unless he enters wifi password
+                $scope.confirmError = true;
                 e.preventDefault();
+            
               } else {
-                  return true;
+                $scope.confirmError = false;
+                return true;
               }
             }
           }
@@ -1571,19 +1638,32 @@ $scope.stylistDetail = function(id) {
               'oldPassword': $scope.password.oldPassword,
               'newPassword' : $scope.password.newPassword
            }, function(error){
+             console.log(error);
              $ionicLoading.hide();
+
             if (error) {
                 switch (error.code) {
                   case "INVALID_PASSWORD":
-                    alert("Error changing password. The specified user account password is incorrect.");
+                    var alertPopup = $ionicPopup.alert({
+                       title : 'Change Password',
+                       template: 'Error changing password. The specified user account password is incorrect.'
+                    });
+                    //alert("Error changing password. The specified user account password is incorrect.");
                     break;
                   default:
-                     alert("Error changing password");
+                   var alertPopup = $ionicPopup.alert({
+                       title : 'Change Password',
+                       template: 'Error changing password'
+                    });
                 }
               }
               else
               {
-                alert("Password changed successfully.")
+                var alertPopup = $ionicPopup.alert({
+                    title : 'Change Password',
+                    template: 'Password changed successfully.'
+                });
+                //alert("Password changed successfully.")
               }
            })
          }
@@ -1656,8 +1736,9 @@ $scope.stylistDetail = function(id) {
     }
 
 })
-.controller('tncCtrl', function($scope ,$sce , $ionicLoading){
+.controller('tncCtrl', function($scope ,$sce , $ionicLoading, $sce){
   $scope.title = "Terms and Privacy"
+  $sce.trustAsHtml()
   $ionicLoading.show();
     var tncRef = new Firebase("https://9lives.firebaseio.com/TNC");
 

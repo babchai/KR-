@@ -87,8 +87,8 @@ angular.module('starter.directives', [])
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
-                  '  <i class="ion-ios-star-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!volted"></i>'+
-                  '  <i class="ion-ios-star" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="volted" ></i>'+
+                  '  <i class="ion-ios-star-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!liked"></i>'+
+                  '  <i class="ion-ios-star" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="liked" ng-click="unlove()" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '<div class="buttons header-right-button" style="width: 30px;height: 100%;padding-top: 2%;" ng-click="delete()">'+
@@ -195,7 +195,7 @@ angular.module('starter.directives', [])
             $scope.atHome = true;
           else if($state.current.name == "lookbook" || $state.current.name == "lookbook-sub" || $state.current.name == "lookbook-detail" || $state.current.name == "facematrix" || $state.current.name=="search")
             $scope.atLookbook  = true;
-          else if($state.current.name == "mylookbook-add" || $state.current.name == "mylookbook" || $state.current.name == "mylookbook-all" ||  $state.current.name  == "mylookbook-detail")
+          else if($state.current.name == "mylookbook-add" || $state.current.name == "mylookbook" || $state.current.name == "mylookbook-all" ||  $state.current.name  == "mylookbook-detail" || $state.current.name == "mylookbook-favorite")
           {
             console.log('atMyLookbook')
             $scope.atMyLookbook  = true;

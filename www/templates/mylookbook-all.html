@@ -5,7 +5,7 @@
 <ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
  <div class="gallery" style="background-color:#fff"   >
   <div class="row" ng-repeat = "rows in thumbs ">
-   <div class="col" ng-repeat = "item in rows track by $index" style="max-width:50%">
+   <div class="col" ng-repeat = "item in rows track by $index  " style="max-width:50%">
    <a ui-sref="mylookbook-detail({'item':item})">
         <div style="background-color:white">
            <div style="
@@ -13,10 +13,21 @@
            background-color:white;
            background:url('{{item.image}}') ;
            background-size:cover ; 
-
            background-repeat: no-repeat;
+           position:relative;
            ">
+               <div class="image-desc" style="width:100%; position:absolute">
+                  <div class="content">
+                      <div class="row" style="border:none">
+                      <div class="col" style="color:#F4E057; border:none">
+                         <center>  {{item.date | date:'MM.dd.yyyy'}} </center>
+                         <center> {{item.type}} Hair Cut</center>
+                      </div>    
+                      </div>
+                  </div>
+              </div>
            </div>
+        
       </div>
       </a>
     </div>

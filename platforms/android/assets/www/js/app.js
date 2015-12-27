@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
 .constant('$ionicLoadingConfig', {
-  'duration':'12000' , 
+  'duration':'30000' , 
   'hideOnStateChange' : true,
   'template' : '<ion-spinner icon="lines"></ion-spinner>'
 

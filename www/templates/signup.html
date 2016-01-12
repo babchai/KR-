@@ -42,7 +42,7 @@
    				ng-maxlength="25"
    				required
 			  	>  
-
+			  	<span class="small">*use at least eight characters of alphanumeric combination</span>
 			  	<span class="error" ng-show="signupForm.password.$error.required && signupForm.password.$dirty && signupForm.password.$touched">
         Required!</span>
          <span class="error" ng-show="signupForm.password.$error.minlength && signupForm.password.$dirty && signupForm.password.$touched">

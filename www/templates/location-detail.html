@@ -1,0 +1,32 @@
+<div header4>
+</div>
+<ion-view view-title="Location" class="has-footer">
+<ion-content scroll="true" overflow-scroll="false" >
+  <div class="list list-inset">
+
+    <div class="item item-text-wrap" style="background:none">
+        <p>
+          {{store.address1}}
+        </p>
+        <p>
+          {{store.address2}}
+        </p>
+        <p>
+          Tel : <a href="tel:{{store.tel}}"> {{store.tel}}</a>
+        </p>
+    </div>
+
+  <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+    <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+    </ui-gmap-marker>
+  </ui-gmap-google-map>
+
+</div>
+ 
+  
+</ion-content>
+
+</ion-view> 
+<div footer></div>
+
+  

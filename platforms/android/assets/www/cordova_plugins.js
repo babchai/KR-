@@ -233,7 +233,8 @@ module.exports.metadata =
     "org.apache.cordova.file": "1.3.3",
     "cordova-plugin-inappbrowser": "1.1.0",
     "com.synconset.imagepicker": "1.0.7",
-    "org.apache.cordova.file-transfer": "0.5.0"
+    "org.apache.cordova.file-transfer": "0.5.0",
+    "cordova-plugin-geolocation": "1.0.1"
 }
 // BOTTOM OF METADATA
 });

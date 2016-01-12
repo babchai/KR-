@@ -1,0 +1,36 @@
+<div header4>
+</div>
+<ion-view view-title="Location" class="has-footer">
+<ion-content scroll="true" overflow-scroll="false" >
+ <div class="list" style="border:none" ng-repeat="store in stores "  ui-sref="locationDetail({'store':store})" >
+   <a class="item item-icon-right" href="#"  style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057">
+     <div style="display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word; float:left">
+          <p>{{store.country}}</p>
+          <h2>{{store.name}}</h2>
+          <p>{{store.street}}</p>
+        </div>
+         <i class="icon ion-chevron-right"  style="font-size:15px; color:#F4E057"  ></i>
+    <!--   <span class="item-note">
+          {{getDistance(store)}}
+    </span> -->
+  </a>
+
+   <!--  <a class="item " style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057 ; margin-bottom:1px; padding-top: 15px;">
+        <div style="display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">
+          <p>{{store.country}}</p>
+          <h2>{{store.name}}</h2>
+          <p>{{store.street}}</p>
+        </div>
+         <span class="item-note">
+                {{getDistance(store)}}
+        </span>
+      
+    </a>   -->
+ </div>
+  
+</ion-content>
+
+</ion-view> 
+<div footer></div>
+
+  

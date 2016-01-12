@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' ])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' ])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -38,9 +38,11 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
  //    'https://www.youtube.com/**'
  //  ]); 
  // })
+
      
 .config(function($sceDelegateProvider , $compileProvider) {
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo):/);
+
 
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
@@ -49,6 +51,9 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
     'https://www.youtube.com/**'
   ]); 
  })
+
+
+     
 .config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {
 
 
@@ -196,6 +201,24 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
       controller:"VideoCtrl"
   })
   
+  .state('location', {
+     cache : true,
+     url : "/location",
+     templateUrl: "templates/location.html",
+     controller : "locationCtrl"
+  })
+
+  
+  .state('locationDetail', {
+     cache : true,
+     url : "/locationDetail",
+     templateUrl: "templates/location-detail.html",
+     controller : "locationDetailCtrl",
+     params:{
+       store:null
+     }
+  })
+
   .state('tnc', {
     cache : true,
       url:"/tnc",

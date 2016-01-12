@@ -65,6 +65,7 @@
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		D52751B88A0C4FE089F314B9 /* ELCAssetPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12FAFA0E885B48C28FF609BF /* ELCAssetPicker.xib */; };
 		F8BA9875E91F4767BA860F9A /* SOSPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 912C2B508F6F44EC941F0E6B /* SOSPicker.m */; };
+		61289B001DDC46E99871D41D /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD0274099AC439595DE4A41 /* CDVLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +175,8 @@
 		FA9EE38BC2E64AA69DC385CC /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; };
 		FAA1EE20C7C44B62858CD241 /* MessageUI.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		FF2D456091C74848B95858DA /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ELCAlbumPickerController.m; path = com.synconset.imagepicker/ELCAlbumPickerController.m; sourceTree = "<group>"; };
+		FCD0274099AC439595DE4A41 /* CDVLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		6B18282063864617B2A97883 /* CDVLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +325,8 @@
 				804E1CE5B34147498789F749 /* ELCImagePickerController.h */,
 				4A2669AFC79144B5B0726A58 /* CDVFileTransfer.m */,
 				69827F9B45974ED18D3E4FD8 /* CDVFileTransfer.h */,
+				FCD0274099AC439595DE4A41 /* CDVLocation.m */,
+				6B18282063864617B2A97883 /* CDVLocation.h */,
 			);
 			name = Plugins;
 			path = kr_v2/Plugins;
@@ -528,6 +533,7 @@
 				1D70FA3BA7834DCDA2219749 /* ELCAssetTablePicker.m in Sources */,
 				9BAD349E136B4E4EA005A29A /* ELCImagePickerController.m in Sources */,
 				09827D6354394A06BF986065 /* CDVFileTransfer.m in Sources */,
+				61289B001DDC46E99871D41D /* CDVLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

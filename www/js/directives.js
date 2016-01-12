@@ -9,7 +9,7 @@ angular.module('starter.directives', [])
                   '</md-button>'+
                    '<div class="title" style="text-align:center; font-size:30px; top:5px;">'+
                    '<img src="img/icon.png" style="height:100%;"/> </div>'+
-                   '<md-button class="md-icon-button header-right-button" aria-label="Settings" ng-click="showMap()">'+
+                   '<md-button class="md-icon-button header-right-button" aria-label="Settings" ui-sref="location">'+
                     '<i class="ion-ios-location-outline" style="font-size:30px ; color:#363636"></i>'+
                     '</md-button>'+
                     '</ion-header-bar>',

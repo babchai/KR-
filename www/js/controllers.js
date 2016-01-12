@@ -1593,6 +1593,7 @@ $scope.stylistDetail = function(id) {
                   '</div>'+
                   '<div class="login-wraper">'+
                   '<input name="newPassword" type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%" required ng-minlength="8" ng-maxlength="25">'+
+                  '<span>*use at least eight characters of alphanumeric combination</span>'+
                   '<span class="error" ng-show="Form.newPassword.$error.required && Form.newPassword.$dirty && Form.newPassword.$touched">Required!</span>'+
                   '<span class="error" ng-show="Form.newPassword.$error.minlength && Form.newPassword.$dirty && Form.newPassword.$touched">'+
                   'Password Must be contain at least 8 characters.</span>'+
@@ -1736,6 +1737,94 @@ $scope.stylistDetail = function(id) {
     }
 
 })
+.controller('locationCtrl',  function($scope , $ionicLoading, $firebase, $firebaseArray , $cordovaGeolocation , $http){
+      $scope.title = "STUDIOS";
+      
+    $ionicLoading.show();
+
+    var storesRef = new Firebase("https://9lives.firebaseio.com/stores");
+
+    var stores = $firebaseArray(storesRef);
+
+  
+     stores.$loaded(function(data){
+      $scope.stores = data;
+      $ionicLoading.hide();
+    })
+
+
+ 
+   
+  $scope.getDistance = function(store){
+
+  var posOptions = {timeout: 1000000, enableHighAccuracy: false};
+  $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+      var lat  = position.coords.latitude
+      var long = position.coords.longitude
+      console.log(position);
+      $scope.CurrentPosition = position;
+
+      var dis =  distance(store.loc.lat, store.loc.lon , $scope.CurrentPosition.coords.latitude , $scope.CurrentPosition.coords.longitude );
+      console.log( dis.toFixed(2)+"km");
+      return dis.toFixed(2)+"km";
+
+       
+      // if(dis < 100)
+      // {
+      //   return dis.toFixed(2)+"km";
+      // }
+      // else
+      // {
+      //   return "";
+      // }
+
+    }, function(err) {
+      // error
+      console.log(err);
+      return "";
+  });
+    
+  }
+
+  function distance(lat1, lon1, lat2, lon2, unit) {
+      var radlat1 = Math.PI * lat1/180
+      var radlat2 = Math.PI * lat2/180
+      var radlon1 = Math.PI * lon1/180
+      var radlon2 = Math.PI * lon2/180
+      var theta = lon1-lon2
+      var radtheta = Math.PI * theta/180
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist)
+      dist = dist * 180/Math.PI
+      dist = dist * 60 * 1.1515
+      if (unit=="K") { dist = dist * 1.609344 }
+      if (unit=="N") { dist = dist * 0.8684 }
+      return dist
+ }
+
+
+  
+})
+
+.controller('locationDetailCtrl',  function($scope , $ionicLoading, $stateParams){
+      $scope.store = $stateParams.store;
+      $scope.title = $scope.store.name;
+      $scope.map = { center: { latitude:  $scope.store.loc.lat, longitude:  $scope.store.loc.lon }, zoom: 18 };
+
+      $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: $scope.store.loc.lat,
+        longitude: $scope.store.loc.lon
+      }
+    };
+
+  
+})
+
+
 .controller('tncCtrl', function($scope ,$sce , $ionicLoading, $sce){
   $scope.title = "Terms and Privacy"
   $sce.trustAsHtml()

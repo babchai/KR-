@@ -7,21 +7,22 @@
    
 
   <ion-slide-box style="height:65%" auto-play='true' does-continue='true' show-pager='false'>
-      <ion-slide  ng-repeat="i in mylookbook | orderBy:'-date' ">
+      <ion-slide  ng-repeat="i in mylookbook | orderBy:'-date' " style="background-color:#000">
           <div style="
               height:100%;
               background-image: url('{{i.image}}');
               background-size: contain;
               background-repeat: no-repeat;
-              background-position: initial;
-              background-size: cover;position: relative;" >
+                  background-position: center;
+
+              position: relative;" >
 
                <div class="image-desc" style="width:100%">
                   <div class="content">
                       <div class="row">
                       <div class="col" style="color:#F4E057 ">
                          <center>  {{i.date | date:'MM.dd.yyyy'}} </center>
-                         <center> {{i.type}} Hair Cut</center>
+                         <center> {{i.type}}</center>
                       </div>    
                       </div>
                   </div>

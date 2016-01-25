@@ -3,16 +3,19 @@
 <ion-view view-title="Lookbook" class="has-footer" has-bouncing="true">
 
 <ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
+
+
  <div class="gallery" style="background-color:#fff"   >
   <div class="row" ng-repeat = "rows in thumbs ">
    <div class="col" ng-repeat = "item in rows track by $index  " style="max-width:50%">
    <a ui-sref="mylookbook-detail({'item':item})">
-        <div style="background-color:white">
+        <div style="background-color:#fff">
            <div style="
            min-height:250px;
            background-color:white;
            background:url('{{item.image}}') ;
-           background-size:cover ; 
+           background-size:contain ; 
+           background-position:center;
            background-repeat: no-repeat;
            position:relative;
            ">

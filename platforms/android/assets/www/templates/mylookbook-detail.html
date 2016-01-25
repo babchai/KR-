@@ -1,13 +1,21 @@
 <div header8></div>
 <ion-view view-title="Lookbook" class="has-footer">
 
-<ion-content scroll="false" overflow-scroll="false"  >
-    <main class='md-fill' flex style="overflow: scroll;">
-        <md-card style="margin:0px">
-         
-            <img ng-src = "{{photo}}" class = "md-card-image"
+<ion-content scroll="false" overflow-scroll="false" style="background:#000"  >
+    <main class='' flex style="overflow: scroll; background:#000">
+         <ion-scroll direction="xy"
+                    locking="false"
+                    zooming="true"
+                    min-zoom="1"
+                    scrollbar-x="false"
+                    scrollbar-y="false"
+                    ion-slide-action
+                    >
+            <img ng-src = "{{photo}}" style="width: 100%;" class = "md-card-image"
              on-swipe-left="nextImage('fwd')" 
              on-swipe-right="nextImage('bwd')">
+
+          </ion-scroll>
 
             <div class="image-desc">
             <div class="content">

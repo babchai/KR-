@@ -6,7 +6,7 @@
 
 <div layout="row">
 	   <div flex >
-		  <form  name="signupForm" novalidate="">
+		  <form  name="signupForm" ng-submit="signup()"   novalidate="">
 		  	<div class="login-wraper">
 			  	<center>
 			  	<input type="text" name="name"  class="login-textfield" ng-model="user.name"  placeholder="name" style="width:100%" required>  
@@ -42,11 +42,10 @@
    				ng-maxlength="25"
    				required
 			  	>  
-
 			  	<span class="error" ng-show="signupForm.password.$error.required && signupForm.password.$dirty && signupForm.password.$touched">
         Required!</span>
          <span class="error" ng-show="signupForm.password.$error.minlength && signupForm.password.$dirty && signupForm.password.$touched">
-         Password Must be contain at least 8 characters.</span>
+         Password must be contain at least 8 characters.</span>
 			     </center>
 			  </div>
 
@@ -60,7 +59,7 @@
 			  	 <span class="error" ng-show="signupForm.confirmpassword.$error.required && signupForm.confirmpassword.$dirty">
         Required!</span>
          <span class="error" ng-show="signupForm.confirmpassword.$error.minlength && signupForm.confirmpassword.$dirty && signupForm.confirmpassword.$touched">
-         Password Must be contain at least 8 characters.</span>
+         Password must be contain at least 8 characters.</span>
 			  </div>
 
 <!-- 
@@ -86,9 +85,12 @@
 
 		    <div style="margin-top:5%">
 		     <center>
-			    <a class="button cus-button" ng-click="signup()" ng-disabled = "!signupForm.$valid">
+			    <!-- <button class="button cus-button" type="submit" ng-click="signup()" ng-disabled = "!signupForm.$valid">
 			      CREATE ACCOUNT
-			    </a>
+			    </button> -->
+			      <input type="submit" id="submit" value="CREATE ACCOUNT" ng-disabled = "!signupForm.$valid"
+			     />
+
 			</center>
 			</div>
 		  </form>

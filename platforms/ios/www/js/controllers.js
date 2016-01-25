@@ -106,6 +106,7 @@ angular.module('starter.controllers', [])
   $scope.title="SIGN UP";
   $scope.user = {};
   ///var ref = new Firebase("https://9lives.firebaseio.com");
+    $scope.processing = false;
 
   $scope.setGender = function(gender)
   {
@@ -114,8 +115,10 @@ angular.module('starter.controllers', [])
   
   $scope.signup = function()
   {
+    
     $ionicLoading.show();
       var userRef = new Firebase("https://9lives.firebaseio.com");
+      console.log($scope.user.email);
       userRef.createUser({
         email    : $scope.user.email,
         password : $scope.user.password
@@ -183,13 +186,30 @@ angular.module('starter.controllers', [])
       email: this.resetemail
     }, function(error) {
       if (error) {
+        console.log(error);
          $ionicLoading.hide();
         switch (error.code) {
           case "INVALID_USER":
             console.log("The specified user account does not exist.");
+            $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .title('Password Reset')
+              .content("The specified user account does not exist.")
+              .ok('Got it!')
+            );
             break;
           default:
-            console.log("Error resetting password:", error);
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .title('Password Reset')
+              .content("Error resetting password")
+              .ok('Got it!')
+            );
+            //console.log("Error resetting password:", error);
         }
       } else {
         $ionicLoading.hide();
@@ -226,6 +246,9 @@ angular.module('starter.controllers', [])
                //event.preventDefault();
                event.preventDefault();
                event.stopPropagation();
+              ionic.Platform.exitApp();
+
+
           }
           else
           {
@@ -608,17 +631,30 @@ angular.module('starter.controllers', [])
   //console.log($stateParams)
    $scope.image = $stateParams.image;
    $scope.category = $stateParams.category;
-      console.log($scope.category , $scope.image);
-
+  
    $scope.votes = [];
    $scope.tags ='';
-
+   $scope.zoomsize = '100%'
  
    var imagename = $stateParams.image.split('.');
    var  voteRef = new Firebase("https://9lives.firebaseio.com/likes");
 
    $scope.votes = $firebaseObject(voteRef);
-
+  
+   // $scope.items = [
+   //    {
+   //      src:'http://www.wired.com/images_blogs/rawfile/2013/11/offset_WaterHouseMarineImages_62652-2-660x440.jpg',
+   //      sub: 'This is a <b>subtitle</b>'
+   //    },
+   //    {
+   //      src:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg',
+   //      sub: '' /* Not showed */
+   //    },
+   //    {
+   //      src:'http://www.hdwallpapersimages.com/wp-content/uploads/2014/01/Winter-Tiger-Wild-Cat-Images.jpg',
+   //      thumb:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg'
+   //    }
+   //  ]
    
 
     if($localstorage.getObject('userData') )
@@ -652,6 +688,13 @@ angular.module('starter.controllers', [])
           })
       })
 
+      $scope.zoom = function(){
+        if($scope.zoomsize == '100%')
+          $scope.zoomsize = '150%'
+        else
+          $scope.zoomsize = '100%'
+      }
+
       $scope.getCount = function(count){
          
            if(count === undefined)
@@ -664,6 +707,10 @@ angular.module('starter.controllers', [])
       }
 
       $scope.nextImage = function(direction){
+
+        if($scope.zoomsize === '150%')
+          return;
+
         $scope.tags ='';
         var current = _.findIndex($scope.images , {'filename':$scope.image});
         if(direction == 'fwd')
@@ -795,7 +842,7 @@ angular.module('starter.controllers', [])
 
    $ionicLoading.show();
    $scope.mylookbook = [];
-   $scope.title = 'My LOOKBOOK';
+   $scope.title = 'MY LOOKBOOK';
 
    
     var mylookbookRef = new Firebase("https://9lives.firebaseio.com/mylookbook/"+$localstorage.getObject('userData').uid);
@@ -824,7 +871,7 @@ angular.module('starter.controllers', [])
 .controller('MyLookbookAllCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location,$firebaseArray , $ionicLoading){
 
    $ionicLoading.show();
-   $scope.title = 'My LOOKBOOK';
+   $scope.title = 'MY LOOKBOOK';
 
    var mylookbookRef = new Firebase("https://9lives.firebaseio.com/mylookbook/"+$localstorage.getObject('userData').uid);
 
@@ -839,6 +886,7 @@ angular.module('starter.controllers', [])
 
         $scope.thumbs = chunk($scope.mylookbook.reverse() , 2);
     });
+
 
    //$scope.mylookbook = $localstorage.getArray('lookook');
    //console.log("lookbook :"  , $scope.mylookbook);
@@ -861,7 +909,7 @@ angular.module('starter.controllers', [])
 .controller('MyLookbookFavoritelCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $ionicLoading,$firebaseArray){
 
     $ionicLoading.show();
-    $scope.title = 'My LOOKBOOK';
+    $scope.title = 'MY LOOKBOOK';
     //$scope.mylookbook = [];
     var firebaseRef = new Firebase("https://9lives.firebaseio.com/mylookbook/"+$localstorage.getObject('userData').uid);
   
@@ -886,7 +934,7 @@ angular.module('starter.controllers', [])
 
 .controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams  , $state , $ionicPopup, $ionicPlatform , $cordovaSocialSharing,  $mdDialog){
 
-   $scope.title = 'My LOOKBOOK';
+   $scope.title = 'MY LOOKBOOK';
 
    $scope.photo = $stateParams.item.image;
    $scope.date = $stateParams.item.date;
@@ -897,7 +945,7 @@ angular.module('starter.controllers', [])
 
   $scope.delete = function() {
        var confirmPopup = $ionicPopup.confirm({
-         title: 'MyLookbook',
+         title: 'MYLookbook',
          template: 'Are you sure you want to delete this photo?'
        });
        confirmPopup.then(function(res) {
@@ -986,7 +1034,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MyLookbookAddCtrl' , function($scope, $rootScope , $stateParams , $ionicActionSheet ,$timeout , $q, $mdBottomSheet , $mdDialog , $location, $localstorage, $cordovaFile,$ionicPlatform,Camera,$cordovaImagePicker){
-    $scope.title = 'My LOOKBOOK';
+    $scope.title = 'MY LOOKBOOK';
     $scope.images=[];
 
     if(typeof $rootScope.pic == 'undefined')
@@ -1028,7 +1076,7 @@ angular.module('starter.controllers', [])
     console.log("getLibrary" , index);
   var options = {
    maximumImagesCount: 1,
-   width: 1080,
+   width: 1200,
    height: 1080,
    quality: 80
   };
@@ -1064,12 +1112,14 @@ angular.module('starter.controllers', [])
   }
 
   $scope.getPhotoBefore = function(index) {
-     var option = {quality:50 , 
+     var option = {quality:80 , 
       //destinationType : Camera.DestinationType.DATA_URL,
       destinationType:1,
       encodingType: 0,
-      targetWidth: 1200,
-      
+      //targetWidth: 1836,
+      targetWidth: 643,
+      targetHeight: 900,
+      allowEdit:true,
       correctOrientation:true,
       PictureSourceType:2,
 
@@ -1079,19 +1129,19 @@ angular.module('starter.controllers', [])
 
     Camera.getPicture(option).then(function(imageURI) {
         if(index < 3)
-            $rootScope.pic.before[index] = imageURI;
+          $rootScope.pic.before[index] = imageURI;
         else
           $rootScope.pic.after[index-3] = imageURI;
     }, function(err) {
       console.log(err);
-      $mdDialog.show(
-        $mdDialog.alert()
-          .parent(angular.element(document.querySelector('#popupContainer')))
-          .clickOutsideToClose(true)
-          .title('Camera Failed')
-          .content("Opps! Something went wrong. Please try again.")
-          .ok('Ok!')
-        );
+      // $mdDialog.show(
+      //   $mdDialog.alert()
+      //     .parent(angular.element(document.querySelector('#popupContainer')))
+      //     .clickOutsideToClose(true)
+      //     .title('Camera Failed')
+      //     .content("Opps! Something went wrong. Please try again.")
+      //     .ok('Ok!')
+      //   );
     })
 
     //$cordovaCamera.cleanup();
@@ -1273,7 +1323,7 @@ $scope.stylistDetail = function(id) {
 
     $rootScope.footer = 'footer1'; 
 
-    $scope.title = "Stylist"
+    $scope.title = "STYLIST"
 
     $scope.lookbook = {};
    
@@ -1595,15 +1645,17 @@ $scope.stylistDetail = function(id) {
                   '<input name="newPassword" type="password"  class="login-textfield" ng-model="password.newPassword" placeholder="New Password" style="width:100%" required ng-minlength="8" ng-maxlength="25">'+
                   '<span class="error" ng-show="Form.newPassword.$error.required && Form.newPassword.$dirty && Form.newPassword.$touched">Required!</span>'+
                   '<span class="error" ng-show="Form.newPassword.$error.minlength && Form.newPassword.$dirty && Form.newPassword.$touched">'+
-                  'Password Must be contain at least 8 characters.</span>'+
+                  'Password must be contain at least 8 characters.</span>'+
                   ' </div>'+
                   ' <div class="login-wraper">'+
                   '<input name="cPassword" type="password" class="login-textfield" ng-model="password.confirmPassword" placeholder="Confirm  Password" style="width:100%" required ng-minlength="8" ng-maxlength="25">'+
                   '<span class="error" ng-show="Form.cPassword.$error.required && Form.cPassword.$dirty && Form.cPassword.$touched">Required!</span>'+
                   '<span class="error" ng-show="Form.cPassword.$error.minlength && Form.cPassword.$dirty && Form.cPassword.$touched">'+
-                  'Password Must be contain at least 8 characters.</span>'+
+                  'Password must be contain at least 8 characters.</span><br>'+
                   '<span class="error" ng-show="confirmError">'+
                   'New Password and Confirm Password not match.</span>'+
+                   '<span class="error" ng-show="fillall">'+
+                  'Please fill in all fields.</span>'+
                   ' </div></form>',
         scope: $scope,
         cssClass: 'custom-popup',
@@ -1612,14 +1664,20 @@ $scope.stylistDetail = function(id) {
           {
             text: '<b >Save</b>',
             type: 'cus-button',
-            attr: 'data-ng-disabled="!Form.$valid"',
+            attr: 'data-ng-disabled="!Form.$valid "',
             onTap: function(e) {
               if ($scope.password.newPassword != $scope.password.confirmPassword) {
                 //don't allow the user to close unless he enters wifi password
                 $scope.confirmError = true;
                 e.preventDefault();
             
-              } else {
+              } 
+             else if($scope.password.newPassword.length == 0 || $scope.password.newPassword.length==0 )
+             {
+                $scope.fillall = true;
+                e.preventDefault();
+             }
+              else {
                 $scope.confirmError = false;
                 return true;
               }
@@ -1736,8 +1794,96 @@ $scope.stylistDetail = function(id) {
     }
 
 })
+.controller('locationCtrl',  function($scope , $ionicLoading, $firebase, $firebaseArray , $cordovaGeolocation , $http){
+      $scope.title = "STUDIOS";
+      
+    $ionicLoading.show();
+
+    var storesRef = new Firebase("https://9lives.firebaseio.com/stores");
+
+    var stores = $firebaseArray(storesRef);
+
+  
+     stores.$loaded(function(data){
+      $scope.stores = data;
+      $ionicLoading.hide();
+    })
+
+
+ 
+   
+  $scope.getDistance = function(store){
+
+  var posOptions = {timeout: 1000000, enableHighAccuracy: false};
+  $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+      var lat  = position.coords.latitude
+      var long = position.coords.longitude
+      console.log(position);
+      $scope.CurrentPosition = position;
+
+      var dis =  distance(store.loc.lat, store.loc.lon , $scope.CurrentPosition.coords.latitude , $scope.CurrentPosition.coords.longitude );
+      console.log( dis.toFixed(2)+"km");
+      return dis.toFixed(2)+"km";
+
+       
+      // if(dis < 100)
+      // {
+      //   return dis.toFixed(2)+"km";
+      // }
+      // else
+      // {
+      //   return "";
+      // }
+
+    }, function(err) {
+      // error
+      console.log(err);
+      return "";
+  });
+    
+  }
+
+  function distance(lat1, lon1, lat2, lon2, unit) {
+      var radlat1 = Math.PI * lat1/180
+      var radlat2 = Math.PI * lat2/180
+      var radlon1 = Math.PI * lon1/180
+      var radlon2 = Math.PI * lon2/180
+      var theta = lon1-lon2
+      var radtheta = Math.PI * theta/180
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist)
+      dist = dist * 180/Math.PI
+      dist = dist * 60 * 1.1515
+      if (unit=="K") { dist = dist * 1.609344 }
+      if (unit=="N") { dist = dist * 0.8684 }
+      return dist
+ }
+
+
+  
+})
+
+.controller('locationDetailCtrl',  function($scope , $ionicLoading, $stateParams){
+      $scope.store = $stateParams.store;
+      $scope.title = $scope.store.name;
+      $scope.map = { center: { latitude:  $scope.store.loc.lat, longitude:  $scope.store.loc.lon }, zoom: 18 };
+
+      $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: $scope.store.loc.lat,
+        longitude: $scope.store.loc.lon
+      }
+    };
+
+  
+})
+
+
 .controller('tncCtrl', function($scope ,$sce , $ionicLoading, $sce){
-  $scope.title = "Terms and Privacy"
+  $scope.title = "TERMS AND PRIVACY"
   $sce.trustAsHtml()
   $ionicLoading.show();
     var tncRef = new Firebase("https://9lives.firebaseio.com/TNC");

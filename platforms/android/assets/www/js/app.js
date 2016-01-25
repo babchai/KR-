@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' ])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery' ])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -28,6 +28,7 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
     }
   });
 })
+
 
 
  //  .config(function($sceDelegateProvider) {

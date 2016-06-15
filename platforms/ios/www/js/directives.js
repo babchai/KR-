@@ -1,4 +1,5 @@
 angular.module('starter.directives', [])
+
 // .directive('ionSlideAction', function($ionicGesture, $timeout)
 // {
     
@@ -124,14 +125,29 @@ angular.module('starter.directives', [])
                 $ionicHistory.goBack();
 
             }
+            scope.getIcon = function(){
+              if(scope.volted)
+                 return "ion-android-favorite";
+              else  
+                 return "ion-android-favorite-outline";
+            }
+
+            scope.vote =function(){
+              if(scope.volted)
+                 return scope.unlove();
+              else  
+                 return scope.love();
+            }
+
         },
         template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()" style="width: 30px;height: 100%;">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
-                  '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
-                  '  <i class="ion-android-favorite-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!volted"></i>'+
-                  '  <i class="ion-android-favorite" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="unlove()"  ng-show="volted" ></i>'+
+                  '<h1 class="header-center-title title ng-cloak" style="text-align:center; font-size:20px" ng-cloak>'+
+                  //'  <i class="ion-android-favorite" ng-cloak style="font-size:30px ; color:#363636 ; padding:5%" ng-click="unlove()"  ng-hide="!volted" ></i>'+
+                  //'  <i class="ion-android-favorite-outline" ng-cloak style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-hide="volted" ></i>'+
+                  '  <i ng-class="getIcon()" ng-cloak style="font-size:30px ; color:#363636 ; padding:5%" ng-click="vote()" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '<div class="buttons header-right-button" ng-click="goBack()">'+
@@ -149,14 +165,29 @@ angular.module('starter.directives', [])
                 $ionicHistory.goBack();
 
             }
+
+            scope.getIcon = function(){
+              if(scope.liked)
+                 return "ion-ios-star";
+              else  
+                 return "ion-ios-star-outline";
+            }
+
+            scope.vote =function(){
+              if(scope.liked)
+                 return scope.unlove();
+              else  
+                 return scope.love();
+            }
         },
         template: '<ion-header-bar name="header3" align-title="left" class="bar bar-header bar-positive" no-tap-scroll="false">'+
                   '<div class="buttons header-left-button" ng-click="goBack()" style="width: 30px;height: 100%;">'+
                   '       <i class="ion-ios-arrow-left" style="font-size:30px ; color:#363636"></i>'+
                   '</div>'+
                   '<h1 class="header-center-title title " style="text-align:center; font-size:20px">'+
-                  '  <i class="ion-ios-star-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!liked"></i>'+
-                  '  <i class="ion-ios-star" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="liked" ng-click="unlove()" ></i>'+
+                  //'  <i class="ion-ios-star-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="love()" ng-show="!liked"></i>'+
+                  //'  <i class="ion-ios-star" style="font-size:30px ; color:#363636 ; padding:5%"  ng-show="liked" ng-click="unlove()" ></i>'+
+                  '  <i ng-class="getIcon()" ng-cloak style="font-size:30px ; color:#363636 ; padding:5%" ng-click="vote()" ></i>'+
                   '  <i  class="ion-ios-upload-outline" style="font-size:30px ; color:#363636 ; padding:5%" ng-click="share()" ></i>'+
                   '</h1>'+
                   '<div class="buttons header-right-button" style="width: 30px;height: 100%;padding-top: 2%;" ng-click="delete()">'+

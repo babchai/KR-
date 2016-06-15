@@ -32,10 +32,11 @@ angular.module('starter.controllers', [])
      userData = userRef.getAuth();
      $localstorage.setObject('userData', userData);
      
-      console.log(userData);
-
      if(userData)
-        $state.go('home');
+     {
+      
+      $state.go('home');
+     }
 
 
   $scope.login  = function(authorizationForm){
@@ -63,21 +64,91 @@ angular.module('starter.controllers', [])
       if( error )
       {
         $ionicLoading.hide();
+        var messag="Couldn't sign in. The email or password is not correct.";
+        switch (error.code) {
+          case "INVALID_EMAIL":
+            message = "The specified user account email is invalid.";
+            console.log("The specified user account email is invalid.");
+            break;
+          case "INVALID_PASSWORD":
+             message = "The specified user account password is incorrect.";
+            console.log("The specified user account password is incorrect.");
+            break;
+          case "INVALID_USER":
+            message = "The specified user account does not exist.";
+            console.log("The specified user account does not exist.");
+            break;
+          default:
+            message = "Error logging user in:"+ error;
+            console.log("Error logging user in:", error);
+        }
 
         $mdDialog.show(
         $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))
           .clickOutsideToClose(true)
           .title('Login Failed')
-          .content("Couldn't sign in. The email or password is not correct.")
+          .content(message)
           .ok('Got it!')
         );
       }
       else
       {
-        $ionicLoading.hide();
-        $localstorage.setObject("userData" , authData);
-        $state.go('home');
+
+
+        var profile = new Firebase("https://9lives.firebaseio.com/profile/"+authData.uid);
+
+        //console.log(profile);
+
+        profile.once("value", function(snapshot) {
+          
+          console.log(snapshot.exists());
+          
+          if(snapshot.exists())
+          {
+            $ionicLoading.hide();
+            $localstorage.setObject("userData" , authData);
+            $state.go('home');
+          }
+          else
+          {
+            userRef.removeUser({
+              email    : $scope.user.email,
+              password : $scope.user.password
+            } , function(error){
+              if (error) {
+
+                switch (error.code) {
+                  case "INVALID_USER":
+                    console.log("The specified user account does not exist.");
+                    break;
+                  case "INVALID_PASSWORD":
+                    console.log("The specified user account password is incorrect.");
+                    break;
+                  default:
+                    console.log("Error removing user:", error);
+                }
+              } else {
+                userRef.unauth();
+                
+                $localstorage.setObject("userData" , {});
+                
+                console.log("User account deleted successfully!");
+                  $mdDialog.show(
+                  $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Login Failed')
+                    .content('The specified user account does not exist')
+                    .ok('Got it!')
+                  );
+              }
+            })
+          }
+
+        });
+
+        
 
       }
 
@@ -229,12 +300,29 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory , $cordovaLocalNotification){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
     $scope.promo = {};
     console.log($state.current.name);
+
+    $ionicPlatform.ready(function () {
+        // ========== Scheduling
+
+        $rootScope.scheduleSingleNotification = function () {
+          $cordovaLocalNotification.schedule({
+            id: 1,
+            title: 'Title here',
+            text: 'Text here',
+            data: {
+              customProperty: 'custom value'
+            }
+          }).then(function (result) {
+            // ...
+          });
+        };
+    });
 
     // $ionicPlatform.onHardwareBackButton(function() {
     //   event.preventDefault();
@@ -567,7 +655,9 @@ angular.module('starter.controllers', [])
     var  lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$scope.category);
     //var  scrollRef = new Firebase.util.Scroll(lookbookRef,'filename');
     
-    var photos = $firebaseArray(lookbookRef);
+    var photos = $firebaseArray(lookbookRef.orderByChild('seq'));
+
+    console.log(photos);
 
     photos.$loaded(function(snapshot){
       $ionicLoading.hide();
@@ -785,6 +875,21 @@ angular.module('starter.controllers', [])
       //$scope.$apply();
    }
 
+  $scope.getIcon = function(){
+    if($scope.volted)
+      return "icon ion-android-favorite";
+    else
+      return "icon ion-android-favorite-outline";
+  } 
+
+  $scope.vote = function()
+  {
+    if($scope.volted)
+      return $scope.unlove();
+    else
+      return $scope.love()
+  }
+
   $scope.unlove  = function(){
     console.log($scope.image);
     $scope.volted = false;
@@ -803,6 +908,8 @@ angular.module('starter.controllers', [])
           })
         });
     });
+
+    
 
   }
 
@@ -1288,7 +1395,7 @@ angular.module('starter.controllers', [])
 
   $scope.category = $stateParams.cat.key;
   var stylistRef = firebaseRef.child('lookbook2/'+$stateParams.cat.key);
-  $scope.stylists = $firebaseArray(stylistRef);
+  $scope.stylists = $firebaseArray(stylistRef.orderByChild('seq'));
 
 $scope.stylistDetail = function(id) {
       // An elaborate, custom popup
@@ -1654,13 +1761,17 @@ $scope.stylistDetail = function(id) {
                   'Password must be contain at least 8 characters.</span><br>'+
                   '<span class="error" ng-show="confirmError">'+
                   'New Password and Confirm Password not match.</span>'+
-                   '<span class="error" ng-show="fillall">'+
-                  'Please fill in all fields.</span>'+
+                   '<span class="error" ng-show="fillall && !Form.newPassword.$dirty ">'+
+                  'Please enter a new password.</span>'+
                   ' </div></form>',
         scope: $scope,
         cssClass: 'custom-popup',
         buttons: [
-          { text: 'Cancel' },
+          { text: 'Cancel',
+            onTap: function(e){
+              $scope.fillall = false;
+            } 
+           },
           {
             text: '<b >Save</b>',
             type: 'cus-button',
@@ -1672,12 +1783,12 @@ $scope.stylistDetail = function(id) {
                 e.preventDefault();
             
               } 
-             else if($scope.password.newPassword.length == 0 || $scope.password.newPassword.length==0 )
+             else if($scope.password.newPassword == null || $scope.password.confirmPassword==null )
              {
                 $scope.fillall = true;
                 e.preventDefault();
              }
-              else {
+             else {
                 $scope.confirmError = false;
                 return true;
               }
@@ -1745,10 +1856,11 @@ $scope.stylistDetail = function(id) {
     })
 
     $scope.$watchCollection('search.tag', function(newVal , oldVal){
+
        if($scope.search.tag !='')
        {
           $scope.search.result =   _.filter($scope.tags ,function(res) {
-            return res.$id.indexOf($scope.search.tag)>=0;
+            return res.$id.toLowerCase().indexOf($scope.search.tag.toLowerCase())>=0;
           })
         }
     })

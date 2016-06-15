@@ -45,15 +45,13 @@
             <center>
 <!--                     <i class="icon ion-android-favorite-outline" style="font-size:20px"></i><br>
  -->                    
-                <i class="icon ion-android-favorite-outline" style="font-size:20px " ng-click="love()" ng-show="!volted"></i>
-                <i class="icon ion-android-favorite" style="font-size:20px" ng-click="unlove()"  ng-show="volted" ></i>
-                <span ng-click="love()" ng-show="!volted">
+                <i ng-class="getIcon()" style="font-size:20px " ng-click="vote()" ></i>
+                <!--<i class="icon ion-android-favorite" style="font-size:20px" ng-click="unlove()"  ng-show="volted" ></i> -->
+                <span ng-click="vote()">
                     {{getCount(count)}}
                 </span>
 
-                <span ng-click="unlove()" ng-show="volted">
-                    {{getCount(count)}}
-                </span>
+               
 
             </center>
             </div>

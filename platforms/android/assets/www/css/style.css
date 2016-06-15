@@ -347,9 +347,9 @@ html, body{
     line-height: 50px;
 }
 
-textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+/*textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
       line-height: 1.42857;
-}
+}*/
 
 .popup-buttons .button{
      background-color: #F4E057 !important;
@@ -373,8 +373,18 @@ pre {
 .footerIcon{
     color:#363636;
     font-size:45px;
-    padding:8%
-}
+/*    padding:8%
+*/}
 
 .angular-google-map-container { height: 350px; }
+
+/*input, textarea {
+        -webkit-user-select: auto !important;
+        -khtml-user-select: auto !important;
+        -moz-user-select: auto !important;
+        -ms-user-select: auto !important;
+        -o-user-select: auto !important;
+        user-select: auto !important;  
+  }*/
+
 

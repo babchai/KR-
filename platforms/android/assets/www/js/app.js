@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery' ])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -13,8 +13,57 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 
 })
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform , $cordovaLocalNotification) {
   $ionicPlatform.ready(function() {
+
+   var push = new Ionic.Push({
+      "debug": true,
+      "onNotification": function(notification) {
+        var payload = notification.payload;
+       // console.log(notification, payload);
+
+        console.log(notification);
+
+        $cordovaLocalNotification.schedule({
+            id: 1,
+            title: notification.title,
+            text: notification.text,
+            icon:      'icon',
+            smallicon: 'icon',
+            badge :0,
+            data: {
+              customProperty: 'custom value'
+            }
+          }).then(function (result) {
+            console.log(result);
+          });
+      },
+      "onRegister": function(data) {
+        console.log(data.token);
+      },
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+         },
+         "android": {
+           "iconColor": "#343434"
+         }
+      } 
+    });
+
+    var user = Ionic.User.current();
+
+    var callback = function(pushToken) {
+      console.log('Registered token:', pushToken.token);
+      user.addPushToken(pushToken);
+      user.save(); // you NEED to call a save after you add the token
+    }
+
+    push.register(callback);
+
+
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -39,8 +88,11 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
  //    'https://www.youtube.com/**'
  //  ]); 
  // })
-
-     
+.filter('reverse', function() {
+      return function(items) {
+        return items.slice().reverse();
+      };
+})   
 .config(function($sceDelegateProvider , $compileProvider) {
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo):/);
 

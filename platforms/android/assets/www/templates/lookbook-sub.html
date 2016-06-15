@@ -5,7 +5,7 @@
 <ion-content scroll="true" overflow-scroll="true" class="gallery" has-bounce="hasbounce"  >
  <div class="gallery" style="background-color:#fff"   >
   <div class="row" ng-repeat = "rows in thumbs ">
-   <div class="col" ng-repeat = "item in rows track by $index" style="max-width:50%">
+   <div class="col" ng-repeat = "item in rows track by $index " style="max-width:50%">
         <div style="background-color:white">
       <!--     <a href="#/lookbook-detail/{{category}}/{{item.val.filename}}" ng-href="#/lookbook-detail/{{category}}/{{item.val.filename}}"> -->
         <a ui-sref="lookbook-detail({'category':category , 'image':item.val.filename})">

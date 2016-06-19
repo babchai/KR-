@@ -314,14 +314,6 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
-    },
-    {
-        "file": "plugins/phonegap-plugin-push/www/push.js",
-        "id": "phonegap-plugin-push.PushNotification",
-        "pluginId": "phonegap-plugin-push",
-        "clobbers": [
-            "PushNotification"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -338,8 +330,7 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
     "org.apache.cordova.camera": "0.3.6",
     "org.apache.cordova.file": "1.3.3",
-    "org.apache.cordova.file-transfer": "0.5.0",
-    "phonegap-plugin-push": "1.5.3"
+    "org.apache.cordova.file-transfer": "0.5.0"
 }
 // BOTTOM OF METADATA
 });

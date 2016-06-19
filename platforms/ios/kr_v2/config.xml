@@ -36,9 +36,6 @@
     <feature name="FileTransfer">
         <param name="ios-package" value="CDVFileTransfer" />
     </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
-    </feature>
     <name>kr_v2</name>
     <description>
         An Ionic Framework and Cordova project.

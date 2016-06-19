@@ -16,51 +16,60 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 .run(function($ionicPlatform , $cordovaLocalNotification) {
   $ionicPlatform.ready(function() {
 
-   var push = new Ionic.Push({
-      "debug": true,
-      "onNotification": function(notification) {
-        var payload = notification.payload;
-       // console.log(notification, payload);
-
-        console.log(notification);
-
-        $cordovaLocalNotification.schedule({
-            id: 1,
-            title: notification.title,
-            text: notification.text,
-            icon:      'icon',
-            smallicon: 'icon',
-            badge :0,
-            data: {
-              customProperty: 'custom value'
-            }
-          }).then(function (result) {
-            console.log(result);
-          });
-      },
-      "onRegister": function(data) {
-        console.log(data.token);
-      },
-      "pluginConfig": {
-        "ios": {
-          "badge": true,
-          "sound": true
-         },
-         "android": {
-           "iconColor": "#343434"
-         }
-      } 
+    var push = new Ionic.Push({
+      "debug": true
     });
 
-    var user = Ionic.User.current();
+    push.register(function(token) {
+      console.log("Device token:",token.token);
+      push.saveToken(token);  // persist the token in the Ionic Platform
+    });
 
-    var callback = function(pushToken) {
-      console.log('Registered token:', pushToken.token);
-      user.addPushToken(pushToken);
-      user.save(); // you NEED to call a save after you add the token
-    }
+   // var push = new Ionic.Push({
+   //    "debug": true,
+   //    "onNotification": function(notification) {
+   //      var payload = notification.payload;
+   //     // console.log(notification, payload);
 
-    push.register(callback);
+   //      console.log(notification);
+
+   //      $cordovaLocalNotification.schedule({
+   //          id: 1,
+   //          title: notification.title,
+   //          text: notification.text,
+   //          icon:      'icon',
+   //          smallicon: 'icon',
+   //          badge :0,
+   //          data: {
+   //            customProperty: 'custom value'
+   //          }
+   //        }).then(function (result) {
+   //          console.log(result);
+   //        });
+   //    },
+   //    "onRegister": function(data) {
+   //      console.log(data.token);
+   //    },
+   //    "pluginConfig": {
+   //      "ios": {
+   //        "badge": true,
+   //        "sound": true
+   //       },
+   //       "android": {
+   //         "iconColor": "#343434"
+   //       }
+   //    } 
+   //  });
+
+//    var user = Ionic.User.current();
+
+    // var callback = function(pushToken) {
+    //   console.log('Registered token:', pushToken.token);
+    //   user.addPushToken(pushToken);
+    //   user.save(); // you NEED to call a save after you add the token
+    // }
+
+    // push.register(callback);
 
 
 

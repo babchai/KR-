@@ -1,0 +1,20 @@
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" -d '{
+    "tokens": ["d5Nj0dadfQY:APA91bFL5M4ekeeN6T57mS4hJKUu1tapijmRe1KEAUh-F_cLlfWyOhilboTztrkpyHuguCSShU51b980tYJQQIqRQhGacQTJx1nxYXEjVbleuhNi_aw1bsaRtmNfDnR_Lkwsefl-rDGT"],
+    "profile": "krplus",
+    "notification": {
+    "title": "Hi",
+    "message": "Hello world!",
+    "android": {
+      "title": "Hey",
+      "message": "Hello Android!"
+    },
+    "ios": {
+      "title": "Howdy",
+      "message": "Hello iOS!"
+    }
+  }
+}' "https://api.ionic.io/push/notifications"
+
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" https://api.ionic.io/push/notifications/10d8c63d-8db4-45b6-8ad7-017b1c0fe501/messages
+
+curl -u PRIVATE_API_KEY: -H "Content-Type: application/json" -H "X-Ionic-Application-Id: APP_ID" https://push.ionic.io/api/v1/status/MESSAGE_ID

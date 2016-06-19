@@ -35,6 +35,27 @@ angular.module('starter.controllers', [])
      if(userData)
      {
       
+      var push = new Ionic.Push({
+              "debug": true
+      });
+
+      push.register(function(token) {
+        push.saveToken(token);
+        // Log out your device token (Save this!)
+        console.log("Got Token:",token.token);
+        var profile = userRef.child("profile/"+userData.uid);
+         var device_token = {};
+
+        device_token = {
+          'device_token' : token.token,
+        }
+
+        console.log(device_token)
+
+        profile.update(device_token);
+
+      });
+
       $state.go('home');
      }
 
@@ -98,7 +119,7 @@ angular.module('starter.controllers', [])
 
         var profile = new Firebase("https://9lives.firebaseio.com/profile/"+authData.uid);
 
-        //console.log(profile);
+        var devices = new Firebase("https://9lives.firebaseio.com/devices/"+authData.uid);
 
         profile.once("value", function(snapshot) {
           
@@ -108,6 +129,27 @@ angular.module('starter.controllers', [])
           {
             $ionicLoading.hide();
             $localstorage.setObject("userData" , authData);
+
+              var push = new Ionic.Push({
+                "debug": true
+              });
+
+              push.register(function(token) {
+                push.saveToken(token);
+
+                // Log out your device token (Save this!)
+                var device_token = {};
+                device_token = {
+                  'device_token' : token.token,
+                }
+
+                profile.update(device_token);
+                
+                devices.update(device_token);
+
+              });
+
+
             $state.go('home');
           }
           else

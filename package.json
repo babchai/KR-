@@ -20,7 +20,13 @@
       "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
       "id": "cordova-plugin-whitelist"
     },
-    "phonegap-plugin-push"
+    {
+      "variables": {
+        "SENDER_ID": "796093019547"
+      },
+      "locator": "phonegap-plugin-push",
+      "id": "phonegap-plugin-push"
+    }
   ],
   "cordovaPlatforms": [
     "android",

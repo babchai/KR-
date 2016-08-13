@@ -16,31 +16,7 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 .run(function($ionicPlatform , $cordovaLocalNotification) {
   $ionicPlatform.ready(function() {
 
-    var push = new Ionic.Push({});
-
-    push.notification(function(notification){
-      var payload = notification.payload;
-       console.log(notification, payload);
-    })
-
-    var push = new Ionic.Push({
-    "debug": true,
-    "onNotification": function(notification) {
-      var payload = notification.payload;
-      console.log(notification, payload);
-    },
-    "pluginConfig": {
-      "ios": {
-        "badge": true,
-        "sound": true
-       },
-       "android": {
-         "iconColor": "#343434"
-       }
-    } 
-  });
-      
-
+   
 
    // var push = new Ionic.Push({
    //    "debug": true,

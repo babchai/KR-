@@ -26,7 +26,8 @@
       },
       "locator": "phonegap-plugin-push",
       "id": "phonegap-plugin-push"
-    }
+    },
+    "cordova-plugin-statusbar"
   ],
   "cordovaPlatforms": [
     "android",

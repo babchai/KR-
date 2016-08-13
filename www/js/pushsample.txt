@@ -1,6 +1,6 @@
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" -d '{
-    "tokens": ["d5Nj0dadfQY:APA91bFL5M4ekeeN6T57mS4hJKUu1tapijmRe1KEAUh-F_cLlfWyOhilboTztrkpyHuguCSShU51b980tYJQQIqRQhGacQTJx1nxYXEjVbleuhNi_aw1bsaRtmNfDnR_Lkwsefl-rDGT"],
-    "profile": "krplus",
+    "tokens": ["862e9ece4618ee69fb49278093c47aa75c6c596cedb668315b0ca956b205c66b","dc1F3oEA9sc:APA91bEERN-BbK49G4HBW7Z2G_iQWYUZ1WNWXRHKCgQc7-5O9DPpvwrTrBVQ7xIH5_ZDf4oY8SQd2XANq-Gu-UvV7ztT0LrFtwLAfpJp62PRMyUUREBvUvedRBv9dmCYN5zJd8juYpO5"],
+    "profile": "krplus_prod",
     "notification": {
     "title": "Hi",
     "message": "Hello world!",
@@ -15,6 +15,6 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0e
   }
 }' "https://api.ionic.io/push/notifications"
 
-curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" https://api.ionic.io/push/notifications/10d8c63d-8db4-45b6-8ad7-017b1c0fe501/messages
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" https://api.ionic.io/push/notifications/4dc2f7bf-06a4-4b1a-a2f3-dfd2f4847f7f/messages
 
 curl -u PRIVATE_API_KEY: -H "Content-Type: application/json" -H "X-Ionic-Application-Id: APP_ID" https://push.ionic.io/api/v1/status/MESSAGE_ID

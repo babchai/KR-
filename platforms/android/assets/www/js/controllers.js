@@ -22,39 +22,45 @@ angular.module('starter.controllers', [])
     $rootScope.footer = null;
 })
 
-.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state){
+.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state,$ionicPlatform){
     var userData = {};
     $scope.user = {};
      //$state.go('home');
      
      var userRef = new Firebase("https://9lives.firebaseio.com");
-  
+
      userData = userRef.getAuth();
      $localstorage.setObject('userData', userData);
      
      if(userData)
      {
       
-      var push = new Ionic.Push({
-              "debug": true
-      });
+      var profile = userRef.child("profile/"+userData.uid);
 
-      // push.register(function(token) {
-      //   push.saveToken(token);
-      //   // Log out your device token (Save this!)
-      //   console.log("Got Token:",token.token);
-      //   var profile = userRef.child("profile/"+userData.uid);
-      //    var device_token = {};
+      var devices = userRef.child("devices/"+userData.uid);
 
-      //   device_token = {
-      //     'device_token' : token.token,
-      //   }
+    // $ionicPlatform.ready(function() {
+    //   var push = new Ionic.Push({
+    //     "debug": true
+    //   });
 
-      //   console.log(device_token)
 
-      //   profile.update(device_token);
+    //   push.register(function(token) {
+    //     console.log("Device token:",token.token);
+    //     push.saveToken(token);  // persist the token in the Ionic Platform
 
-      // });
+    //     var device_token = {
+    //       'device_token' : token.token,
+    //     }
+
+    //     console.log(device_token)
+
+    //     profile.update(device_token);
+    //     devices.update(device_token);
+
+    //   });
+
+    // });
 
       $state.go('home');
      }
@@ -130,21 +136,28 @@ angular.module('starter.controllers', [])
             $ionicLoading.hide();
             $localstorage.setObject("userData" , authData);
 
-              var push = new Ionic.Push({
-                "debug": true
-              });
+              // var push = new Ionic.Push({
+              //   "debug": true
+              // });
+
+          
+
+              // var push = new Ionic.Push({
+              //   "debug": true
+              // });
+
 
               // push.register(function(token) {
-              //   push.saveToken(token);
+              //   console.log("Device token:",token.token);
+              //   push.saveToken(token);  // persist the token in the Ionic Platform
 
-              //   // Log out your device token (Save this!)
-              //   var device_token = {};
-              //   device_token = {
+              //   var device_token = {
               //     'device_token' : token.token,
               //   }
 
+              //   console.log(device_token)
+
               //   profile.update(device_token);
-                
               //   devices.update(device_token);
 
               // });
@@ -346,7 +359,6 @@ angular.module('starter.controllers', [])
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
-    $scope.promo = {};
     console.log($state.current.name);
 
     $ionicPlatform.ready(function () {
@@ -365,6 +377,8 @@ angular.module('starter.controllers', [])
           });
         };
     });
+
+
 
     // $ionicPlatform.onHardwareBackButton(function() {
     //   event.preventDefault();
@@ -386,32 +400,34 @@ angular.module('starter.controllers', [])
           }
        }, 100);
      
-     var promo = $localstorage.getObject('promo');
+
+
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+       console.log("state change successfully");
+    $scope.promo = {};
+
+    var promo = $localstorage.getObject('promo');
 
     var promotionsRef = new Firebase("https://9lives.firebaseio.com/promotions");
 
     if(promo)
     {
       //console.log(promo.lastSeen);
-      promotionsRef.once("value", function(snapshot) {
+      promotionsRef.on("value", function(snapshot) {
         var filter =   _.filter(snapshot.val(), function(data){
-            //console.log(data.time , promo.lastSeen);
-            return data.time > promo.lastSeen;
+            if(promo.lastSeen == undefined)
+            {
+              return true;
+            }
+            else
+              return data.time > promo.lastSeen;
           });  
-         $scope.promo.count = filter.length;
+
+        $scope.promo.count = filter.length;
       });
       
-      // promotionsRef.on("child_added", function(snapshot) {
-      //   console.log(snapshot.val());
-      //     var filter =   _.filter(snapshot.val(), function(data){
-      //       //console.log(data.time , promo.lastSeen);
-      //       console.log(data);
-      //       return data.time > promo.lastSeen;
-      //     }); 
-
-      //     $scope.promo.count += filter.length;
-      // });
     }
+  });
 
 
 
@@ -535,8 +551,10 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('PromotionsCtrl', function($scope , $rootScope, $ionicLoading , $firebaseArray , $localstorage){
+.controller('PromotionsCtrl', function($scope , $rootScope, $ionicLoading , $firebaseArray , $localstorage, $ionicHistory){
     //$rootScope.header = 'header4';
+//$ionicHistory.clearCache();
+ 
     $ionicLoading.show();
     $rootScope.footer = 'footer1'; 
     $scope.title = "PROMOTIONS";
@@ -758,7 +776,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject , $ionicPlatform){
+.controller('LookbookDetailCtrl', function($scope , $stateParams , $rootScope , $cordovaSocialSharing , $localstorage , $firebaseArray , $firebaseObject , $ionicPlatform , $ionicLoading){
     $scope.title = "LOOKBOOK"
   //console.log($stateParams)
    $scope.image = $stateParams.image;
@@ -956,10 +974,13 @@ angular.module('starter.controllers', [])
   }
 
   $scope.share = function(){
+    $ionicLoading.show();
   $ionicPlatform.ready(function() {
     $cordovaSocialSharing
     .share(message, subject, file, link) // Share via native share sheet
     .then(function(result) {
+          $ionicLoading.hide();
+
       $mdDialog.show(
         $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))
@@ -970,6 +991,8 @@ angular.module('starter.controllers', [])
         );
       
     }, function(err) {
+          $ionicLoading.hide();
+
       $mdDialog.show(
         $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))
@@ -1450,7 +1473,7 @@ $scope.stylistDetail = function(id) {
                   '  <img src="http://krplus.com/lookbook/'+$scope.category+'/'+$scope.stylists[id].filename+'">'+
                   '</div>'+
                   '<div class="item item-text-wrap">'+
-                  '<h3>'+$scope.stylists[id].name+'</h3>'+
+                  '<h3>'+$scope.stylists[id].name+ ' - '+$scope.stylists[id].title+'</h3><br />'+
                   'I love hair because '+$scope.stylists[id].desc+'<br /><br>'+
                   'My passion are '+$scope.stylists[id].passion+'<br/><br>'+
                   '</div>'+

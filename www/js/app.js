@@ -16,14 +16,7 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
 .run(function($ionicPlatform , $cordovaLocalNotification) {
   $ionicPlatform.ready(function() {
 
-    var push = new Ionic.Push({
-      "debug": true
-    });
-
-    push.register(function(token) {
-      console.log("Device token:",token.token);
-      push.saveToken(token);  // persist the token in the Ionic Platform
-    });
+   
 
    // var push = new Ionic.Push({
    //    "debug": true,

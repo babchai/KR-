@@ -159,6 +159,7 @@ task cdvPrintProps << {
 }
 
 android {
+       
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -177,6 +178,10 @@ android {
         if (cdvMinSdkVersion != null) {
             minSdkVersion cdvMinSdkVersion
         }
+    }
+
+    lintOptions {
+      abortOnError false;
     }
 
     compileSdkVersion cdvCompileSdkVersion

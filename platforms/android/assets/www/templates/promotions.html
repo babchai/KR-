@@ -5,7 +5,7 @@
 
     <div class="list" style="border:none">
     <a class="item  item-thumbnail-left" style="background-color: #fff;color: #555555; border-bottom:solid 1px #F4E057 ; margin-bottom:1px; padding-top: 15px;" ng-repeat="p in promotions | reverse">
-          <img src = "https://www.krplus.com/app/promotion/icon/{{p.icon}}" ng-show="p.icon" style="max-width:70px; max-height:70px;vertical-align:middle;" >
+          <img ng-src = "http://krplus.com/app/promotion/icon/{{p.icon}}" ng-show="p.icon" style="max-width:70px; max-height:70px;vertical-align:middle;" >
           <div style="position: absolute;height: 70px; border-right: solid 1px #F4E057;left: 90px;"></div>
           <h2 style="font-size:20px; height:70px; display: table-cell;vertical-align: middle; white-space: normal; word-wrap: break-word;">{{p.title}}</h2>
     </a>	

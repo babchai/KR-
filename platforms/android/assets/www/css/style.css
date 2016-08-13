@@ -13,6 +13,9 @@
  html,body{ 
     font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif !important;
 }
+body.keyboard-open .has-footer{ 
+bottom: 0;
+}
 
 .square{
  width: 30%;

@@ -296,6 +296,14 @@ module.exports = [
         "clobbers": [
             "PushNotification"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -313,7 +321,8 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
     "cordova-plugin-device": "1.1.1",
     "cordova-plugin-app-event": "1.1.0",
-    "phonegap-plugin-push": "1.7.1"
+    "phonegap-plugin-push": "1.7.1",
+    "cordova-plugin-statusbar": "2.1.3"
 }
 // BOTTOM OF METADATA
 });

@@ -22,7 +22,7 @@ angular.module('starter.controllers', [])
     $rootScope.footer = null;
 })
 
-.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state,$ionicPlatform){
+.controller('LoginCtrl', function($scope ,  $mdToast, $animate , $mdDialog , $rootScope, $location , $ionicLoading, $localstorage,$state,$ionicPlatform , $ionicPush){
     var userData = {};
     $scope.user = {};
      //$state.go('home');
@@ -39,7 +39,24 @@ angular.module('starter.controllers', [])
 
       var devices = userRef.child("devices/"+userData.uid);
 
-    // $ionicPlatform.ready(function() {
+     $ionicPlatform.ready(function() {
+
+      $ionicPush.register().then(function(t) {
+        return $ionicPush.saveToken(t);
+      }).then(function(t) {
+        console.log('Token saved:', t.token);
+
+        var device_token = {
+          'device_token' : token.token,
+        }
+
+        console.log(device_token)
+
+        profile.update(device_token);
+        devices.update(device_token);
+
+      });
+
     //   var push = new Ionic.Push({
     //     "debug": true
     //   });
@@ -60,7 +77,7 @@ angular.module('starter.controllers', [])
 
     //   });
 
-    // });
+     });
 
       $state.go('home');
      }
@@ -135,6 +152,22 @@ angular.module('starter.controllers', [])
           {
             $ionicLoading.hide();
             $localstorage.setObject("userData" , authData);
+
+            $ionicPush.register().then(function(t) {
+              return $ionicPush.saveToken(t);
+            }).then(function(t) {
+              console.log('Token saved:', t.token);
+
+              var device_token = {
+                'device_token' : t.token,
+              }
+
+              console.log(device_token)
+
+              profile.update(device_token);
+              devices.update(device_token);
+
+            });
 
               // var push = new Ionic.Push({
               //   "debug": true
@@ -355,13 +388,16 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory , $cordovaLocalNotification){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory , $cordovaLocalNotification , $ionicPush){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
     console.log($state.current.name);
 
     $ionicPlatform.ready(function () {
+
+
+
         // ========== Scheduling
 
         $rootScope.scheduleSingleNotification = function () {

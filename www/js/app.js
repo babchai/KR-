@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
+angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'ionic.cloud' ,  'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -17,6 +17,11 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
   $ionicPlatform.ready(function() {
 
    
+  $scope.$on('cloud:push:notification', function(event, data) {
+    var msg = data.message;
+    console.log(data);
+    alert(msg.title + ': ' + msg.text);
+  });
 
    // var push = new Ionic.Push({
    //    "debug": true,
@@ -107,6 +112,25 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 's
   ]); 
  })
 
+.config(function($ionicCloudProvider) {
+  $ionicCloudProvider.init({
+    "core": {
+      "app_id": "7b78a89d"
+    },
+    "push": {
+      "sender_id": "796093019547",
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+        },
+        "android": {
+          "iconColor": "#ffffff"
+        }
+      }
+    }
+  });
+})
 
      
 .config(function($stateProvider, $urlRouterProvider , $mdThemingProvider,$sceDelegateProvider) {

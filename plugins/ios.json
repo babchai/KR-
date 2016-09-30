@@ -180,6 +180,10 @@
         },
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.krplushair.app"
+        },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "796093019547",
+            "PACKAGE_NAME": "com.krplushair.app"
         }
     },
     "dependent_plugins": {}

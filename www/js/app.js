@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'ionic.cloud' ,  'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
+angular.module('starter', ['ionic', 'ionic.cloud' ,  'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -13,51 +13,58 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
 
 })
 
-.run(function($ionicPlatform , $cordovaLocalNotification) {
+.run(function($ionicPlatform , $cordovaLocalNotification ,  $cordovaPush ,  $ionicPush) {
   $ionicPlatform.ready(function() {
 
-   
-  $scope.$on('cloud:push:notification', function(event, data) {
-    var msg = data.message;
-    console.log(data);
-    alert(msg.title + ': ' + msg.text);
-  });
 
-   // var push = new Ionic.Push({
-   //    "debug": true,
-   //    "onNotification": function(notification) {
-   //      var payload = notification.payload;
-   //     // console.log(notification, payload);
 
-   //      console.log(notification);
+// $scope.$on('cloud:push:notification', function(event, data) {
+//   var msg = data.message;
+//   alert(msg.title + ': ' + msg.text);
+// });
 
-   //      $cordovaLocalNotification.schedule({
-   //          id: 1,
-   //          title: notification.title,
-   //          text: notification.text,
-   //          icon:      'icon',
-   //          smallicon: 'icon',
-   //          badge :0,
-   //          data: {
-   //            customProperty: 'custom value'
-   //          }
-   //        }).then(function (result) {
-   //          console.log(result);
-   //        });
-   //    },
-   //    "onRegister": function(data) {
-   //      console.log(data.token);
-   //    },
-   //    "pluginConfig": {
-   //      "ios": {
-   //        "badge": true,
-   //        "sound": true
-   //       },
-   //       "android": {
-   //         "iconColor": "#343434"
-   //       }
-   //    } 
-   //  });
+//   console.log("token done");
+  // $scope.$on('cloud:push:notification', function(event, data) {
+  //   var msg = data.message;
+  //   console.log(data);
+  //   alert(msg.title + ': ' + msg.text);
+  // });
+
+  //  var push = new Ionic.Push({
+  //     "debug": true,
+  //     "onNotification": function(notification) {
+  //       var payload = notification.payload;
+  //      // console.log(notification, payload);
+
+  //       console.log(notification);
+
+  //       $cordovaLocalNotification.schedule({
+  //           id: 1,
+  //           title: notification.title,
+  //           text: notification.text,
+  //           icon:      'icon',
+  //           smallicon: 'icon',
+  //           badge :0,
+  //           data: {
+  //             customProperty: 'custom value'
+  //           }
+  //         }).then(function (result) {
+  //           console.log(result);
+  //         });
+  //     },
+  //     "onRegister": function(data) {
+  //       console.log(data.token);
+  //     },
+  //     "pluginConfig": {
+  //       "ios": {
+  //         "badge": true,
+  //         "sound": true
+  //        },
+  //        "android": {
+  //          "iconColor": "#343434"
+  //        }
+  //     } 
+  //   });
 
 //    var user = Ionic.User.current();
 
@@ -122,7 +129,8 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
       "pluginConfig": {
         "ios": {
           "badge": true,
-          "sound": true
+          "sound": true,
+           "alert" : true
         },
         "android": {
           "iconColor": "#ffffff"

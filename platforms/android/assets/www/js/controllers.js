@@ -32,6 +32,25 @@ angular.module('starter.controllers', [])
      userData = userRef.getAuth();
      $localstorage.setObject('userData', userData);
      
+      $ionicPush.register().then(function(t) {
+
+        console.log(t);
+        return $ionicPush.saveToken(t);
+      }).then(function(t) {
+        console.log('Token saved:', t.token);
+
+        var device_token = {
+          'device_token' : t.token,
+        }
+
+        console.log(device_token)
+        alert(devices_token);
+        profile.update(device_token);
+        devices.update(device_token);
+
+      });
+
+
      if(userData)
      {
       
@@ -47,11 +66,11 @@ angular.module('starter.controllers', [])
         console.log('Token saved:', t.token);
 
         var device_token = {
-          'device_token' : token.token,
+          'device_token' : t.token,
         }
 
         console.log(device_token)
-
+        alert(devices_token);
         profile.update(device_token);
         devices.update(device_token);
 
@@ -140,6 +159,7 @@ angular.module('starter.controllers', [])
       {
 
 
+
         var profile = new Firebase("https://9lives.firebaseio.com/profile/"+authData.uid);
 
         var devices = new Firebase("https://9lives.firebaseio.com/devices/"+authData.uid);
@@ -147,17 +167,18 @@ angular.module('starter.controllers', [])
         profile.once("value", function(snapshot) {
           
           console.log(snapshot.exists());
-          
+          alert("test"+authData.uid);
           if(snapshot.exists())
           {
             $ionicLoading.hide();
             $localstorage.setObject("userData" , authData);
 
             $ionicPush.register().then(function(t) {
+              alert(t);
               return $ionicPush.saveToken(t);
             }).then(function(t) {
               console.log('Token saved:', t.token);
-
+              alert(t.token);
               var device_token = {
                 'device_token' : t.token,
               }

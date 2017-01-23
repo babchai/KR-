@@ -30,18 +30,40 @@ angular.module('starter.controllers', [])
      var userRef = new Firebase("https://9lives.firebaseio.com");
 
      userData = userRef.getAuth();
+     console.log(userData);
      $localstorage.setObject('userData', userData);
      
+      // $ionicPush.register().then(function(t) {
+
+      //   console.log(t);
+      //   return $ionicPush.saveToken(t);
+      // }).then(function(t) {
+      //   console.log('Token saved:', t.token);
+
+      //   var device_token = {
+      //     'device_token' : t.token,
+      //   }
+
+      //   console.log(device_token)
+      //   alert(devices_token);
+      //   profile.update(device_token);
+      //   devices.update(device_token);
+
+      // });
+
+
      if(userData)
      {
       
+      console.log(userData);
       var profile = userRef.child("profile/"+userData.uid);
 
       var devices = userRef.child("devices/"+userData.uid);
 
      $ionicPlatform.ready(function() {
-
+      console.log("register token");
       $ionicPush.register().then(function(t) {
+        console.log(t);
         return $ionicPush.saveToken(t);
       }).then(function(t) {
         console.log('Token saved:', t.token);
@@ -51,7 +73,7 @@ angular.module('starter.controllers', [])
         }
 
         console.log(device_token)
-        alert(devices_token);
+        //alert(devices_token);
         profile.update(device_token);
         devices.update(device_token);
 
@@ -148,18 +170,17 @@ angular.module('starter.controllers', [])
         profile.once("value", function(snapshot) {
           
           console.log(snapshot.exists());
-          alert("test"+authData.uid);
           if(snapshot.exists())
           {
             $ionicLoading.hide();
             $localstorage.setObject("userData" , authData);
 
             $ionicPush.register().then(function(t) {
-              alert(t);
+              console.log(t);
               return $ionicPush.saveToken(t);
             }).then(function(t) {
               console.log('Token saved:', t.token);
-              alert(t.token);
+              //alert(t.token);
               var device_token = {
                 'device_token' : t.token,
               }
@@ -390,7 +411,7 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory , $cordovaLocalNotification , $ionicPush){
+.controller('HomeCtrl',  function($scope , $rootScope , $ionicPlatform , $localstorage,$state, $ionicHistory , $cordovaLocalNotification , $ionicPush , $mdDialog){
     //$rootScope.header = 'header1';
     $rootScope.footer = 'footer1'; 
     $scope.title = "kr+";
@@ -398,7 +419,19 @@ angular.module('starter.controllers', [])
 
     $ionicPlatform.ready(function () {
 
-
+      $scope.$on('cloud:push:notification', function(event, data) {
+        var msg = data.message;
+        //alert(msg.title + ': ' + msg.text);
+        $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title(msg.title)
+          .content(msg.text)
+          .ok('Got it!')
+        );
+      return
+      });
 
         // ========== Scheduling
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.krplushair.app" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.krplushair.app" version="1.1.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>krplus</name>
     <description>
         An Ionic Framework and Cordova project.
@@ -39,11 +39,13 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-        <param name="ios-package" value="CDVCamera" />
-    </feature>
     <platform name="ios">
+        <config-file platform="ios" target="*-info.plist" parent="NSPhotoLibraryUsageDescription">
+            <dict>
+                <key>NSPhotoLibraryUsageDescription</key>
+                <string>UPLOAD NEW LOOK</string>
+            </dict>    
+        </config-file>   
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -83,7 +85,7 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <plugin name="phonegap-plugin-push" spec="~1.7.1">
+    <plugin name="phonegap-plugin-push" spec="~1.7.4">
         <variable name="SENDER_ID" value="796093019547" />
     </plugin>
 </widget>

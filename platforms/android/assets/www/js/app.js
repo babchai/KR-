@@ -16,48 +16,64 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
 .run(function($ionicPlatform , $cordovaLocalNotification) {
   $ionicPlatform.ready(function() {
 
+
+  var iosConfig = {
+    "badge": true,
+    "sound": true,
+    "alert": true,
+  };
+
+  $cordovaPush.register(iosConfig).then(function(deviceToken) {
+      // Success -- send deviceToken to server, and store for future use
+      console.log("deviceToken: " + deviceToken)
+      //$http.post("http://server.co/", {user: "Bob", tokenID: deviceToken})
+    }, function(err) {
+      alert("Registration error: " + err)
+    });
+
+
    
-  $scope.$on('cloud:push:notification', function(event, data) {
-    var msg = data.message;
-    console.log(data);
-    alert(msg.title + ': ' + msg.text);
-  });
+  // $scope.$on('cloud:push:notification', function(event, data) {
+  //   var msg = data.message;
+  //   console.log(data);
+  //   alert(msg.title + ': ' + msg.text);
+  // });
 
-   // var push = new Ionic.Push({
-   //    "debug": true,
-   //    "onNotification": function(notification) {
-   //      var payload = notification.payload;
-   //     // console.log(notification, payload);
+  //  var push = new Ionic.Push({
+  //     "debug": true,
+  //     "onNotification": function(notification) {
+  //       var payload = notification.payload;
+  //      // console.log(notification, payload);
 
-   //      console.log(notification);
+  //       console.log(notification);
 
-   //      $cordovaLocalNotification.schedule({
-   //          id: 1,
-   //          title: notification.title,
-   //          text: notification.text,
-   //          icon:      'icon',
-   //          smallicon: 'icon',
-   //          badge :0,
-   //          data: {
-   //            customProperty: 'custom value'
-   //          }
-   //        }).then(function (result) {
-   //          console.log(result);
-   //        });
-   //    },
-   //    "onRegister": function(data) {
-   //      console.log(data.token);
-   //    },
-   //    "pluginConfig": {
-   //      "ios": {
-   //        "badge": true,
-   //        "sound": true
-   //       },
-   //       "android": {
-   //         "iconColor": "#343434"
-   //       }
-   //    } 
-   //  });
+  //       $cordovaLocalNotification.schedule({
+  //           id: 1,
+  //           title: notification.title,
+  //           text: notification.text,
+  //           icon:      'icon',
+  //           smallicon: 'icon',
+  //           badge :0,
+  //           data: {
+  //             customProperty: 'custom value'
+  //           }
+  //         }).then(function (result) {
+  //           console.log(result);
+  //         });
+  //     },
+  //     "onRegister": function(data) {
+  //       console.log(data.token);
+  //     },
+  //     "pluginConfig": {
+  //       "ios": {
+  //         "badge": true,
+  //         "sound": true
+  //        },
+  //        "android": {
+  //          "iconColor": "#343434"
+  //        }
+  //     } 
+  //   });
 
 //    var user = Ionic.User.current();
 

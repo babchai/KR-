@@ -1,5 +1,5 @@
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmYTYzNWE2YS0zMjZlLTRlN2EtOWJhYS1mNDliY2IxY2UzNTQifQ.YSqw2PEcBbsWaZvHtfyqQRi8ZvxC6CLOg3OkPCRtTHs" -d '{
-    "tokens": ["862e9ece4618ee69fb49278093c47aa75c6c596cedb668315b0ca956b205c66b","dc1F3oEA9sc:APA91bEERN-BbK49G4HBW7Z2G_iQWYUZ1WNWXRHKCgQc7-5O9DPpvwrTrBVQ7xIH5_ZDf4oY8SQd2XANq-Gu-UvV7ztT0LrFtwLAfpJp62PRMyUUREBvUvedRBv9dmCYN5zJd8juYpO5"],
+    "tokens": ["fBPfEbQK9Og:APA91bFDbLGMMMucw7AJSc8gL1KuwrgTVaHe9fTZEO86l3RFd5cXZKN42_wHLxH08sMf37fOFgAB8CG0CXIR_xTJ34BmcCRr9USiDTHGwSKk_16_G1mt7qSAPwhnZkdMgIJFEfLGv7MT"],
     "profile": "krplus_prod",
     "notification": {
     "title": "Hi",

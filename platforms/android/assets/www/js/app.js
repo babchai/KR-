@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'ionic.cloud' ,  'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
+angular.module('starter', ['ionic', 'ionic.cloud' ,  'starter.controllers' , 'starter.directives', 'starter.services', 'ngMaterial','ionicLazyLoad' , 'ngSanitize' , 'ngCordova' , 'firebase', 'angular-underscore', 'ngIOS9UIWebViewPatch' , 'uiGmapgoogle-maps' , 'ion-gallery'])
 .constant('$ionicLoadingConfig', {
   'duration':'30000' , 
   'hideOnStateChange' : true,
@@ -13,26 +13,17 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
 
 })
 
-.run(function($ionicPlatform , $cordovaLocalNotification) {
+.run(function($ionicPlatform , $cordovaLocalNotification ,  $cordovaPush ,  $ionicPush) {
   $ionicPlatform.ready(function() {
 
 
-  var iosConfig = {
-    "badge": true,
-    "sound": true,
-    "alert": true,
-  };
 
-  $cordovaPush.register(iosConfig).then(function(deviceToken) {
-      // Success -- send deviceToken to server, and store for future use
-      console.log("deviceToken: " + deviceToken)
-      //$http.post("http://server.co/", {user: "Bob", tokenID: deviceToken})
-    }, function(err) {
-      alert("Registration error: " + err)
-    });
+// $scope.$on('cloud:push:notification', function(event, data) {
+//   var msg = data.message;
+//   alert(msg.title + ': ' + msg.text);
+// });
 
-
-   
+//   console.log("token done");
   // $scope.$on('cloud:push:notification', function(event, data) {
   //   var msg = data.message;
   //   console.log(data);
@@ -138,7 +129,8 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
       "pluginConfig": {
         "ios": {
           "badge": true,
-          "sound": true
+          "sound": true,
+           "alert" : true
         },
         "android": {
           "iconColor": "#ffffff"
@@ -198,13 +190,13 @@ angular.module('starter', ['ionic','ionic.service.core','ionic.service.push', 'i
       controller:"HomeCtrl"
   })
   .state('trending', {
-    cache : true,
+    cache : false,
     url : "/trending",
     templateUrl:"templates/trending.html",
     controller:"TrendingCtrl"
   })
   .state('loveit', {
-    cache : true,
+    cache : false,
     url : "/loveit",
     templateUrl:"templates/loveit.html",
     controller:"LoveitCtrl"

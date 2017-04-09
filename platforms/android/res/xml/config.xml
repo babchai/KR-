@@ -1,5 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.krplushair.app" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.krplushair.app" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="ImagePicker">
+        <param name="android-package" value="com.synconset.ImagePicker" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <name>krplus</name>
     <description>
         An Ionic Framework and Cordova project.
@@ -41,21 +59,4 @@
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="StatusBarBackgroundColor" value="#F4E057" />
     <preference name="xwalkMode" value="embedded" />
-    <feature name="PushNotification">
-        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
-    </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
-    <feature name="SocialSharing">
-        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
-    </feature>
-    <feature name="File">
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
-        <param name="onload" value="true" />
-    </feature>
-    <allow-navigation href="cdvfile:*" />
-    <feature name="ImagePicker">
-        <param name="android-package" value="com.synconset.ImagePicker" />
-    </feature>
 </widget>

@@ -2,18 +2,17 @@
 </div>
 <ion-view view-title="Trending" class="has-footer">
 
-<ion-content scroll="true" overflow-scroll="false" class="gallery" lazy-scroll>
+<ion-content scroll="true" overflow-scroll="false" class="gallery" >
 <div class="gallery" style="background-color:#fff" >
   <div class="row" ng-repeat = "rows in thumbs">
    <div class="col" ng-repeat = "item in rows" style="max-width:50%">
     <div style="background-color:white">
-        <a ui-sref="lookbook-detail({'category':'{{getThumbCat(item.key)}}' , 'image':'{{getThumbFile(item.key)}}.jpg'})">
-
+       <a ng-click="saveScrollPosition()" ui-sref="lookbook-detail({'category':'{{getThumbCat(item.key)}}' , 'image':'{{getThumbFile(item.key)}}.jpg'})">
         <div style="min-height:251px ; background:url('http://krplus.com/lookbook/{{getThumbPath(item.key)}}.jpg') ;background-size:cover ; background-position:top"
         >
         </div>
-      </a>
-    </div>
+     </a>
+     </div>
      <!--    <img fallbackSrc='' image-lazy-src="https://s3-us-west-2.amazonaws.com/krplus/BOB/thumb/BOB+-+{{item}}.jpg" ui-sref="lookbook-detail({image:item})"  lazy-scroll-resize="true" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="lines" >
          -->
     </div>

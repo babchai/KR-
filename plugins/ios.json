@@ -7,29 +7,27 @@
         "files": {}
     },
     "installed_plugins": {
-        "phonegap-plugin-push": {
-            "SENDER_ID": "796093019547",
-            "PACKAGE_NAME": "com.krplushair.app"
-        },
         "cordova-plugin-camera": {
-            "CAMERA_USAGE_DESCRIPTION": "TO UPLOAD USER PHOTO",
-            "PHOTOLIBRARY_USAGE_DESCRIPTION": "TO UPLOAD USER PHOTO",
+            "CAMERA_USAGE_DESCRIPTION": " ",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
             "PACKAGE_NAME": "com.krplushair.app"
         },
-        "cordova-plugin-x-socialsharing": {
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.krplushair.app"
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.krplushair.app"
         },
         "cordova-plugin-image-picker": {
-            "PHOTO_LIBRARY_USAGE_DESCRIPTION": "TO UPLOAD USER PHOTO",
+            "PHOTO_LIBRARY_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.krplushair.app"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.krplushair.app"
+        },
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.krplushair.app"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.krplushair.app"
-        }
-    }
+    "dependent_plugins": {}
 }

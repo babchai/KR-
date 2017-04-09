@@ -196,7 +196,7 @@ angular.module('starter', ['ionic', 'ionic.cloud' ,  'starter.controllers' , 'st
     controller:"TrendingCtrl"
   })
   .state('loveit', {
-    cache : true,
+    cache : false,
     url : "/loveit",
     templateUrl:"templates/loveit.html",
     controller:"LoveitCtrl"

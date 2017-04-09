@@ -653,16 +653,22 @@ angular.module('starter.controllers', [])
    
     var  trendingRef = new Firebase("https://9lives.firebaseio.com/likes");
 
-    trendingRef.orderByChild("count").limitToFirst(50).on("value", function(snapshot) {
+    trendingRef.orderByChild("count").on("value", function(snapshot) {
         $ionicLoading.hide();
 
-        console.log(snapshot.val());
+       
         snapshot.forEach(function(childSnaphot){
           //console.log(childSnaphot.key() , childSnaphot.val());
-          $scope.thumbArr.push({
-            'key':childSnaphot.key(),
-            'val':childSnaphot.val()
-          });
+          //console.log(childSnaphot.val().count);
+
+          if(childSnaphot.val().count > 0)
+          {
+            $scope.thumbArr.push({
+              'key':childSnaphot.key(),
+              'val':childSnaphot.val()
+            });
+          }
+
         });
         $scope.thumbs = chunk($scope.thumbArr.reverse() , 2);
 
@@ -991,18 +997,53 @@ angular.module('starter.controllers', [])
    var link = "";
    var  file = "http://krplus.com/lookbook/"+$stateParams.category+"/"+$scope.image;
 
-   $scope.love = function(){
-      $scope.volted = true;
-      var imagename = $scope.image.split('.');
-      console.log($stateParams.category+":"+imagename[0]+"/count");
-      voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
+
+   var loveAction = _.throttle(function(imagename){
+
+    //console.log("asdasdasdasdasda dasd a ");
+
+     var uid = $localstorage.getObject('userData').uid;
+      voteRef.child($stateParams.category+":"+imagename[0]+"/by").push({'uid':uid}, function(f){
+          $scope.volted = true;
+
+          voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
             count = (current_value || 0) + 1
             $scope.count = count;
+
             return count; 
+          });
+
       });
+
+   }, 3000);
+ 
+
+   $scope.love = function(){
+     
+      var imagename = $scope.image.split('.');
+
+      loveAction(imagename);
+
+     // console.log('love' ,$stateParams.category+":"+imagename[0]+"/count");
+
+      // var uid = $localstorage.getObject('userData').uid;
+      // voteRef.child($stateParams.category+":"+imagename[0]+"/by").push({'uid':uid}, function(f){
+      //     console.log("f");
+      //     $scope.volted = true;
+
+      //     voteRef.child($stateParams.category+":"+imagename[0]+"/count").transaction(function(current_value){
+      //       count = (current_value || 0) + 1
+      //       $scope.count = count;
+
+      //       return count; 
+      //     });
+
+      // });
+
+
+     
       
-      var uid = $localstorage.getObject('userData').uid;
-      voteRef.child($stateParams.category+":"+imagename[0]+"/by").push({'uid':uid});
+     
       //$scope.$apply();
    }
 
@@ -1022,7 +1063,11 @@ angular.module('starter.controllers', [])
   }
 
   $scope.unlove  = function(){
-    console.log($scope.image);
+
+
+
+
+    console.log('unlove' , $scope.image);
     $scope.volted = false;
     var imagename = $scope.image.split('.');
 
@@ -1036,11 +1081,10 @@ angular.module('starter.controllers', [])
        data.forEach(function(childSnaphot){
           voteRef.child($stateParams.category+":"+imagename[0]+"/by/"+childSnaphot.key()).remove(function(res){
             $scope.volted = false;
+
           })
         });
     });
-
-    
 
   }
 
@@ -1081,13 +1125,14 @@ angular.module('starter.controllers', [])
    
 })
 
-.controller('MyLookbookCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location , $state , $firebaseArray ,  $ionicLoading ,  $ionicSlideBoxDelegate){
+.controller('MyLookbookCtrl' , function($ionicConfig , $scope, $rootScope, $stateParams , $localstorage, $location , $state , $firebaseArray ,  $ionicLoading ,  $ionicSlideBoxDelegate){
 
    $ionicLoading.show();
    $scope.mylookbook = [];
    $scope.title = 'MY LOOKBOOK';
 
-   
+     $ionicConfig.views.swipeBackEnabled(false);
+
     var mylookbookRef = new Firebase("https://9lives.firebaseio.com/mylookbook/"+$localstorage.getObject('userData').uid);
   
     var looksRef = mylookbookRef.child('looks');
@@ -1149,7 +1194,8 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MyLookbookFavoritelCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $ionicLoading,$firebaseArray){
+.controller('MyLookbookFavoritelCtrl' , function($ionicConfig,$scope, $rootScope, $stateParams , $localstorage, $location, $ionicLoading,$firebaseArray){
+     $ionicConfig.views.swipeBackEnabled(false);
 
     $ionicLoading.show();
     $scope.title = 'MY LOOKBOOK';
@@ -1176,6 +1222,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MyLookbookDetailCtrl' , function($scope, $rootScope, $stateParams , $localstorage, $location, $stateParams  , $state , $ionicPopup, $ionicPlatform , $cordovaSocialSharing,  $mdDialog){
+    $ionicConfig.views.swipeBackEnabled(false);
 
    $scope.title = 'MY LOOKBOOK';
 

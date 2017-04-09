@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "id": "phonegap-plugin-push.PushNotification",
-        "file": "plugins/phonegap-plugin-push/www/push.js",
-        "pluginId": "phonegap-plugin-push",
-        "clobbers": [
-            "PushNotification"
-        ]
-    },
-    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",
@@ -38,14 +30,6 @@ module.exports = [
         "pluginId": "cordova-plugin-camera",
         "clobbers": [
             "CameraPopoverHandle"
-        ]
-    },
-    {
-        "id": "cordova-plugin-x-socialsharing.SocialSharing",
-        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
-        "pluginId": "cordova-plugin-x-socialsharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
         ]
     },
     {
@@ -228,17 +212,25 @@ module.exports = [
         "clobbers": [
             "plugins.imagePicker"
         ]
+    },
+    {
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "pluginId": "cordova-plugin-x-socialsharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "phonegap-plugin-push": "1.7.4",
-    "cordova-plugin-compat": "1.0.0",
-    "cordova-plugin-camera": "2.3.0",
-    "cordova-plugin-x-socialsharing": "5.1.3",
-    "cordova-plugin-file": "4.3.0",
-    "cordova-plugin-image-picker": "1.1.1"
+    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-camera": "2.4.0",
+    "cordova-plugin-file": "4.3.2",
+    "cordova-plugin-image-picker": "1.1.1",
+    "cordova-plugin-whitelist": "1.3.2",
+    "cordova-plugin-x-socialsharing": "5.1.6"
 };
 // BOTTOM OF METADATA
 });
